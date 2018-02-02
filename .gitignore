@@ -1,0 +1,49 @@
+Last login: Fri Feb  2 17:17:55 on ttys001
+Vihas-MacBook-Pro:~ vihabidre$ cd NEURelated/CS5500/
+Vihas-MacBook-Pro:CS5500 vihabidre$ ls
+student-236	team-208
+Vihas-MacBook-Pro:CS5500 vihabidre$ cd student-236/
+Vihas-MacBook-Pro:student-236 vihabidre$ ls
+README.md	hmk1		hmk2
+Vihas-MacBook-Pro:student-236 vihabidre$ ls -la
+total 32
+drwxr-xr-x   8 vihabidre  staff   256 Jan 29 22:44 .
+drwxr-xr-x   5 vihabidre  staff   160 Feb  2 17:18 ..
+-rw-r--r--@  1 vihabidre  staff  6148 Feb  2 17:20 .DS_Store
+drwxr-xr-x  15 vihabidre  staff   480 Jan 19 20:24 .git
+-rw-r--r--@  1 vihabidre  staff  1351 Jan 18 17:58 .gitignore
+-rw-r--r--   1 vihabidre  staff   219 Jan 14 00:26 README.md
+drwxr-xr-x   7 vihabidre  staff   224 Jan 21 19:49 hmk1
+drwxr-xr-x   2 vihabidre  staff    64 Jan 29 22:44 hmk2
+Vihas-MacBook-Pro:student-236 vihabidre$ vi .gitignore 
+
+
+
+
+
+
+#MacOS Related
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+".gitignore" 105L, 1351C
+
