@@ -1,27 +1,3 @@
-Last login: Fri Feb  2 17:17:55 on ttys001
-Vihas-MacBook-Pro:~ vihabidre$ cd NEURelated/CS5500/
-Vihas-MacBook-Pro:CS5500 vihabidre$ ls
-student-236	team-208
-Vihas-MacBook-Pro:CS5500 vihabidre$ cd student-236/
-Vihas-MacBook-Pro:student-236 vihabidre$ ls
-README.md	hmk1		hmk2
-Vihas-MacBook-Pro:student-236 vihabidre$ ls -la
-total 32
-drwxr-xr-x   8 vihabidre  staff   256 Jan 29 22:44 .
-drwxr-xr-x   5 vihabidre  staff   160 Feb  2 17:18 ..
--rw-r--r--@  1 vihabidre  staff  6148 Feb  2 17:20 .DS_Store
-drwxr-xr-x  15 vihabidre  staff   480 Jan 19 20:24 .git
--rw-r--r--@  1 vihabidre  staff  1351 Jan 18 17:58 .gitignore
--rw-r--r--   1 vihabidre  staff   219 Jan 14 00:26 README.md
-drwxr-xr-x   7 vihabidre  staff   224 Jan 21 19:49 hmk1
-drwxr-xr-x   2 vihabidre  staff    64 Jan 29 22:44 hmk2
-Vihas-MacBook-Pro:student-236 vihabidre$ vi .gitignore 
-
-
-
-
-
-
 #MacOS Related
 # General
 .DS_Store
@@ -45,5 +21,85 @@ Icon
 .com.apple.timemachine.donotpresent
 
 # Directories potentially created on remote AFP share
-".gitignore" 105L, 1351C
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+#Eclipse Related:
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+.classpath
+.project
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT- autotools 
+.autotools
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.worksheet
+
+#Java Related
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Word temporary
+~$*.doc*
 
