@@ -1,10 +1,13 @@
 package neu.msd.team208.DaoImpl;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import neu.msd.team208.Dao.UserHomePageDao;
+import neu.msd.team208.Helper.FileComapreUtilities;
+import neu.msd.team208.Helper.Node;
 import neu.msd.team208.JsonResponse.CheckSimilarityBean;
 import neu.msd.team208.JsonResponse.CheckSimilarityResponse;
 import neu.msd.team208.JsonResponse.GetReportsResponseBean;
@@ -45,12 +48,24 @@ public class UserHomePageDaoImpl implements UserHomePageDao {
 	public CheckSimilarityResponse checkSimilarity(CheckSimilarityBean filesData) throws Exception {
 		
 		CheckSimilarityResponse response = null;
+		FileComapreUtilities fileUtil = null;
+		String tree =null;
+		Node n = null ;
 		
 		response = new  CheckSimilarityResponse();
-		
+		fileUtil = new FileComapreUtilities();
+		File f = getFileFrmPath(filesData.getFilePaths());
+		 
+		tree = fileUtil.recurseTree(n, 10, f);
 		return response;
 		
 		
+	}
+
+	private File getFileFrmPath(List<String> filePaths) {
+			File f = new File(filePaths.get(0));
+			
+		return f;
 	}
 
 	/**
