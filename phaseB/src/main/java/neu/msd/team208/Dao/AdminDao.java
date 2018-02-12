@@ -5,6 +5,11 @@ import neu.msd.team208.JsonResponse.DeleteReportBean;
 import neu.msd.team208.JsonResponse.DeleteUserBean;
 import neu.msd.team208.JsonResponse.StatusBean;
 
+/**
+ *  interface for admin functionalities
+ * @author rachanatondare
+ *
+ */
 public interface AdminDao {
 	
 	/**

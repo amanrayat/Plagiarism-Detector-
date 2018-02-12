@@ -13,7 +13,11 @@ import neu.msd.team208.JsonResponse.DeleteUserBean;
 import neu.msd.team208.JsonResponse.StatusBean;
 import neu.msd.team208.service.AdminService;
 
-
+/**
+ *  controller for user admin home page APIs
+ * @author rachanatondare
+ *
+ */
 @Controller
 public class AdminPageController {
 
@@ -26,6 +30,12 @@ public class AdminPageController {
 	@Autowired
 	AdminService adminService;
 
+	/**
+	 * 
+	 * @param deleteUser
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.PUT)
 	public StatusBean deleteUser(
 			@RequestBody final DeleteUserBean deleteUser) 
@@ -44,6 +54,12 @@ public class AdminPageController {
 		
 	}
 	
+	/**
+	 * 
+	 * @param deleteReport
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/deleteReport", method = RequestMethod.PUT)
 	public StatusBean deleteReport(
 			@RequestBody final DeleteReportBean deleteReport) 
@@ -63,6 +79,12 @@ public class AdminPageController {
 
 	}
 	
+	/**
+	 * 
+	 * @param deleteFile
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/deleteFiles", method = RequestMethod.PUT)
 	public StatusBean deleteFiles(
 			@RequestBody final DeleteFileBean deleteFile) 

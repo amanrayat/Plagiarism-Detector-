@@ -13,6 +13,11 @@ import neu.msd.team208.JsonResponse.LoginResponse;
 import neu.msd.team208.JsonResponse.RegisterUserBean;
 import neu.msd.team208.service.HomeService;
 
+/**
+ *  controller for user user home page APIs
+ * @author rachanatondare
+ *
+ */
 @Controller
 public class HomePageController {
 
@@ -26,6 +31,12 @@ public class HomePageController {
 	@Autowired
 	HomeService homeService;
 	
+	/**
+	 * Login functionality
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public LoginResponse authenticateUser(
@@ -46,6 +57,12 @@ public class HomePageController {
 
 	}
 	
+	/**
+	 * regiter api
+	 * @param registerInput
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
 	public LoginResponse registerUser(

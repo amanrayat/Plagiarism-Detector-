@@ -3,6 +3,11 @@ package neu.msd.team208.JsonResponse;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ *  reposnse for file bean
+ * @author rachanatondare
+ *
+ */
 public class CheckSimilarityBean implements Serializable {
 	
 	/**

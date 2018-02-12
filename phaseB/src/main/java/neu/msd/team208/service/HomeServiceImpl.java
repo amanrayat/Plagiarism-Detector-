@@ -9,6 +9,11 @@ import neu.msd.team208.JsonResponse.LoginInput;
 import neu.msd.team208.JsonResponse.LoginResponse;
 import neu.msd.team208.JsonResponse.RegisterUserBean;
 
+/**
+ * service layer for homepage operations
+ * @author rachanatondare
+ *
+ */
 @Service
 public class HomeServiceImpl implements HomeService{
 	

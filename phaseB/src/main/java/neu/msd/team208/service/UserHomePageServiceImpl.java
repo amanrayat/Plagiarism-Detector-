@@ -12,6 +12,11 @@ import neu.msd.team208.JsonResponse.StatusBean;
 import neu.msd.team208.JsonResponse.UploadFileBean;
 import neu.msd.team208.JsonResponse.UploadFileBeanResponse;
 
+/**
+ * Service layer implemntation
+ * @author rachanatondare
+ * @version 1.0.0
+ */
 public class UserHomePageServiceImpl implements UserHomePageService{
 	
 	/**

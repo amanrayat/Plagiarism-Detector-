@@ -8,6 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.ForeignKey;
 
+/**
+ * domian class for report table
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name="Report")
 public class ReportBean  implements Serializable {
