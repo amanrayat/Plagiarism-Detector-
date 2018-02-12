@@ -19,6 +19,11 @@ import neu.msd.team208.JsonResponse.UploadFileBean;
 import neu.msd.team208.JsonResponse.UploadFileBeanResponse;
 import neu.msd.team208.service.UserHomePageService;
 
+/**
+ * controller for user home page APIs
+ * @author rachanatondare
+ *
+ */
 @Controller
 public class UserHomePageController {
 	
@@ -30,7 +35,12 @@ public class UserHomePageController {
 	@Autowired
 	UserHomePageService userHomeService;
 	
-	
+	/**
+	 * upload file api
+	 * @param fileData
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	@ResponseBody
 	public  UploadFileBeanResponse uploadFile(
@@ -51,6 +61,12 @@ public class UserHomePageController {
 
 	}
 	
+	/**
+	 * check similarity api
+	 * @param filesData
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/checkSimilarity", method = RequestMethod.POST)
 	@ResponseBody
 	public  CheckSimilarityResponse getSimilarity(
@@ -70,7 +86,12 @@ public class UserHomePageController {
 		return responseBean;
 	}
 	
-	
+	/**
+	 *  get reports api
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/getReports", method = RequestMethod.GET)
 	@ResponseBody
 	public  GetReportsResponseBean getReports(
@@ -90,7 +111,12 @@ public class UserHomePageController {
 		return responseBean;
 	}
 
-	
+	/**
+	 * email user api
+	 * @param emailId
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/email", method = RequestMethod.POST)
 	@ResponseBody
 	public  StatusBean email(

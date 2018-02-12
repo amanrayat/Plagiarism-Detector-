@@ -3,6 +3,11 @@ package neu.msd.team208.Helper;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * node data structure for AST tree
+ * @author rachanatondare
+ *
+ */
 public class Node {
 
         Node parent;

@@ -9,6 +9,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
 
+/**
+ * domian class for file table
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name="Uploaded_File")
 public class UploadedFileBean implements Serializable {

@@ -5,6 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * domian class for user table
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name="User")
 public class UserBean implements java.io.Serializable{

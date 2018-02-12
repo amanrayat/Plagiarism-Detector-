@@ -15,6 +15,11 @@ import neu.msd.team208.JsonResponse.StatusBean;
 import neu.msd.team208.JsonResponse.UploadFileBean;
 import neu.msd.team208.JsonResponse.UploadFileBeanResponse;
 
+/**
+ * Implementation for services on user home page
+ * @author rachanatondare
+ *
+ */
 @Repository
 public class UserHomePageDaoImpl implements UserHomePageDao {
 

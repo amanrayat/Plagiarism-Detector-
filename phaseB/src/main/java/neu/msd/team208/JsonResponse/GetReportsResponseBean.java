@@ -3,6 +3,11 @@ package neu.msd.team208.JsonResponse;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 
+ * @author rachanatondare
+ *
+ */
 public class GetReportsResponseBean implements Serializable {
 	
 	/**

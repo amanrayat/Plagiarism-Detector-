@@ -2,6 +2,11 @@ package neu.msd.team208.JsonResponse;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author rachanatondare
+ *
+ */
 public class StatusBean implements Serializable{
 	
 	/**

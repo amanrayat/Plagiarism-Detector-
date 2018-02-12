@@ -5,16 +5,16 @@ package neu.msd.team208.Helper;
  * @author vihabidre
  *
  */
-public final class AdminUtils {
+public  class AdminUtils {
 	
-	private AdminUtils() {}
+	
 	
 	/**
 	 * To check if the user to be deleted exists in the system.
 	 * @param UserId
 	 * @return
 	 */
-	public static boolean userExists(Integer UserId) {
+	public static boolean checkUserExists(Integer UserId) {
 		return false;
 	}
 	
@@ -23,7 +23,7 @@ public final class AdminUtils {
 	 * @param reportId
 	 * @return
 	 */
-	public static boolean reportExists(Integer reportId) {
+	public static boolean checkReportExists(Integer reportId) {
 		return false;
 	}
 	
@@ -32,7 +32,7 @@ public final class AdminUtils {
 	 * @param fileId
 	 * @return
 	 */
-	public static boolean fileExists(Integer fileId) {
+	public static boolean checkFileExists(Integer fileId) {
 		return false;
 	}
 	

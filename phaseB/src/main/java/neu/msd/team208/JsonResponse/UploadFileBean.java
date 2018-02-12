@@ -5,6 +5,11 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 
+ * @author rachanatondare
+ *
+ */
 public class UploadFileBean implements Serializable {
 	
 	/**

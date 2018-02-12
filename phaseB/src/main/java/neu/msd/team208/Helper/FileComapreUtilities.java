@@ -9,6 +9,11 @@ import org.apache.log4j.Logger;
 
 import neu.msd.team208.controller.AdminPageController;
 
+/**
+ *  helper functions for file compare and AST tree creation from file
+ * @author rachanatondare
+ *
+ */
 public class FileComapreUtilities {
 	
 	private static final Logger logger = (Logger) LogFactory.getLog(AdminPageController.class);
