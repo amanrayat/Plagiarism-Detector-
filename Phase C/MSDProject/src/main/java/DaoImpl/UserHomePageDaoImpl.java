@@ -29,7 +29,7 @@ public class UserHomePageDaoImpl implements UserHomePageDao {
 		//A dummy system filepath   
 		 File file = new File("test.py");
 		 File_inputContext	response= new ParserFacade().parse(file);
-		// new AstPrinter().print(response);
+		 new AstPrinter().print(response);
 		return response;
 
 	}

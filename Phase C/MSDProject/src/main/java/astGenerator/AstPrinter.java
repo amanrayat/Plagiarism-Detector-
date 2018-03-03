@@ -48,11 +48,11 @@ public class AstPrinter {
             String ruleName = Python3Parser.ruleNames[ctx.getRuleIndex()];
             for (int i = 0; i < indentation; i++) {
             	 writer.write("  ");
-                //System.out.print("  ");
+                System.out.print("  ");
             }
             writer.write(ruleName);
             writer.write("\n");
-//            System.out.println(ruleName);
+            System.out.println(ruleName);
             writer.close();
         }
         for (int i=0;i<ctx.getChildCount();i++) {
