@@ -28,11 +28,7 @@ public class ParserFacade {
         new AstPrinter().print(parser.file_input());
         return parser.file_input();
     }
-//}
-//    public static void main(String[] args) throws IOException {
-//		ParserFacade p = new ParserFacade();
-//		p.parse(new File("/Users/harshmeet/Desktop/test.py"));
-//	}
+
 	}
 	
 
