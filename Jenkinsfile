@@ -9,7 +9,7 @@ pipeline {
    stages {
        stage('Build') {
            steps {
-               echo "Building"
+               echo "Build"
                sh 'mvn -f PhaseC/MSDProject/pom.xml compile'
                sh 'mvn -f PhaseC/MSDProject/pom.xml package'
            }
