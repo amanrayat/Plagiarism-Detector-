@@ -124,6 +124,11 @@
             <goals>
                 <goal>repackage</goal>
             </goals>
+             <configuration>
+          <archive>
+            <manifestFile>target/MSDProject/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
         </execution>
     </executions>
 </plugin>
