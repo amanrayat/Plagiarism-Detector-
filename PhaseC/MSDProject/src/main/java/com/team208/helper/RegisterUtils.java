@@ -1,4 +1,4 @@
-package helper;
+package com.team208.helper;
 
 /**
  * Helper functions used for HomeService,

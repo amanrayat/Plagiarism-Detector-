@@ -1,9 +1,9 @@
-package service;
+package com.team208.service;
 
-import jsonResponse.DeleteFileBean;
-import jsonResponse.DeleteReportBean;
-import jsonResponse.DeleteUserBean;
-import jsonResponse.StatusBean;
+import com.team208.jsonResponse.DeleteFileBean;
+import com.team208.jsonResponse.DeleteReportBean;
+import com.team208.jsonResponse.DeleteUserBean;
+import com.team208.jsonResponse.StatusBean;
 
 /**
  * Admin Operations Service Layer

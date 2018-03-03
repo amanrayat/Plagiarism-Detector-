@@ -1,13 +1,14 @@
-package service;
+package com.team208.service;
 
 import java.util.List;
 
-import jsonResponse.CheckSimilarityBean;
-import jsonResponse.CheckSimilarityResponse;
-import jsonResponse.GetReportsResponseBean;
-import jsonResponse.StatusBean;
-import jsonResponse.UploadFileBean;
-import jsonResponse.UploadFileBeanResponse;
+import com.team208.jsonResponse.CheckSimilarityBean;
+import com.team208.jsonResponse.CheckSimilarityResponse;
+import com.team208.jsonResponse.GetReportsResponseBean;
+import com.team208.jsonResponse.StatusBean;
+import com.team208.jsonResponse.UploadFileBean;
+import com.team208.jsonResponse.UploadFileBeanResponse;
+
 
 
 /**

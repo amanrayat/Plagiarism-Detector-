@@ -1,4 +1,4 @@
-package controller;
+package com.team208.controller;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jsonResponse.LoginInput;
-import jsonResponse.LoginResponse;
-import jsonResponse.RegisterUserBean;
-import service.HomeService;
+import com.team208.jsonResponse.LoginInput;
+import com.team208.jsonResponse.LoginResponse;
+import com.team208.jsonResponse.RegisterUserBean;
+import com.team208.service.HomeService;
+
+
+
+
 
 
 /**

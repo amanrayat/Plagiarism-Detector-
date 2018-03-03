@@ -1,13 +1,14 @@
-package service;
+package com.team208.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dao.HomeDao;
-import jsonResponse.LoginInput;
-import jsonResponse.LoginResponse;
-import jsonResponse.RegisterUserBean;
+import com.team208.dao.HomeDao;
+import com.team208.jsonResponse.LoginInput;
+import com.team208.jsonResponse.LoginResponse;
+import com.team208.jsonResponse.RegisterUserBean;
+
 
 
 /**

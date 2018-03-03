@@ -1,4 +1,4 @@
-package controller;
+package com.team208.controller;
 
 import java.util.List;
 
@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jsonResponse.CheckSimilarityBean;
-import jsonResponse.CheckSimilarityResponse;
-import jsonResponse.GetReportsResponseBean;
-import jsonResponse.StatusBean;
-import jsonResponse.UploadFileBean;
-import jsonResponse.UploadFileBeanResponse;
-import service.UserHomePageService;
+import com.team208.jsonResponse.CheckSimilarityBean;
+import com.team208.jsonResponse.CheckSimilarityResponse;
+import com.team208.jsonResponse.GetReportsResponseBean;
+import com.team208.jsonResponse.StatusBean;
+import com.team208.jsonResponse.UploadFileBean;
+import com.team208.jsonResponse.UploadFileBeanResponse;
+import com.team208.service.UserHomePageService;
+
+
 
 
 /**

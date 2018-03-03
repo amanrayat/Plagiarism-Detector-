@@ -1,4 +1,4 @@
-package domain;
+package com.team208.domain;
 
 import java.io.Serializable;
 

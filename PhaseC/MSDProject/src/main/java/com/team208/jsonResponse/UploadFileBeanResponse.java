@@ -1,4 +1,4 @@
-package jsonResponse;
+package com.team208.jsonResponse;
 
 import java.io.Serializable;
 import java.util.List;
