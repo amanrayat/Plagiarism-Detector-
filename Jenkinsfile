@@ -11,7 +11,7 @@ pipeline {
            steps {
                echo "Building"
                sh 'mvn -f PhaseC/MSDProject/pom.xml compile'
-               sh 'mvn -f PhaseC/MSDProject/pom.xml package’
+               sh 'mvn -f PhaseC/MSDProject/pom.xml package'
            }
        }
        stage('Test'){
