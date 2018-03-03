@@ -9,15 +9,15 @@ pipeline {
    stages {
        stage('Build') {
            steps {
-               echo "Building"
-               sh 'mvn -f PhaseC/MSDProject compile'
-               sh 'mvn -f PhaseC/MSDProject package’
+               echo "Build"
+               sh 'mvn -f PhaseC/MSDProject/pom.xml compile'
+               sh 'mvn -f PhaseC/MSDProject/pom.xml package'
            }
        }
        stage('Test'){
            steps {
                echo "Testing"
-               sh 'mvn -f PhaseC/MSDProject test'
+               sh 'mvn -f PhaseC/MSDProject/pom.xml test'
            }
        }
     }
