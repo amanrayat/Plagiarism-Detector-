@@ -23,8 +23,8 @@ pipeline {
     stage('SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                        sh 'mvn clean install'
-                        sh 'mvn sonar:sonar'
+                        sh 'mvn -f PhaseC/MSDProject/pom.xml clean install'
+                        sh 'mvn -f PhaseC/MSDProject/pom.xml sonar:sonar'
                 }
             }
         }
