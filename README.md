@@ -9,4 +9,4 @@ Link for AWS Jenkins: http://ec2-13-58-156-252.us-east-2.compute.amazonaws.com:8
 
 Link to web-app hosted on Heroku: https://ancient-forest-42824.herokuapp.com/
 
-
+Link to AWS-Jenkins_SonarQube: http://ec2-13-58-156-252.us-east-2.compute.amazonaws.com:8080/job/CS500Team208/job/CS208-1DBConnection/
