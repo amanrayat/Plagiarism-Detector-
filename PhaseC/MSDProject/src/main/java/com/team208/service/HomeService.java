@@ -1,8 +1,8 @@
-package service;
+package com.team208.service;
 
-import jsonResponse.LoginInput;
-import jsonResponse.LoginResponse;
-import jsonResponse.RegisterUserBean;
+import com.team208.jsonResponse.LoginInput;
+import com.team208.jsonResponse.LoginResponse;
+import com.team208.jsonResponse.RegisterUserBean;
 
 /**
  * Service layer

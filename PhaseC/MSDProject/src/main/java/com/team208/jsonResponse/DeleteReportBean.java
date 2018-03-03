@@ -1,4 +1,4 @@
-package jsonResponse;
+package com.team208.jsonResponse;
 
 public class DeleteReportBean {
 

@@ -1,4 +1,4 @@
-package domain;
+package com.team208.domain;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.hibernate.annotations.ForeignKey;
+//import org.hibernate.annotations.ForeignKey;
 
 /**
  * domian class for report table
@@ -36,7 +36,7 @@ public class ReportBean  implements Serializable {
 		this.reportId = reportId;
 	}
 	
-	@ForeignKey(name ="User_Report_Aggregation_FK")
+	//@ForeignKey(name ="User_Report_Aggregation_FK")
 	@Column(name = "user_Id")
 	public Integer getUserId() {
 		return userId;

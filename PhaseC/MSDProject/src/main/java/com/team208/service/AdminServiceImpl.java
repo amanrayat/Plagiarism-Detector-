@@ -1,14 +1,15 @@
-package service;
+package com.team208.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dao.AdminDao;
-import jsonResponse.DeleteFileBean;
-import jsonResponse.DeleteReportBean;
-import jsonResponse.DeleteUserBean;
-import jsonResponse.StatusBean;
+import com.team208.dao.AdminDao;
+import com.team208.jsonResponse.DeleteFileBean;
+import com.team208.jsonResponse.DeleteReportBean;
+import com.team208.jsonResponse.DeleteUserBean;
+import com.team208.jsonResponse.StatusBean;
+
 
 
 @Service

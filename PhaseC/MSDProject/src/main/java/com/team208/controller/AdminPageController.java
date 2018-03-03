@@ -1,4 +1,4 @@
-package controller;
+package com.team208.controller;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import jsonResponse.DeleteFileBean;
-import jsonResponse.DeleteReportBean;
-import jsonResponse.DeleteUserBean;
-import jsonResponse.StatusBean;
-import service.AdminService;
+import com.team208.jsonResponse.DeleteFileBean;
+import com.team208.jsonResponse.DeleteReportBean;
+import com.team208.jsonResponse.DeleteUserBean;
+import com.team208.jsonResponse.StatusBean;
+import com.team208.service.AdminService;
+
+
 
 
 /**
