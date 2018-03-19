@@ -1,0 +1,7 @@
+com/team208/PlagiarismDetectorApplication.class
+com/team208/domain/StudentEntity.class
+com/team208/domain/CourseRepository.class
+com/team208/ServletInitializer.class
+com/team208/domain/CourseEntity.class
+com/team208/domain/StudentRepository.class
+com/team208/controllers/MainController.class

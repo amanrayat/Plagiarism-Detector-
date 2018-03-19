@@ -22,7 +22,7 @@ public class MainController {
 	 @RequestMapping("/")
 	  @ResponseBody
 	  public String index() {
-	    return "Hello World!!!";
+	    return "Hello World!!!  Team208 Homepage";
 	  }
 
 
