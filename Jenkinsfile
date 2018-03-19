@@ -17,7 +17,7 @@ pipeline {
        stage('Test'){
            steps {
                echo "Testing"
-               sh 'mvn -f PhaseC/MSDProject/pom.xml test'
+               sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml test'
            }
        }
     stage('SonarQube') {
