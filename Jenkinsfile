@@ -10,8 +10,8 @@ pipeline {
        stage('Build') {
            steps {
                echo "Build"
-               sh 'mvn -f PhaseC/MSDProject/pom.xml compile'
-               sh 'mvn -f PhaseC/MSDProject/pom.xml package'
+               sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml compile'
+               sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml package'
            }
        }
        stage('Test'){
@@ -23,8 +23,8 @@ pipeline {
     stage('SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                        sh 'mvn -f PhaseC/MSDProject/pom.xml clean install'
-                        sh 'mvn -f PhaseC/MSDProject/pom.xml sonar:sonar'
+                        sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml clean install'
+                        sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml sonar:sonar'
                 }
             }
         }

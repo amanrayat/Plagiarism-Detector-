@@ -58,7 +58,7 @@ local.properties
 .buildpath
 
 # sbteclipse plugin
-.target
+
 
 # Tern plugin
 .tern-project
@@ -102,3 +102,10 @@ hs_err_pid*
 # Word temporary
 ~$*.doc*
 
+Phase C/MSDProject/target/maven-archiver/pom.properties
+Phase C/MSDProject/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Phase C/MSDProject/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Phase C/MSDProject/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+Phase C/MSDProject/target/MSDProject.war
+Phase C/MSDProject/target/MSDProject/index.jsp
+Phase C/MSDProject/target/MSDProject/WEB-INF/web.xml
