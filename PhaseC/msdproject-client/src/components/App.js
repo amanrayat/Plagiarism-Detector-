@@ -22,6 +22,7 @@ class App extends React.Component {
      this.setState({filter: e.target.value})
    }
 
+   // Made changes to check github smart commits
    render(){
      let items = this.state.items;
 
