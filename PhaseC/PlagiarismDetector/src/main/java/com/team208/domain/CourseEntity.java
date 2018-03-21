@@ -2,16 +2,17 @@ package com.team208.domain;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "COURSE")
+@Table(name = "course")
 public class CourseEntity {
 	
 	private int courseId;
@@ -28,17 +29,21 @@ public class CourseEntity {
 	
 	private String courseLoc;
 	
-	private Set<StudentEntity> students;
+	private Set<StudentCourseEntity> studentcourse;
 
 	
-	 @ManyToMany(mappedBy = "courses")
-	public Set<StudentEntity> getStudents() {
-		return students;
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+	public Set<StudentCourseEntity> getStudentcourse() {
+		return studentcourse;
 	}
 
-	public void setStudents(Set<StudentEntity> students) {
-		this.students = students;
+
+	public void setStudentcourse(Set<StudentCourseEntity> studentcourse) {
+		this.studentcourse = studentcourse;
 	}
+
+
+	
 
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;

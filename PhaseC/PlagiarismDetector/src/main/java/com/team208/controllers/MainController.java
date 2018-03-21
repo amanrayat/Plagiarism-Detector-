@@ -25,13 +25,14 @@ public class MainController {
 	    return "Hello World!!!  Team208 Homepage";
 	  }
 
-
-	 @GetMapping(path="/add") // Map ONLY GET Requests
+	 //registerUser?studentDBid=1&userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
+	 @GetMapping(path="/registerUser") // Map ONLY GET Requests
 		public @ResponseBody String addNewUser (@RequestParam String userId, @RequestParam String name, @RequestParam String userRole,
 				@RequestParam String password, @RequestParam String email) {
 			// @ResponseBody means the returned String is the response, not a view name
 			// @RequestParam means it is a parameter from the GET or POST request
 
+		
 			StudentEntity n = new StudentEntity();
 			n.setStudentId(userId);
 			n.setName(name);
@@ -47,4 +48,6 @@ public class MainController {
 			// This returns a JSON or XML with the users
 			return userRepository.findAll();
 		}
+	 
+	
 }
