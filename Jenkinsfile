@@ -25,7 +25,7 @@ pipeline {
     stage('SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                        sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml clean install'
+                        sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml clean package'
                         sh 'mvn -f PhaseC/PlagiarismDetector/pom.xml sonar:sonar'
                 }
             }
