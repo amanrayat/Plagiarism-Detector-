@@ -1,3 +1,5 @@
+package com.team208.detector;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
