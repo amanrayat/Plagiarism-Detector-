@@ -4,6 +4,8 @@ package com.team208.domain;
 
 
 
+import java.util.Optional;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -40,8 +42,8 @@ public class StudentCourseEntity {
 		return student;
 	}
 
-	public void setStudent(StudentEntity n) {
-		this.student = n;
+	public void setStudent(StudentEntity student) {
+		this.student = student;
 	}
 	
 	

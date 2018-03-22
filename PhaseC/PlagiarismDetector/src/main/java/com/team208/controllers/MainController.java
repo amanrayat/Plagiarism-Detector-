@@ -1,6 +1,11 @@
 package com.team208.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +29,20 @@ public class MainController {
 	  public String index() {
 	    return "Hello World!!!  Team208 Homepage";
 	  }
-
+	 
+	 @GetMapping(path="/login")
+	 public @ResponseBody StudentEntity login(@RequestParam Long userId, @RequestParam String password ) {
+		 StudentEntity n = userRepository.findByNEUId(userId);
+	
+		 if(password.equals(n.getPassword())) {
+			 return n;
+		 }else
+			 return null;
+			
+		}
 	 //registerUser?studentDBid=1&userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
 	 @GetMapping(path="/registerUser") // Map ONLY GET Requests
-		public @ResponseBody String addNewUser (@RequestParam String userId, @RequestParam String name, @RequestParam String userRole,
+		public @ResponseBody String addNewUser (@RequestParam Long userId, @RequestParam String name, @RequestParam String userRole,
 				@RequestParam String password, @RequestParam String email) {
 			// @ResponseBody means the returned String is the response, not a view name
 			// @RequestParam means it is a parameter from the GET or POST request
@@ -49,5 +64,24 @@ public class MainController {
 			return userRepository.findAll();
 		}
 	 
+	 
+	 @GetMapping(path="/findStudent")
+		public @ResponseBody StudentEntity findStudent(@RequestParam int userId ) {
+		 List<Integer> ids = new ArrayList<>();
+		 
+		 try {
+		 ids.add(userId);
+		 }catch(Exception e){
+			  e.printStackTrace();
+		 }
+		 Iterable<StudentEntity> studs = userRepository.findAllById(ids);
+		 StudentEntity stud = null ;
+			for(StudentEntity s : studs) {
+				
+				stud = s;
+			}
+			return stud;
+			
+		}
 	
 }
