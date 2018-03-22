@@ -6,6 +6,7 @@ import RegisterPage from './RegisterPage.js'
 import CoursePage from './CoursePage.js'
 
 class App extends React.Component {
+
   render(){
     return (
       <div>
@@ -16,5 +17,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App
