@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>student003-702757308676640995</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>TicTacToe.py</CENTER></H3><HR>
+<PRE>
+<A NAME="0"></A><FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match0-0.html#0',2,'match0-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>from graphics import *
+
+print &quot;This is a Tic-tac-toe game. But there is a slight change. Instead of cross and circle,&quot;
+print &quot;we are going to have red and green colors. enjoy!&quot;
+
+size = winp = 0
+while True:
+	size = int(raw_input(&quot;Enter the size of the tic tac toe board you wanna play: &quot;))
+	winp = int(raw_input(&quot;Enter the winning parameter k: &quot;))
+	if winp &gt; size : 
+		print &quot;size of board cannot be less than winning parameter, try again.&quot;
+		continue
+	break
+
+boxSize = min(100,int(750/size))
+
+l = [[0 for i in range(size)]for j in range(size)]
+
+def Rect(x,y):
+	return Rectangle(Point(x,y+boxSize),Point(x+boxSize,y))
+
+rec = [[Rect(i*boxSize,j*boxSize) for i in range(size)]for j in range(size)]
+
+win = GraphWin(&quot;Tic Tac Toe - SkyRyders&quot;,size * boxSize,size * boxSize)
+win.setCoords(0,size * boxSize,size * boxSize,0)
+
+for x in rec: 
+	for y in x:
+		y.draw(win)
+		
+def probe(x,y,n):
+	if x &gt;= size or y&gt;=size or x&lt;0 or y&lt;0: 
+		return False
+	return n == l[x][y]
+	
+def highlight(color):
+	for x in range(size):
+		for y in range(size):
+			n = l[x][y]
+			if n == 0 : continue
+			flag = True
+			for i in range(winp):
+				flag = probe(x+i,y,n)
+				if flag == False:
+					break
+			if flag : 
+				for i in range(winp):
+					rec[x+i][y].setFill(color)
+				return 0
+		
+			flag = True
+			for i in range(winp):
+				flag = probe(x+i,y+i,n)
+				if flag == False:
+					break
+			if flag : 
+				for i in range(winp):
+					rec[x+i][y+i].setFill(color)
+				return 0
+			
+			flag = True
+			for i in range(winp):
+				flag = probe(x,y+i,n)
+				if flag == False:
+					break
+			if flag : 
+				for i in range(winp):
+					rec[x][y+i].setFill(color)
+				return 0
+				
+			flag = True
+			for i in range(winp):
+				flag = probe(x-i,y+i,n)
+				if flag == False:
+					break
+			if flag : 
+				for i in range(winp):
+					rec[x-i][y+i].setFill(color)
+				return 0
+	return 0
+
+	
+def check():
+	for x in range(size):
+		for y in range(size):
+			n = l[x][y]
+			if n == 0 : continue
+			flag = True
+			for i in range(winp):
+				flag = probe(x+i,y,n)
+				if flag == False:
+					break
+			if flag : return n
+			
+			flag = True
+			for i in range(winp):
+				flag = probe(x+i,y+i,n)
+				if flag == False:
+					break
+			if flag : return n
+			
+			flag = True
+			for i in range(winp):
+				flag = probe(x,y+i,n)
+				if flag == False:
+					break
+			if flag : return n
+
+			flag = True
+			for i in range(winp):
+				flag = probe(x-i,y+i,n)
+				if flag == False:
+					break
+			if flag : return n
+	return 0
+
+
+moves = 0
+turn = 1			
+ 
+while moves &lt; size * size : 
+	p = win.getMouse()
+	y = int(p.getX() / boxSize) 
+	x = int(p.getY() / boxSize) 
+	if l[x][y] &gt; 0: 
+		continue
+	l[x][y] = turn 
+	color = &quot;Red&quot; if turn == 1 else &quot;Green&quot;
+	rec[x][y].setFill(color)
+	turn = 3 - turn 
+	status = check()
+	if status == 1 : 
+		print &quot;Player 1 wins&quot;
+		highlight(&quot;Dark Red&quot;)
+		break
+	if status == 2:
+		print &quot;Player 2 wins&quot;
+		highlight(&quot;Dark Green&quot;)
+		break
+	moves += 1 
+
+if moves == size*size :
+	print &quot;Draw match&quot;
+	for x in rec:
+		for y in x:
+			y.setFill(&quot;Blue&quot;)
+win.getMouse(</B></FONT>)
+</PRE>
+
+</BODY>
+</HTML>

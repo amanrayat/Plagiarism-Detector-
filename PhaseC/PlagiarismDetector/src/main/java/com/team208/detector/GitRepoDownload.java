@@ -24,10 +24,10 @@ public class GitRepoDownload {
 		hwlist.add("homework3");
 
 		HashMap<String, String> studentRepo = new HashMap();
-		studentRepo.put("student001", "https://github.com/spring-guides/tut-react-and-spring-data-rest");
-		studentRepo.put("student002", "https://github.com/viha-bidre/Java-Design_Pattern.git");
-		studentRepo.put("student003", "https://github.com/viha-bidre/hangman2");
-		studentRepo.put("student004", "https://github.com/viha-bidre/Tasktracker.git");
+		studentRepo.put("student001", "https://github.com/mevdschee/python-tictactoe");
+		studentRepo.put("student002", "https://github.com/ReekenX/python-tic-tac-toe");
+		studentRepo.put("student003", "https://github.com/so4pmaker/tictactoe");
+		studentRepo.put("student004", "https://github.com/emilyaviva/simple-python-tic-tac-toe");
 		String hw;
 		String course;
 

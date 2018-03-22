@@ -1,28 +1,26 @@
 package com.team208.detector;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ExecuteShellComand {
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws IOException {
 		ExecuteShellComand obj = new ExecuteShellComand();
 
-		String domainName = "google.com";
-
-		//in mac oxs
-		String command = "java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -s directory_section01/";
-
-		//in windows
-		//String command = "ping -n 3 " + domainName;
-
-		String output = obj.executeCommand(command);
-
+		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -s ";
+		String execCommand = command + obj.getPath("CS5500" , "homework1");
+		String output = obj.executeCommand(execCommand);
 		System.out.println("output: "+output);
-
 	}
 
+	public Path getPath(String course, String hw) throws IOException {
+		Path path = Paths.get(course+"/"+hw);
+		return path;
+	}
 	private String executeCommand(String command) {
 
 		StringBuffer output = new StringBuffer();
