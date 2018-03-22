@@ -5,15 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+/**
+ * 
+ * @author harshmeet
+ *
+ */
 public class ExecuteShellComand {
 
 	public static void main(String[] args) throws IOException {
 		ExecuteShellComand obj = new ExecuteShellComand();
 
-		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -s ";
-		String execCommand = command + obj.getPath("CS5500" , "homework1");
-		String output = obj.executeCommand(execCommand);
+//Example to use the getComparison command 
+		String output = obj.getComparison("CS5500","homework1");
 		System.out.println("output: "+output);
 	}
 
@@ -21,8 +24,9 @@ public class ExecuteShellComand {
 		Path path = Paths.get(course+"/"+hw);
 		return path;
 	}
-	private String executeCommand(String command) {
-
+	private String getComparison(String course, String hw) {
+		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -s ";
+		command = command + course+"/"+hw;
 		StringBuffer output = new StringBuffer();
 
 		Process p;
