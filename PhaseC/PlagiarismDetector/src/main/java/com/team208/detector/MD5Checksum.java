@@ -1,58 +1,52 @@
 package com.team208.detector;
-
-
-
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MD5Checksum {
+    public String encodeToMd5(String filePath) {
 
-	public static byte[] createChecksum(FileInputStream filename) throws Exception {
-//		FileInputStream fis = new FileInputStream(new File("/Users/harshmeet/Desktop/jplag/jplag_/directory_section01/Student1/tictactoe.py"));
-		FileInputStream fis =  filename;
-       byte[] buffer = new byte[1024];
-       MessageDigest complete = MessageDigest.getInstance("MD5");
-       int numRead;
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA1");
+        } catch (NoSuchAlgorithmException e1) {
+            e1.printStackTrace();
+        }
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(filePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        byte[] dataBytes = new byte[1024];
 
-       do {
-           numRead = fis.read(buffer);
-           if (numRead > 0) {
-               complete.update(buffer, 0, numRead);
-           }
-       } while (numRead != -1);
+        int nread = 0;
 
-       fis.close();
-       return complete.digest();
-   }
+        try {
+            while ((nread = fis.read(dataBytes)) != -1) {
+                md.update(dataBytes, 0, nread);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-   // see this How-to for a faster way to convert
-   // a byte array to a HEX string
-   public static String getMD5Checksum(FileInputStream filename) throws Exception {
-       byte[] b = createChecksum(filename);
-       String result = "";
+        byte[] mdbytes = md.digest();
 
-       for (int i=0; i < b.length; i++) {
-           result += Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
-       }
-       return result;
-   }
+        // convert the byte to hex format
+        StringBuffer sb = new StringBuffer("");
+        for (int i = 0; i < mdbytes.length; i++) {
+            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
 
+        System.out.println("Digest(in hex format):: " + sb.toString());
+        return sb.toString();
+    }
+}
   
-//   public static void main(String args[]) {
-//       try {
-//           System.out.println(getMD5Checksum("apache-tomcat-5.5.17.exe"));
-//           // output :
-//           //  0bb2827c5eacf570b6064e24e0e6653b
-//           // ref :
-//           //  http://www.apache.org/dist/
-//           //          tomcat/tomcat-5/v5.5.17/bin
-//           //              /apache-tomcat-5.5.17.exe.MD5
-//           //  0bb2827c5eacf570b6064e24e0e6653b *apache-tomcat-5.5.17.exe
-//       }
-//       catch (Exception e) {
-//           e.printStackTrace();
-//       }
-   }
+
+   
 	
 
 

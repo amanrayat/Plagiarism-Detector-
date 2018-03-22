@@ -5,20 +5,24 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;
+
 
 
 
 @Entity
-@Table(name = "Student")
+@Table(name = "plagiarism_checker.student")
 public class StudentEntity {
 
 
-	private String studentId;
+	private int studentDBid; 
+
+	private Long studentId;
 
 
 	private String name;
@@ -33,33 +37,36 @@ public class StudentEntity {
 	private String email;
 
 
-	private Set<CourseEntity> courses;
+	private Set<StudentCourseEntity> studentcourse;
 
-	public  StudentEntity() {
-		// Do nothing because of X and Y.
 
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+	public Set<StudentCourseEntity> getStudentcourse() {
+		return studentcourse;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "STUDENTCOURSE", joinColumns = @JoinColumn(name = "studentId", referencedColumnName = "studentId"), inverseJoinColumns = @JoinColumn(name = "courseId", referencedColumnName = "courseId"))
-	public Set<CourseEntity> getCourses() {
-		return courses;
+	public void setStudentcourse(Set<StudentCourseEntity> studentcourse) {
+		this.studentcourse = studentcourse;
 	}
-
-
-	public void setCourses(Set<CourseEntity> courses) {
-		this.courses = courses;
-	}
-
 
 	@Id
-	@Column(name = "studentId", nullable = false)
-	public String getStudentId() {
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public int getStudentDBid() {
+		return studentDBid;
+	}
+
+	
+	public void setStudentDBid(int studentDBid) {
+		this.studentDBid = studentDBid;
+	}
+
+	@Column(name = "student_id", nullable = false,  unique = true)
+	public Long getStudentId() {
 		return studentId;
 	}
 
-
-	public void setStudentId(String studentId) {
+	public void setStudentId(Long studentId) {
 		this.studentId = studentId;
 	}
 
@@ -67,6 +74,8 @@ public class StudentEntity {
 	public String getName() {
 		return name;
 	}
+
+	
 
 	public void setName(String name) {
 		this.name = name;
