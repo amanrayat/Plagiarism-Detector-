@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,30 +34,15 @@ public class StudentController {
 	@Autowired 	
 private CourseRepository courseRepository;
 	 
-	 
+	@CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
-		public @ResponseBody String addStudentCourses (@RequestParam Integer userId, @RequestParam List<Integer> courseId) {
+		public @ResponseBody String addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
 			// @ResponseBody means the returned String is the response, not a view name
 			// @RequestParam means it is a parameter from the GET or POST request
 		 StudentCourseEntity sce = new StudentCourseEntity();
-		 List<Integer> ids = new ArrayList<Integer>();
-		 
-		 try {
-		 ids.add(userId);
-		 }catch(Exception e){
-			  e.printStackTrace();
-		 }
-		 Iterable<StudentEntity> stud = studentRepository.findAllById(ids);
+		 StudentEntity n = studentRepository.findByNEUId(userId);
 			
-			for(StudentEntity s : stud) {
-				
-				sce.setStudent(s);
-			}
-			
-		 
-
-			
-			
+		 sce.setStudent(n);
 			  Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
 				
 				for(CourseEntity c : regCourses) {
@@ -69,8 +55,14 @@ private CourseRepository courseRepository;
 		  
 
 		 //register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
-			
-			
-			
+				
 		}
+	
+	 @CrossOrigin(origins = "http://localhost:3000")
+	 @GetMapping(path="/allStudents")
+		public @ResponseBody Iterable<StudentEntity> getAllUsers() {
+			// This returns a JSON or XML with the users
+			return studentRepository.findAll();
+		}
+	 
 }
