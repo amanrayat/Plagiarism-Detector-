@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,12 +25,14 @@ public class MainController {
 	@Autowired 
 	private StudentRepository userRepository;
 	
+	@CrossOrigin(origins = "http://localhost:3000")
 	 @RequestMapping("/")
 	  @ResponseBody
 	  public String index() {
 	    return "Hello World!!!  Team208 Homepage";
 	  }
 	 
+	 @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/login")
 	 public @ResponseBody StudentEntity login(@RequestParam Long userId, @RequestParam String password ) {
 		 StudentEntity n = userRepository.findByNEUId(userId);
@@ -41,6 +44,7 @@ public class MainController {
 			
 		}
 	 //registerUser?studentDBid=1&userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
+	 @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/registerUser") // Map ONLY GET Requests
 		public @ResponseBody String addNewUser (@RequestParam Long userId, @RequestParam String name, @RequestParam String userRole,
 				@RequestParam String password, @RequestParam String email) {
@@ -58,29 +62,12 @@ public class MainController {
 			return "Saved";
 		}
 	 
-	 @GetMapping(path="/all")
-		public @ResponseBody Iterable<StudentEntity> getAllUsers() {
-			// This returns a JSON or XML with the users
-			return userRepository.findAll();
-		}
-	 
-	 
+
+	 @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/findStudent")
-		public @ResponseBody StudentEntity findStudent(@RequestParam int userId ) {
-		 List<Integer> ids = new ArrayList<>();
-		 
-		 try {
-		 ids.add(userId);
-		 }catch(Exception e){
-			  e.printStackTrace();
-		 }
-		 Iterable<StudentEntity> studs = userRepository.findAllById(ids);
-		 StudentEntity stud = null ;
-			for(StudentEntity s : studs) {
-				
-				stud = s;
-			}
-			return stud;
+		public @ResponseBody StudentEntity findStudent(@RequestParam Long userId ) {
+
+			return userRepository.findByNEUId(userId);
 			
 		}
 	
