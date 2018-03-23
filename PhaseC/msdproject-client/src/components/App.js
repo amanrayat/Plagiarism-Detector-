@@ -4,15 +4,17 @@ import ReactDOM from 'react-dom';
 import HomePage from './HomePage.js'
 import RegisterPage from './RegisterPage.js'
 import CoursePage from './CoursePage.js'
+import AdminPage from './AdminPage.js'
 
 class App extends React.Component {
 
   render(){
     return (
       <div>
-      <HomePage />
-      <RegisterPage />
-      <CoursePage />
+        <HomePage />
+        <RegisterPage />
+        <CoursePage />
+        <AdminPage />
       </div>
     );
   }
