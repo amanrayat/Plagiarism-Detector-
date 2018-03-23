@@ -1,6 +1,7 @@
 package com.team208.controllers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,31 +35,42 @@ private CourseRepository courseRepository;
 	 
 	 
 	 @GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
-		public @ResponseBody String addStudentCourses (@RequestParam StudentEntity userId, @RequestParam List<Integer> courseId) {
+		public @ResponseBody String addStudentCourses (@RequestParam Integer userId, @RequestParam List<Integer> courseId) {
 			// @ResponseBody means the returned String is the response, not a view name
 			// @RequestParam means it is a parameter from the GET or POST request
-		 
 		 StudentCourseEntity sce = new StudentCourseEntity();
+		 List<Integer> ids = new ArrayList<Integer>();
 		 
-//		Optional<StudentEntity> n =  studentRepository.findById(userId);
-//		  if(!n.isPresent()) {
-//			  
-//		  }else
-//		  {
-//			  sce.setStudent(n);
-//		  }
+		 try {
+		 ids.add(userId);
+		 }catch(Exception e){
+			  e.printStackTrace();
+		 }
+		 Iterable<StudentEntity> stud = studentRepository.findAllById(ids);
+			
+			for(StudentEntity s : stud) {
+				
+				sce.setStudent(s);
+			}
+			
+		 
+
+			
+			
+			  Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
+				
+				for(CourseEntity c : regCourses) {
+					
+					sce.setCourse(c);
+				}
+				
+				studentCourseRepository.save(sce);
+				return "Saved";
+		  
 
 		 //register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
 			
 			
-			 Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
 			
-			for(CourseEntity c : regCourses) {
-				
-				sce.setCourse(c);
-			}
-			 sce.setStudent(userId);
-			studentCourseRepository.save(sce);
-			return "Saved";
 		}
 }

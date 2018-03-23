@@ -16,13 +16,13 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "student")
+@Table(name = "plagiarism_checker.student")
 public class StudentEntity {
 
 
 	private int studentDBid; 
 
-	private String studentId;
+	private Long studentId;
 
 
 	private String name;
@@ -39,10 +39,7 @@ public class StudentEntity {
 
 	private Set<StudentCourseEntity> studentcourse;
 
-	public  StudentEntity() {
-		// Do nothing because of X and Y.
 
-	}
 
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<StudentCourseEntity> getStudentcourse() {
@@ -64,14 +61,12 @@ public class StudentEntity {
 		this.studentDBid = studentDBid;
 	}
 
-	@Column(name = "studentId", nullable = false,  unique = true)
-	public String getStudentId() {
+	@Column(name = "student_id", nullable = false,  unique = true)
+	public Long getStudentId() {
 		return studentId;
 	}
 
-	
-
-	public void setStudentId(String studentId) {
+	public void setStudentId(Long studentId) {
 		this.studentId = studentId;
 	}
 
@@ -79,6 +74,8 @@ public class StudentEntity {
 	public String getName() {
 		return name;
 	}
+
+	
 
 	public void setName(String name) {
 		this.name = name;
