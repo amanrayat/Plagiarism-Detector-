@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "plagiarism_checker.student")
+@Table(name = "student")
 public class StudentEntity {
 
 
