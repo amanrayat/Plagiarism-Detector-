@@ -1,5 +1,6 @@
 package com.team208.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "student")
-public class StudentEntity implements java.io.Serializable{
+public class StudentEntity implements Serializable{
 
 
 	/**

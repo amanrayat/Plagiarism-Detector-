@@ -1,5 +1,6 @@
 package com.team208.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,7 +14,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "course")
-public class CourseEntity {
+public class CourseEntity implements Serializable{
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	
 	private int courseId;
 	
