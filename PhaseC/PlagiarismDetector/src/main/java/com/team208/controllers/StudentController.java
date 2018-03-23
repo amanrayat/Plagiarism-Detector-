@@ -24,56 +24,45 @@ import com.team208.domain.StudentRepository;
 @RequestMapping(path="/team208") 
 public class StudentController {
 
-
+	
 	@Autowired 
 	private StudentRepository studentRepository;
-
+	
 	@Autowired 
 	private StudentCourseRepository studentCourseRepository;
-
+	
 	@Autowired 	
+private CourseRepository courseRepository;
+	 
+	@CrossOrigin(origins = "http://localhost:3000")
+	 @GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
+		public @ResponseBody String addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
+			// @ResponseBody means the returned String is the response, not a view name
+			// @RequestParam means it is a parameter from the GET or POST request
+		 StudentCourseEntity sce = new StudentCourseEntity();
+		 StudentEntity n = studentRepository.findByNEUId(userId);
+			
+		 sce.setStudent(n);
+			  Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
+				
+				for(CourseEntity c : regCourses) {
+					
+					sce.setCourse(c);
+				}
+				
+				studentCourseRepository.save(sce);
+				return "Saved";
+		  
 
-	private CourseRepository courseRepository;
-
-
-	@GetMapping(path="/registerStudentCourses")
-	// Map ONLY GET Requests
-	public @ResponseBody String addStudentCourses (@RequestParam Integer userId, @RequestParam List<Integer> courseId) {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
-		StudentCourseEntity sce = new StudentCourseEntity();
-		List<Integer> ids = new ArrayList<Integer>();
-
-		try {
-			ids.add(userId);
-		}catch(Exception e){
-			e.printStackTrace();
+		 //register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
+				
 		}
-		Iterable<StudentEntity> stud = studentRepository.findAllById(ids);
-
-		for(StudentEntity s : stud) {
-
-			sce.setStudent(s);
+	
+	 @CrossOrigin(origins = "http://localhost:3000")
+	 @GetMapping(path="/allStudents")
+		public @ResponseBody Iterable<StudentEntity> getAllUsers() {
+			// This returns a JSON or XML with the users
+			return studentRepository.findAll();
 		}
-
-
-
-
-
-		Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
-
-		for(CourseEntity c : regCourses) {
-
-			sce.setCourse(c);
-		}
-
-		studentCourseRepository.save(sce);
-		return "Saved";
-
-
-		//register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
-
-
-
-	}
+	 
 }
