@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.domain.CourseEntity;
 import com.team208.domain.CourseRepository;
+import com.team208.domain.StudentEntity;
 
 
 @Controller
