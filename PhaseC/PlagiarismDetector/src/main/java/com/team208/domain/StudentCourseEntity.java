@@ -4,7 +4,9 @@ package com.team208.domain;
 
 
 
-import java.util.Optional;
+
+
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,7 +18,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "student_course")
 @IdClass(StudentCourseId.class)
-public class StudentCourseEntity {
+public class StudentCourseEntity implements Serializable{
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	
 	

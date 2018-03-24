@@ -3,30 +3,32 @@ package com.team208.detector;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+
+import java.util.logging.Logger;
+
 public class ExecuteShellComand {
+	
+	private static final  Logger logger = Logger.getLogger(ExecuteShellComand.class.getName());
 
-	public static void main(String[] args) {
-
-		ExecuteShellComand obj = new ExecuteShellComand();
-
-		String domainName = "google.com";
-
-		//in mac oxs
-		String command = "java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -s directory_section01/";
-
-		//in windows
-		//String command = "ping -n 3 " + domainName;
-
-		String output = obj.executeCommand(command);
-
-		System.out.println("output: "+output);
-
+	private ExecuteShellComand() {
+		super();
 	}
 
-	private String executeCommand(String command) {
-
-		StringBuffer output = new StringBuffer();
-
+	public static void main(String[] args) {
+		getComparison( "CS5500",  "homework1");
+		
+	}
+	/**
+	 * 
+	 * @param course
+	 * @param hw
+	 * @return String
+	 */
+	public static   String getComparison(String course, String hw) {
+		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -target/results ";
+		command = command +"target/DownloadedReports/"+ course+"/"+hw;
+		
+		StringBuilder output = new StringBuilder();
 		Process p;
 		try {
 			p = Runtime.getRuntime().exec(command);
@@ -40,11 +42,13 @@ public class ExecuteShellComand {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Context : "+ "No directories found to parse");
 		}
 
+		
 		return output.toString();
 
 	}
+
 
 }

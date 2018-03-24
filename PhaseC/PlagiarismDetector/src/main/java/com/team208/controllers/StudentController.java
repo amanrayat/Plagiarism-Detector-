@@ -1,9 +1,8 @@
 package com.team208.controllers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,9 @@ import com.team208.domain.StudentRepository;
 @RequestMapping(path="/team208") 
 public class StudentController {
 
-	
+	private static final Logger logger = 
+			Logger.getLogger(StudentController.class.getName());
+
 	@Autowired 
 	private StudentRepository studentRepository;
 	
@@ -37,8 +38,8 @@ private CourseRepository courseRepository;
 	@CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
 		public @ResponseBody String addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
-			// @ResponseBody means the returned String is the response, not a view name
-			// @RequestParam means it is a parameter from the GET or POST request
+		String status = "";
+		try {	
 		 StudentCourseEntity sce = new StudentCourseEntity();
 		 StudentEntity n = studentRepository.findByNEUId(userId);
 			
@@ -51,7 +52,14 @@ private CourseRepository courseRepository;
 				}
 				
 				studentCourseRepository.save(sce);
-				return "Saved";
+				status ="Saved";
+				}catch (Exception e) {
+					logger.info("Context : "+e.getMessage());
+					status ="UnSaved";
+					
+				}
+		
+				return status;
 		  
 
 		 //register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
