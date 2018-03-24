@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 class RegisterPage extends React.Component{
   render(){
     return (
-      <div>
+      <div class="col-md-6 col-md-offset-3">
         <h1> Plagiarism Detection System </h1>
         <input type="text" name="id" placeholder="University ID" />
         <br />
@@ -18,7 +18,8 @@ class RegisterPage extends React.Component{
         <input type="password" name="password" placeholder="Password" />
         <br />
         <br />
-        <input type="radio" name="role" value="student" /> <label>Student</label>
+        <input type="radio" name="role" value="student" placeholder="Password"/> <label>Student</label>
+        <br />
         <input type="radio" name="role" value="professor" /> <label>Professor</label>
         <br />
         <br />

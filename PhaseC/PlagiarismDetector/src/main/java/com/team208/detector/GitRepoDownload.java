@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 
 public class GitRepoDownload {
+	
+	private static final Logger LOGGER = Logger.getLogger(GitRepoDownload.class.getName());
 	
 	public static void main( String[] args ) 
 	{
@@ -41,7 +44,11 @@ public class GitRepoDownload {
 			for(int j=0;j<hwlist.size();j++) {
 				hw = hwlist.get(j);
 				for(Map.Entry<String, String> entry: studentRepo.entrySet())
-					downloadRepo(course,hw,entry.getKey(),entry.getValue());
+					try {
+						downloadRepo(course,hw,entry.getKey(),entry.getValue());
+					} catch (IOException e) {
+						LOGGER.info("Context : "+e.getMessage());
+					}
 			}
 		}
 		/**
@@ -50,33 +57,27 @@ public class GitRepoDownload {
 		 */
 	}
 
-	public static void downloadRepo(String course, String hw,String studentID, String gitRepoLink) {
+	public static void downloadRepo(String course, String hw,String studentID, String gitRepoLink) throws  IOException{
 		String current;
+		String filePath = "/";
 		try {
 			current = new java.io.File( "." ).getCanonicalPath();
 
-			Path path = Paths.get(current+"/"+course+"/"+hw);
+			Path path = Paths.get(current+filePath+course+filePath+hw);
 
 			Files.createDirectories(path);
 
 			File localPath = File.createTempFile(studentID+"-", "",new File(path.toString()));
+			 
+			Files.delete(localPath.toPath());
 
-			if(!localPath.delete()) {
-				throw new IOException("Could not delete temporary file " + localPath);
-			}
-
-			System.out.println("Cloning from " + gitRepoLink + " to " + localPath);
-
-			Git result = Git.cloneRepository()
+			Git.cloneRepository()
 					.setURI(gitRepoLink)
 					.setDirectory(localPath)
 					.call() ;
 
-			// Note: the call() returns an opened repository already which needs to be closed to avoid file handle leaks!
-			System.out.println("Having repository: " + result.getRepository());
-
 		} catch (GitAPIException|IOException e) {
-			e.printStackTrace();
+			LOGGER.info("Context : "+e.getMessage());
 		} 
 	}
 }

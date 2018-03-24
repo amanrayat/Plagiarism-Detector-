@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 class HomePage extends React.Component{
   render(){
     return (
-      <div>
+      <div class="col-md-6 col-md-offset-3">
         <h1> Plagiarism Detection System </h1>
         <input type="text" name="email" placeholder="Email Address" />
         <br />
