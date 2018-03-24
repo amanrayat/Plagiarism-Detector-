@@ -21,11 +21,12 @@ class AdminPage extends React.Component{
 
     const users = this.state.users;
     return (
-      <div class="col-md-6 col-md-offset-3">
+      <div className={'container col-md-6 col-md-offset-3'}>
         <h1> List of Users </h1>
+        UserName | Email | UserRole
         {users.map((user: any) =>
           <div key={user.id}>
-            {user.name} {user.email} {user.userRole}
+            {user.name} | {user.email} | {user.userRole}
           </div>
       )}
       </div>

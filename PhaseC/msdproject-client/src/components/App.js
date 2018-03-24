@@ -18,16 +18,17 @@ class App extends React.Component {
       <Router>
         <div>
           <button className={'btn btn-primary'}>
-          <Link to="loginPage"> Login </Link>
+          <Link to="login"> Login </Link>
           </button>
           <button className={'btn btn-primary'}>
           <Link to="register"> Register </Link>
           </button>
           <button className={'btn btn-primary'}>
-          <Link to="adminPage"> Admin Page </Link>
+          <Link to="admin"> Admin Page </Link>
           </button>
-          <Route path="/loginPage" component={HomePage} />
-          <Route path="/adminPage" component={AdminPage} />
+          <h1> Plagiarism Detection System </h1>
+          <Route path="/login" component={HomePage} />
+          <Route path="/admin" component={AdminPage} />
           <Route path="/register" component={RegisterPage} />
         </div>
       </Router>
