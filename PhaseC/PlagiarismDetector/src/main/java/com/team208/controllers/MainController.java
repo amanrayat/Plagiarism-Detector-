@@ -32,6 +32,7 @@ public class MainController {
 	}
 
 	@GetMapping(path="/login")
+	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody StudentEntity login(@RequestParam Long userId, @RequestParam String password ) {
 		StudentEntity n = userRepository.findByNEUId(userId);
 
