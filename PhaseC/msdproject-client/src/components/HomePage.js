@@ -2,17 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class HomePage extends React.Component{
+
+  constructor(){
+    super();
+    this.state = {userId: '', password: ''};
+  }
+
+
   render(){
     return (
       <div class="col-md-6 col-md-offset-3">
         <h1> Plagiarism Detection System </h1>
-        <input type="text" name="email" placeholder="Email Address" />
+        <input type="number" onChange = {(event,newValue) => this.setState({userId: newValue})} name="userId" placeholder="User ID" />
         <br />
         <br />
-        <input type="password" name="password" placeholder="Password" />
+        <input type="password" onChange = {(event,newValue) => this.setState({password: newValue})} name="password" placeholder="Password" />
         <br />
         <br />
-        <button> Login </button>
+
+        <button onClick={(event) => this.handleClick(event)}> Login </button>
         <button> Register </button>
       </div>
     );

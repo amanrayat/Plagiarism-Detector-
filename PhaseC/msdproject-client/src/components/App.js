@@ -14,12 +14,12 @@ class App extends React.Component {
   render(){
     return (
       <div>
-      <HomePage />
-      <RegisterPage />
-      <CoursePage />
-      <AdminPage />
-      <ProfessorCoursePage />
-      <PlagiarismReportsPage />
+        <HomePage />
+        <RegisterPage />
+        <CoursePage />
+        <AdminPage />
+        <ProfessorCoursePage />
+        <PlagiarismReportsPage />
       </div>
     );
   }
