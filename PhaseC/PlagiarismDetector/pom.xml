@@ -64,11 +64,7 @@
 			<version>4.8.0.201706111038-r</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.6.1</version>
-		</dependency>
+		
   
       <!-- Hibernate -->
   
