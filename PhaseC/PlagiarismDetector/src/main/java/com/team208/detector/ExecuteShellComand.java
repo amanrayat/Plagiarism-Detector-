@@ -3,12 +3,12 @@ package com.team208.detector;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 public class ExecuteShellComand {
 	
-	private static final  Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final  Logger logger = Logger.getLogger(ExecuteShellComand.class.getName());
 
 	private ExecuteShellComand() {
 		super();
@@ -42,7 +42,7 @@ public class ExecuteShellComand {
 			}
 
 		} catch (Exception e) {
-			logger.log(Level.INFO, "No directories found to parse");
+			logger.info("Context : "+ "No directories found to parse");
 		}
 
 		
