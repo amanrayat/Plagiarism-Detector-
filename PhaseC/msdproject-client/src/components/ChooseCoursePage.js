@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from 'components/Navbar';
-import ChooseCourse from 'components/ChooseCourse';
-import Header from 'components/Header';
+import Navbar from './Navbar';
+import ChooseCourse from './ChooseCourse';
+import Header from './Header';
 
 export default class ChooseCoursePage extends React.Component{
   render(){

@@ -24,10 +24,26 @@ export default class ChooseCourse extends React.Component {
       </tr>
     );
   }
+newCourse(){
+
+     // noinspection JSAnnotator
+   let  newOne= {
+        course : this.refs.newCourse.value,
+        term: this.refs.newTerm.value
+        }
+
+        let newCourseArray = this.state.courses
+        newCourseArray.push(newOne)
+        this.setState({
+                courses : newCourseArray
+            }
+        )
+
+    }
   render() {
     return (
       <div>
-        <h1 className={'text-center p-5'}>{this.props.head}</h1>
+        <h1 className={'text-center'}>{this.props.head}</h1>
         <div className={'container text-center col-6'}>
           <table className="table">
             <thead className="thead-dark">
@@ -38,11 +54,18 @@ export default class ChooseCourse extends React.Component {
               </tr>
             </thead>
             <tbody>{
-              this.state.courses.map(this.addCourse.bind(this))
+                this.state.courses.map(this.addCourse.bind(this))
             }
+              <tr>
+                <th>
+                  <button onClick={this.newCourse.bind(this)} className={'btn btn-success'}> Add New </button>
+              </th>
+                <td><input  placeholder="Add New Course" ref="newCourse"type="text"/></td>
+                <td><input  placeholder="Add the Term" ref="newTerm" type="text"/></td>
+                </tr>
             </tbody>
           </table>
-          <button className={'btn btn-primary'}>{this.props.button}</button>
+          <button className={'btn btn-primary' }>{this.props.button}</button>
         </div>
       </div>
     );

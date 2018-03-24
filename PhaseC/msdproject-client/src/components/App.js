@@ -8,6 +8,10 @@ import AdminPage from './AdminPage.js'
 import ProfessorCoursePage from './ProfessorCoursePage.js'
 import PlagiarismReportsPage from './PlagiarismReportsPage.js'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import Navbar from "./Navbar";
+import ChooseCourse from "./ChooseCourse";
+import ChooseCoursePage from "./ChooseCoursePage";
+
 
 
 class App extends React.Component {
@@ -32,8 +36,10 @@ class App extends React.Component {
           <Route path="/login" component={HomePage} />
           <Route path="/admin" component={AdminPage} />
           <Route path="/register" component={RegisterPage} />
+
         </div>
       </Router>
+          
       </div>
     );
   }
