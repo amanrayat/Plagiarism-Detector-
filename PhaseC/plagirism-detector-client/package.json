@@ -1,17 +1,11 @@
 {
-  "name": "msdproject-client",
+  "name": "plagirism-detector-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.18.0",
-    "material-ui": "^0.20.0",
     "react": "^16.2.0",
-    "react-bootstrap": "^0.32.1",
-    "react-bootstrap-table": "^4.3.1",
     "react-dom": "^16.2.0",
-    "react-router": "^4.2.0",
-    "react-scripts": "1.1.1",
-    "react-tap-event-plugin": "^3.0.2"
+    "react-scripts": "1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

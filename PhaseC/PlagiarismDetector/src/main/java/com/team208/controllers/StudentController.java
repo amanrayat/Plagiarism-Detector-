@@ -1,0 +1,79 @@
+package com.team208.controllers;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.team208.domain.CourseEntity;
+import com.team208.domain.CourseRepository;
+import com.team208.domain.StudentCourseEntity;
+import com.team208.domain.StudentCourseRepository;
+import com.team208.domain.StudentEntity;
+import com.team208.domain.StudentRepository;
+
+@Controller
+@RequestMapping(path="/team208") 
+public class StudentController {
+
+
+	@Autowired 
+	private StudentRepository studentRepository;
+
+	@Autowired 
+	private StudentCourseRepository studentCourseRepository;
+
+	@Autowired 	
+
+	private CourseRepository courseRepository;
+
+
+	@GetMapping(path="/registerStudentCourses")
+	// Map ONLY GET Requests
+	public @ResponseBody String addStudentCourses (@RequestParam Integer userId, @RequestParam List<Integer> courseId) {
+		// @ResponseBody means the returned String is the response, not a view name
+		// @RequestParam means it is a parameter from the GET or POST request
+		StudentCourseEntity sce = new StudentCourseEntity();
+		List<Integer> ids = new ArrayList<Integer>();
+
+		try {
+			ids.add(userId);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Iterable<StudentEntity> stud = studentRepository.findAllById(ids);
+
+		for(StudentEntity s : stud) {
+
+			sce.setStudent(s);
+		}
+
+
+
+
+
+		Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
+
+		for(CourseEntity c : regCourses) {
+
+			sce.setCourse(c);
+		}
+
+		studentCourseRepository.save(sce);
+		return "Saved";
+
+
+		//register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
+
+
+
+	}
+}
