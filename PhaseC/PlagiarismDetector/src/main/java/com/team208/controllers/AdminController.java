@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.domain.CourseEntity;
 import com.team208.domain.CourseRepository;
+import com.team208.domain.StudentEntity;
+import com.team208.domain.StudentRepository;
 
 
 
@@ -19,6 +21,9 @@ public class AdminController {
 
 	@Autowired 
 	private CourseRepository courseRepository;
+	
+	@Autowired 
+	private StudentRepository userRepository;
 	
 	//addCourse?courseAbr='CS5500'&loc='BOS'&name='MSD'&term='Spring2018'
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -41,8 +46,16 @@ public class AdminController {
 	
 	 @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/allCourses")
-		public @ResponseBody Iterable<CourseEntity> getAllUsers() {
+		public @ResponseBody Iterable<CourseEntity> getAllCourses() {
 			// This returns a JSON or XML with the users
 			return courseRepository.findAll();
+		}
+	 
+	 
+	 @GetMapping(path="/all")
+		@CrossOrigin(origins = "http://localhost:3000")
+		public @ResponseBody Iterable<StudentEntity> getAllUsers() {
+			// This returns a JSON or XML with the users
+			return userRepository.findAll();
 		}
 }
