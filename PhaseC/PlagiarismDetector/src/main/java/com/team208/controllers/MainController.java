@@ -43,7 +43,8 @@ public class MainController {
 
 	}
 	//registerUser?studentDBid=1&userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
-	@GetMapping(path="/registerUser") // Map ONLY GET Requests
+	@GetMapping(path="/registerUser")// Map ONLY GET Requests
+	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String addNewUser (@RequestParam Long userId, @RequestParam String name, @RequestParam String userRole,
 			@RequestParam String password, @RequestParam String email) {
 		// @ResponseBody means the returned String is the response, not a view name
