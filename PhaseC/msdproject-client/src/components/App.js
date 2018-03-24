@@ -14,19 +14,21 @@ class App extends React.Component {
 
   render(){
     return (
-      <div className="container-fluid">
+      <div className="container text-center">
       <Router>
         <div>
-          <button className={'btn btn-primary'}>
+            <h1 > Plagiarism Detection System </h1>
+            <div className={'container'}>
+          <button className={'btn'}>
           <Link to="login"> Login </Link>
           </button>
-          <button className={'btn btn-primary'}>
+          <button className={'btn'}>
           <Link to="register"> Register </Link>
           </button>
-          <button className={'btn btn-primary'}>
+          <button className={'btn'}>
           <Link to="admin"> Admin Page </Link>
           </button>
-          <h1> Plagiarism Detection System </h1>
+            </div>
           <Route path="/login" component={HomePage} />
           <Route path="/admin" component={AdminPage} />
           <Route path="/register" component={RegisterPage} />
