@@ -5,15 +5,19 @@ import AdminPage from './AdminPage.js'
 import RegisterPage from './RegisterPage.js'
 import axios from 'axios'
 import CoursePage from './CoursePage.js'
+
 import StudentSubmissionPage from './StudentSubmissionPage.js'
 import ProfessorCoursePage from './ProfessorCoursePage.js'
+
 
 
 export default class HomePage extends React.Component{
 
   constructor(){
     super();
+
     this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: ''};
+
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -21,12 +25,15 @@ export default class HomePage extends React.Component{
     this.setState({
       userID: this.refs.userID.value,
       password: this.refs.password.value,
+
       adminlogin: this.state.username === 'admin' ? true : false
+
     })
   }
 
   handleClick() {
     console.log("Success!")
+
     console.log('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
     axios.get('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
     .then(response => this.setState({
@@ -49,6 +56,7 @@ export default class HomePage extends React.Component{
       return <ProfessorCoursePage />
     }
     else if (isLoggedIn && isAdmin) {
+    
       return <AdminPage />
     }
     else {
@@ -70,6 +78,7 @@ export default class HomePage extends React.Component{
           <br />
           <br />
           <button className={'btn btn-primary'} onClick={this.handleClick}> Login </button>
+
         </div>
       );
     }

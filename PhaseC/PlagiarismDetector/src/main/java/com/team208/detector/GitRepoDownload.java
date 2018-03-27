@@ -12,7 +12,6 @@ import java.nio.file.Path;
 
 import java.nio.file.Paths;
 
-
 import java.util.logging.Logger;
 
 import org.eclipse.jgit.api.Git;
@@ -35,24 +34,20 @@ public class GitRepoDownload {
 
 		String filePath = "/";
 
+
 		try {
 
 			current = new java.io.File( "." ).getCanonicalPath();
 
-
-
 			Path path = Paths.get(current+"/DownloadedReports/"+filePath+course+filePath+hw);
 
-			
 
 			Files.createDirectories(path);
 
 
 
 			File localPath = File.createTempFile(studentID+"-", "",new File(path.toString()));
-
 			 
-
 			Files.delete(localPath.toPath());
 
 
@@ -64,8 +59,6 @@ public class GitRepoDownload {
 					.setDirectory(localPath)
 
 					.call() ;
-
-
 
 		} catch (GitAPIException|IOException e) {
 

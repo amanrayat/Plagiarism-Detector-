@@ -7,9 +7,11 @@ class ProfessorCoursePage extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+
       term: ['Fall 2017','Spring 2018','Summer 2018'],
       course: ['CS5200', 'CS5800', 'CS5500','CS5010','CS6240'],
       assignments: ['homework1', 'homework2'],
+
     };
   }
   courseRow(text,i){
@@ -32,7 +34,9 @@ class ProfessorCoursePage extends React.Component{
   }
   render() {
     return (
+
       <div className={'container text-center'}>
+
       <div className="form-group">
       <select className="form-control" id="exampleFormControlSelect1">
       <option disabled selected={'true'}>Select your Term</option>

@@ -34,7 +34,9 @@ class ViewStudentFilesPage extends React.Component{
 
       <Pager>
         <Pager.Item href="#">Back</Pager.Item>
+
       </Pager>
+
       </div>
     );
   }

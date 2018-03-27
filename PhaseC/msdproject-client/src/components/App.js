@@ -12,6 +12,7 @@ import Navbar from "./Navbar";
 import ChooseCourse from "./ChooseCourse";
 import ChooseCoursePage from "./ChooseCoursePage";
 
+
 class App extends React.Component {
 
   render(){
@@ -34,10 +35,12 @@ class App extends React.Component {
 
           <Route path="/login" component={HomePage} />
           <Route path="/logout" component={HomePage} />
+
           <Route path="/register" component={RegisterPage} />
 
         </div>
       </Router>
+
       </div>
     );
   }

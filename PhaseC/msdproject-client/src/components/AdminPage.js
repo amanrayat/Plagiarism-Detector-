@@ -12,6 +12,7 @@ class AdminPage extends React.Component{
   }
 
   componentDidMount() {
+
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));

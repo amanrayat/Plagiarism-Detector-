@@ -6,14 +6,18 @@ class RegisterPage extends React.Component{
 
   constructor(){
     super();
+
     this.state = {userID:'', univID:'', name:'', userRole:'', password:'', email:'', successMessage: ''};
+
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick() {
     console.log("Success from RegisterPage!")
+
     console.log('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?studentDBid='+this.state.userID+'&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
     axios.get('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?studentDBid='+this.state.userID+'&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
+
     .then(response => this.setState({successMessage: "Saved!"}))
   }
 
@@ -62,7 +66,9 @@ class RegisterPage extends React.Component{
               onChange={this.handleUserRole.bind(this)} /> <label>Professor</label>
         <br />
         <br />
+
         <h2> {this.state.successMessage} </h2>
+
         <button onClick={this.handleClick}> Submit </button>
       </div>
     );

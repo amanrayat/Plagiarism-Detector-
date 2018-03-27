@@ -30,8 +30,7 @@ public class MainController {
 	@Autowired 
 	private StudentRepository userRepository;
 	
-	
-	 @RequestMapping("/")
+  @RequestMapping("/")
 	  @ResponseBody
 	  public String index() {
 	    return "Hello World!!!  Team208 Homepage";
