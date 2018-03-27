@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.team208.domain.StudentEntity;
 import com.team208.domain.StudentRepository;
 
+@CrossOrigin
 @Controller
 @RequestMapping(path="/team208") 
 public class MainController {
@@ -29,14 +30,14 @@ public class MainController {
 	@Autowired 
 	private StudentRepository userRepository;
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	
 	 @RequestMapping("/")
 	  @ResponseBody
 	  public String index() {
 	    return "Hello World!!!  Team208 Homepage";
 	  }
 	 
-	 @CrossOrigin(origins = "http://localhost:3000")
+	//@CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/login")
 	 public @ResponseBody StudentEntity login(@RequestParam Long userId, @RequestParam String password )  {
 		 StudentEntity n = null;
@@ -54,7 +55,7 @@ public class MainController {
 			
 		}
 	 //registerUser?studentDBid=1&userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
-	 @CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/registerUser") // Map ONLY GET Requests
 		public @ResponseBody String addNewUser (@RequestParam Long userId, @RequestParam String name, @RequestParam String userRole,
 				@RequestParam String password, @RequestParam String email) {
@@ -73,7 +74,7 @@ public class MainController {
 		}
 	 
 
-	 @CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/findStudent")
 		public @ResponseBody StudentEntity findStudent(@RequestParam Long userId ) {
 

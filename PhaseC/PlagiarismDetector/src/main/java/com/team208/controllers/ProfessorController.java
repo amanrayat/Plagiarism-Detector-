@@ -25,7 +25,7 @@ public class ProfessorController {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(ProfessorController.class.getName());
 
-	@CrossOrigin(origins = "http://localhost:3000")
+	//@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping("/generateReport")
 	@ResponseBody
 	public String generateReport() {

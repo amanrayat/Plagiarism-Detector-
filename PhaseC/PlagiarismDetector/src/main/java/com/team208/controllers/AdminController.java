@@ -14,7 +14,7 @@ import com.team208.domain.StudentEntity;
 import com.team208.domain.StudentRepository;
 
 
-
+@CrossOrigin
 @Controller
 @RequestMapping(path="/team208") 
 public class AdminController {
@@ -26,7 +26,7 @@ public class AdminController {
 	private StudentRepository userRepository;
 	
 	//addCourse?courseAbr='CS5500'&loc='BOS'&name='MSD'&term='Spring2018'
-	@CrossOrigin(origins = "http://localhost:3000")
+	
 	 @GetMapping(path="/addCourse") // Map ONLY GET Requests
 		public @ResponseBody String addCourse (@RequestParam String courseAbr, @RequestParam String loc, @RequestParam String name,
 				@RequestParam String term) {
@@ -44,7 +44,7 @@ public class AdminController {
 			return "Saved";
 		}
 	
-	 @CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/allCourses")
 		public @ResponseBody Iterable<CourseEntity> getAllCourses() {
 			// This returns a JSON or XML with the users
@@ -52,8 +52,9 @@ public class AdminController {
 		}
 	 
 	 
+	
+		//@CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/all")
-		@CrossOrigin(origins = "http://localhost:3000")
 		public @ResponseBody Iterable<StudentEntity> getAllUsers() {
 			// This returns a JSON or XML with the users
 			return userRepository.findAll();

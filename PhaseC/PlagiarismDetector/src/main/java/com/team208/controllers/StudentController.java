@@ -19,6 +19,7 @@ import com.team208.domain.StudentCourseRepository;
 import com.team208.domain.StudentEntity;
 import com.team208.domain.StudentRepository;
 
+@CrossOrigin
 @Controller
 @RequestMapping(path="/team208") 
 public class StudentController {
@@ -35,7 +36,7 @@ public class StudentController {
 	@Autowired 	
 private CourseRepository courseRepository;
 	 
-	@CrossOrigin(origins = "http://localhost:3000")
+	//@CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
 		public @ResponseBody String addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
 		String status = "";
@@ -66,7 +67,7 @@ private CourseRepository courseRepository;
 				
 		}
 	
-	 @CrossOrigin(origins = "http://localhost:3000")
+	 //@CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping(path="/allStudents")
 		public @ResponseBody Iterable<StudentEntity> getAllUsers() {
 			// This returns a JSON or XML with the users

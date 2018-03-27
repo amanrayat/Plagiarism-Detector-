@@ -13,7 +13,7 @@ class RegisterPage extends React.Component{
   handleClick() {
     console.log("Success from RegisterPage!")
     console.log('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?studentDBid='+this.state.userID+'&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
-    axios.get('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208?studentDBid='+this.state.userID+'&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
+    axios.get('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?studentDBid='+this.state.userID+'&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
     .then(response => this.setState({successMessage: "Saved!"}))
   }
 
