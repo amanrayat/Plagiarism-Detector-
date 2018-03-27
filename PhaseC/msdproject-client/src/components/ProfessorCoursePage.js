@@ -7,9 +7,11 @@ class ProfessorCoursePage extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      term: ['2017','2018','2019'],
-      course: ['Algorithm', 'Database', 'msd','PDP','angular'],
-      assignments: ['Assignment1', 'Assignment2'],
+
+      term: ['Fall 2017','Spring 2018','Summer 2018'],
+      course: ['CS5200', 'CS5800', 'CS5500','CS5010','CS6240'],
+      assignments: ['homework1', 'homework2'],
+
     };
   }
   courseRow(text,i){
@@ -32,15 +34,9 @@ class ProfessorCoursePage extends React.Component{
   }
   render() {
     return (
-      <div className={'col-md-6 col-md-offset-3' }>
-      <Nav bsStyle="tabs" activeKey="1" onSelect={k => this.handleSelect(k)}>
-      <NavItem eventKey="1" href="/home">
-        Profile
-      </NavItem>
-      <NavItem eventKey="3" disabled>
-        Logout
-      </NavItem>
-    </Nav>
+
+      <div className={'container text-center'}>
+
       <div className="form-group">
       <select className="form-control" id="exampleFormControlSelect1">
       <option disabled selected={'true'}>Select your Term</option>

@@ -1,9 +1,13 @@
 import React from 'react';
-import Submission from 'components/Submission';
+
+import Submission from './Submission.js';
+
 
 export default class StudentSubmissionPage extends React.Component{
   render(){
     return(
+
+      <Submission />
 
     )
   }

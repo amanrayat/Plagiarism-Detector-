@@ -6,12 +6,18 @@ import RegisterPage from './RegisterPage.js'
 import axios from 'axios'
 import CoursePage from './CoursePage.js'
 
+import StudentSubmissionPage from './StudentSubmissionPage.js'
+import ProfessorCoursePage from './ProfessorCoursePage.js'
+
+
 
 export default class HomePage extends React.Component{
 
   constructor(){
     super();
-    this.state = {username:'',userID: '', password: '', loggedIn:false, adminlogin:false};
+
+    this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: ''};
+
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -19,27 +25,38 @@ export default class HomePage extends React.Component{
     this.setState({
       userID: this.refs.userID.value,
       password: this.refs.password.value,
-      adminlogin: this.state.username ? 'admin' : false
+
+      adminlogin: this.state.username === 'admin' ? true : false
+
     })
   }
 
   handleClick() {
     console.log("Success!")
-    console.log('http://localhost:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
-    axios.get('http://localhost:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
+
+    console.log('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
+    axios.get('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
     .then(response => this.setState({
       username: response.data.name,
-      isLoggedIn: true}))
+      adminlogin: response.data.name === 'admin' ? true : false,
+      role: response.data.userRole,
+      isLoggedIn: true}));
   }
 
   render(){
-    const state = this;
+    // const state = this;
     let isLoggedIn = this.state.isLoggedIn;
-    let isAdmin = true;
-    if (isLoggedIn && isAdmin) {
-      return <CoursePage />
+    let username = this.state.username;
+    let isAdmin = this.state.adminlogin;
+    let role = this.state.role;
+    if (isLoggedIn && !isAdmin && role === 'student') {
+      return <StudentSubmissionPage />
     }
-    else if(isLoggedIn && !isAdmin) {
+    else if (isLoggedIn && !isAdmin && role === 'professor') {
+      return <ProfessorCoursePage />
+    }
+    else if (isLoggedIn && isAdmin) {
+    
       return <AdminPage />
     }
     else {
@@ -61,7 +78,7 @@ export default class HomePage extends React.Component{
           <br />
           <br />
           <button className={'btn btn-primary'} onClick={this.handleClick}> Login </button>
-          <h3>Login status: {this.state.loggedIn.toString()}</h3>
+
         </div>
       );
     }

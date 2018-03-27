@@ -13,7 +13,6 @@ import ChooseCourse from "./ChooseCourse";
 import ChooseCoursePage from "./ChooseCoursePage";
 
 
-
 class App extends React.Component {
 
   render(){
@@ -23,18 +22,20 @@ class App extends React.Component {
         <div>
             <h1 > Plagiarism Detection System </h1>
             <div className={'container'}>
-          <button className={'btn'}>
-          <Link to="login"> Login </Link>
-          </button>
-          <button className={'btn'}>
-          <Link to="register"> Register </Link>
-          </button>
-          <button className={'btn'}>
-          <Link to="admin"> Admin Page </Link>
-          </button>
-            </div>
+            <button className={'btn'}>
+              <Link to="login"> Login </Link>
+            </button>
+            <button className={'btn'}>
+              <Link to="register"> Register </Link>
+              </button>
+              <button className={'btn'}>
+                <Link to="logout"> Logout </Link>
+              </button>
+          </div>
+
           <Route path="/login" component={HomePage} />
-          <Route path="/admin" component={AdminPage} />
+          <Route path="/logout" component={HomePage} />
+
           <Route path="/register" component={RegisterPage} />
 
         </div>

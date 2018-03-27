@@ -37,7 +37,6 @@ class CoursePage extends React.Component{
         <br />
         <br />
         <Button bsStyle="primary"> Submit </Button>
-        <Button bsStyle="primary">Primary</Button>
       </div>
     );
   }
