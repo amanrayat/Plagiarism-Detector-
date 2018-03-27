@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/lib/Button';
 class CoursePage extends React.Component{
   render(){
     return (
-      <div>
+      <div class="col-md-6 col-md-offset-3">
         <h1> Choose your course </h1>
         <table>
           <tr>
@@ -37,7 +37,6 @@ class CoursePage extends React.Component{
         <br />
         <br />
         <Button bsStyle="primary"> Submit </Button>
-        <Button bsStyle="primary">Primary</Button>
       </div>
     );
   }
