@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.domain.CourseEntity;
 import com.team208.domain.CourseRepository;
-import com.team208.domain.StudentCourseEntity;
-import com.team208.domain.StudentCourseRepository;
-import com.team208.domain.StudentEntity;
-import com.team208.domain.StudentRepository;
+import com.team208.domain.UserCourseEntity;
+import com.team208.domain.UserCourseRepository;
+import com.team208.domain.UserEntity;
+import com.team208.domain.UserRepository;
 
 @CrossOrigin
 @Controller
@@ -28,50 +28,51 @@ public class StudentController {
 			Logger.getLogger(StudentController.class.getName());
 
 	@Autowired 
-	private StudentRepository studentRepository;
-	
+	private UserRepository userRepository;
+
 	@Autowired 
-	private StudentCourseRepository studentCourseRepository;
-	
-	@Autowired 	
-private CourseRepository courseRepository;
-	 
+	private CourseRepository courseRepository;
+
+
+
 	//@CrossOrigin(origins = "http://localhost:3000")
-	 @GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
-		public @ResponseBody String addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
+	@GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
+	public @ResponseBody String addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
 		String status = "";
 		try {	
-		 StudentCourseEntity sce = new StudentCourseEntity();
-		 StudentEntity n = studentRepository.findByNEUId(userId);
-			
-		 sce.setStudent(n);
-			  Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
-				
-				for(CourseEntity c : regCourses) {
-					
-					sce.setCourse(c);
-				}
-				
-				studentCourseRepository.save(sce);
-				status ="Saved";
-				}catch (Exception e) {
-					logger.info("Context : "+e.getMessage());
-					status ="UnSaved";
-					
-				}
-		
-				return status;
-		  
 
-		 //register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
-				
+			Iterable<CourseEntity> regCourses = courseRepository.findAllById(courseId);
+
+			for(CourseEntity c1 : regCourses) {
+
+				UserCourseEntity uc = new UserCourseEntity();
+
+				uc.setUser(userRepository.findByNEUId(userId));
+				uc.setCourse(c1);
+
+				status ="Saved Courses";
+			}
+
+			
 		}
-	
-	 //@CrossOrigin(origins = "http://localhost:3000")
-	 @GetMapping(path="/allStudents")
-		public @ResponseBody Iterable<StudentEntity> getAllUsers() {
-			// This returns a JSON or XML with the users
-			return studentRepository.findAll();
+		catch (Exception e) {
+			logger.info("Context : "+e.getMessage());
+			status ="UnSaved";
+
 		}
-	 
+
+		return status;
+
+
+		//register?userId='01226315'&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
+
+	}
+
+
+	@GetMapping(path="/allStudents")
+	public @ResponseBody Iterable<UserEntity> getAllUsers() {
+		// This returns a JSON or XML with the users
+		return userRepository.findAll();
+	}
+
 }

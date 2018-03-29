@@ -1,14 +1,17 @@
 package com.team208.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -37,25 +40,29 @@ public class CourseEntity implements Serializable{
 	
 	private String courseLoc;
 	
-	private Set<StudentCourseEntity> studentcourse;
+	private Set<UserCourseEntity> usercourse = new HashSet<>();
 
 	
-	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-	public Set<StudentCourseEntity> getStudentcourse() {
-		return studentcourse;
+	//@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE   }, mappedBy = "usercourse")
+	
+	 @OneToMany( mappedBy = "course" )
+	public Set<UserCourseEntity> getUsercourse() {
+		return usercourse;
 	}
 
 
-	public void setStudentcourse(Set<StudentCourseEntity> studentcourse) {
-		this.studentcourse = studentcourse;
+	public void setUsercourse(Set<UserCourseEntity> usercourse) {
+		this.usercourse = usercourse;
 	}
-
-
 	
 
+	
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;
 	}
+
+
+	
 
 
 	@Id

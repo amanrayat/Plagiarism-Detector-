@@ -5,7 +5,7 @@ package controllersTest;
 import org.junit.Test;
 
 import com.team208.controllers.MainController;
-import com.team208.domain.StudentEntity;
+import com.team208.domain.UserEntity;
 
 
 public class MainControllerTest{
@@ -39,7 +39,7 @@ public class MainControllerTest{
 	
 	@Test(expected= NullPointerException.class)
 	public void test3(){ 
-		StudentEntity stud = new StudentEntity();
+		UserEntity stud = new UserEntity();
 		Long userId  = (long) 1226315;
 		 stud = mc.findStudent(userId);
 		

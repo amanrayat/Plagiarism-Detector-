@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 //This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 //CRUD refers Create, Read, Update, Delete
 @Transactional
-public interface StudentRepository extends CrudRepository<StudentEntity, Integer>  {
+public interface UserRepository extends CrudRepository<UserEntity, Integer>  {
 
-	 @Query("SELECT s FROM StudentEntity s WHERE s.studentId=:student_id ")
-	 StudentEntity findByNEUId(@Param("student_id") Long userId);
+	 @Query("SELECT s FROM UserEntity s WHERE s.userId=:user_id ")
+	 UserEntity findByNEUId(@Param("user_id") Long userId);
 }
