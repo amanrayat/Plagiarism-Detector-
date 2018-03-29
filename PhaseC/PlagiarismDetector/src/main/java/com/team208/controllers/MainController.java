@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
+import com.team208.jsonresponse.StatusBean;
+import com.team208.jsonresponse.UserJsonBean;
 
 @CrossOrigin
 @Controller
@@ -55,20 +57,27 @@ public class MainController {
 	}
 	//registerUser?userId=01226315&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
 	@GetMapping(path="/registerUser") // Map ONLY GET Requests
-	public @ResponseBody String addNewUser (@RequestParam Long userId, @RequestParam String name, @RequestParam String userRole,
-			@RequestParam String password, @RequestParam String email) {
+	public @ResponseBody StatusBean addNewUser (@RequestParam UserJsonBean user) {
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
-
-
+		
+		StatusBean status = new StatusBean();
+		try {
 		UserEntity n = new UserEntity();
-		n.setUserId(userId);
-		n.setName(name);
-		n.setUserRole(userRole);
-		n.setPassword(password);
-		n.setEmail(email);
+		n.setUserId(user.getUserId());
+		n.setName(user.getName());
+		n.setUserRole(user.getUserRole());
+		n.setPassword(user.getPassword());
+		n.setEmail(user.getEmail());
+		
 		userRepository.save(n);
-		return "Saved";
+		status.setStatus("success");
+		}catch (Exception e) {
+			logger.info("Context : "+e.getMessage());
+			status.setStatus("Fail");
+		}
+		
+		return status;
 	}
 
 
