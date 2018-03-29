@@ -1,6 +1,7 @@
 package com.team208.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,16 +10,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 
 
+
 @Entity
-@Table(name = "student")
-public class StudentEntity implements Serializable{
+@Table(name = "user")
+public class UserEntity implements Serializable{
 
 
 	/**
@@ -28,9 +29,9 @@ public class StudentEntity implements Serializable{
 	
 
 
-	private int studentDBid; 
+	private int userDBid; 
 
-	private Long studentId;
+	private Long userId;
 
 
 	private String name;
@@ -45,45 +46,55 @@ public class StudentEntity implements Serializable{
 	private String email;
 
 
-	private Set<StudentCourseEntity> studentcourse;
+	private Set<UserCourseEntity> usercourse = new HashSet<>();
 
-
-
-	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-	public Set<StudentCourseEntity> getStudentcourse() {
-		return studentcourse;
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  })
+//    @JoinTable(name = "user_course", joinColumns = { @JoinColumn(name = "userDBid") }, inverseJoinColumns = { @JoinColumn(name = "courseId") })
+	@OneToMany( mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
+	public Set<UserCourseEntity> getUsercourse() {
+		return usercourse;
 	}
 
-	public void setStudentcourse(Set<StudentCourseEntity> studentcourse) {
-		this.studentcourse = studentcourse;
+
+
+	public void setUsercourse(Set<UserCourseEntity> usercourse) {
+		this.usercourse = usercourse;
 	}
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int getStudentDBid() {
-		return studentDBid;
+	public int getUserDBid() {
+		return userDBid;
 	}
+
+
 
 	
-	public void setStudentDBid(int studentDBid) {
-		this.studentDBid = studentDBid;
+
+
+
+	public void setUserDBid(int userDBid) {
+		this.userDBid = userDBid;
 	}
 
-	@Column(name = "student_id", nullable = false,  unique = true)
-	public Long getStudentId() {
-		return studentId;
+	@Column(name = "userNEU_id", nullable = false,  unique = true)
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setStudentId(Long studentId) {
-		this.studentId = studentId;
+
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
+
 
 	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
 
-	
 
 	public void setName(String name) {
 		this.name = name;
