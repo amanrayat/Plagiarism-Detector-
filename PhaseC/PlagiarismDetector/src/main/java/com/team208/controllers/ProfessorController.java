@@ -5,17 +5,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.detector.ExecuteShellComand;
 import com.team208.detector.GitRepoDownload;
+import com.team208.domain.CourseEntity;
+import com.team208.domain.CourseRepository;
+import com.team208.jsonresponse.StatusBean;
 
+@CrossOrigin
 @Controller
 @RequestMapping(path="/team208") 
 public class ProfessorController {
@@ -25,6 +32,8 @@ public class ProfessorController {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(ProfessorController.class.getName());
 
+	@Autowired 
+	private CourseRepository courseRepository;
 
 	@RequestMapping("/generateReport")
 	@ResponseBody
@@ -93,6 +102,24 @@ public class ProfessorController {
 	}
 
 
+	@RequestMapping("/deletCourse")
+	public @ResponseBody  StatusBean deleteCourse(@RequestParam int courseId){
+		StatusBean status = new StatusBean();
+	try {
+		if(courseRepository.existsById(courseId)) {
+			courseRepository.deleteById(courseId);
+			status.setStatus("Success");
+			status.setStatusCode(200);
+		}
+	}catch (Exception e) {
 
+		LOGGER.info("Context : "+e.getMessage());
+		status.setStatus("Failure");
+		status.setStatusCode(400);
+
+	}
+		return status;
+	
+	}
 
 }

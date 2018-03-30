@@ -4,16 +4,18 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "course")
@@ -43,9 +45,8 @@ public class CourseEntity implements Serializable{
 	private Set<UserCourseEntity> usercourse = new HashSet<>();
 
 	
-	//@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE   }, mappedBy = "usercourse")
-	
-	 @OneToMany( mappedBy = "course" )
+	@JsonIgnore
+	@OneToMany( mappedBy = "course" )
 	public Set<UserCourseEntity> getUsercourse() {
 		return usercourse;
 	}
