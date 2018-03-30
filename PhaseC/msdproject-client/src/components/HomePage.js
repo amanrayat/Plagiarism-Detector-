@@ -56,7 +56,7 @@ export default class HomePage extends React.Component{
       return <ProfessorCoursePage />
     }
     else if (isLoggedIn && isAdmin) {
-    
+
       return <AdminPage />
     }
     else {
