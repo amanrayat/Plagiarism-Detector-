@@ -27,7 +27,7 @@ public class UserEntity implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 
 
 	private int userDBid; 
@@ -48,10 +48,10 @@ public class UserEntity implements Serializable{
 
 
 	private Set<UserCourseEntity> usercourse = new HashSet<>();
-	
-	
 
-public UserEntity(Long userId, String name, String userRole, String password, String email
+
+
+	public UserEntity(Long userId, String name, String userRole, String password, String email
 			) {
 		super();
 		this.userId = userId;
@@ -59,7 +59,7 @@ public UserEntity(Long userId, String name, String userRole, String password, St
 		this.userRole = userRole;
 		this.password = password;
 		this.email = email;
-		
+
 	}
 
 
@@ -73,8 +73,6 @@ public UserEntity(Long userId, String name, String userRole, String password, St
 	}
 
 
-	//	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  })
-//    @JoinTable(name = "user_course", joinColumns = { @JoinColumn(name = "userDBid") }, inverseJoinColumns = { @JoinColumn(name = "courseId") })
 	@OneToMany( mappedBy = "user",  fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  }, orphanRemoval = true)
 	public Set<UserCourseEntity> getUsercourse() {
 		return usercourse;
@@ -95,7 +93,7 @@ public UserEntity(Long userId, String name, String userRole, String password, St
 
 
 
-	
+
 
 
 
