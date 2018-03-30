@@ -7,12 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
+import com.team208.jsonresponse.LoginJsonBean;
+import com.team208.jsonresponse.LoginResponse;
+import com.team208.jsonresponse.StatusBean;
+import com.team208.jsonresponse.UserJsonBean;
 
 @CrossOrigin
 @Controller
@@ -37,38 +43,65 @@ public class MainController {
 	}
 
 
-	@GetMapping(path="/login")
-	public @ResponseBody UserEntity login(@RequestParam Long userId, @RequestParam String password )  {
+	@RequestMapping(path="/login")
+	public @ResponseBody LoginResponse login(@RequestBody LoginJsonBean userDetails)  {
+		LoginResponse response = null;
+		StatusBean statusbean = new StatusBean();
 		UserEntity n = null;
 		try {
-
-			n = userRepository.findByNEUId(userId);
+			 n = userRepository.findByNEUId(userDetails.getUserId());
+			
+			if(userDetails.getPassword().equals(n.getPassword())) {
+				response = new LoginResponse();
+				response.setUser(n);
+				statusbean.setStatus("successs");
+				statusbean.setStatusCode(200);
+				response.setStatus(statusbean);
+			}
 
 		} catch (Exception e) {
 			logger.info("Context : "+e.getMessage());
+			response = new LoginResponse();
+			response.setUser(n);
+			statusbean.setStatus("fail");
+			statusbean.setStatusCode(400);
+			response.setStatus(statusbean);
 
 		}
 
 
-		return n  ;
+		return response  ;
 
 	}
 	//registerUser?userId=01226315&name='rachana'&userRole='student'&password='zzeeddqq'&email='tondare@gmail.com'
-	@GetMapping(path="/registerUser") // Map ONLY GET Requests
-	public @ResponseBody String addNewUser (@RequestParam Long userId, @RequestParam String name, @RequestParam String userRole,
-			@RequestParam String password, @RequestParam String email) {
+	@RequestMapping(path="/registerUser", method = RequestMethod.POST  ) // Map ONLY GET Requests
+	public @ResponseBody StatusBean addNewUser (@RequestBody UserJsonBean user) {
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
-
-
+		
+		StatusBean status = new StatusBean();
+		try {
 		UserEntity n = new UserEntity();
-		n.setUserId(userId);
-		n.setName(name);
-		n.setUserRole(userRole);
-		n.setPassword(password);
-		n.setEmail(email);
+		
+		n.setUserId(user.getUserId());
+		n.setName(user.getName());
+		n.setUserRole(user.getUserRole());
+		n.setPassword(user.getPassword());
+		n.setEmail(user.getEmail());
+		
 		userRepository.save(n);
-		return "Saved";
+		
+		status.setStatusCode(200);
+		status.setStatus("success");
+		
+		}catch (Exception e) {
+			
+			logger.info("Context : "+e.getMessage());
+			status.setStatus("Fail");
+			status.setStatusCode(400);
+		}
+		
+		return status;
 	}
 
 
