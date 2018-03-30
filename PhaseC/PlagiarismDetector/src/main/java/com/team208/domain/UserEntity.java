@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,10 +48,34 @@ public class UserEntity implements Serializable{
 
 
 	private Set<UserCourseEntity> usercourse = new HashSet<>();
+	
+	
 
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  })
+public UserEntity(Long userId, String name, String userRole, String password, String email
+			) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.userRole = userRole;
+		this.password = password;
+		this.email = email;
+		
+	}
+
+
+	public UserEntity(Set<UserCourseEntity> usercourse) {
+		super();
+		this.usercourse = usercourse;
+	}
+
+	public UserEntity() {
+		super();
+	}
+
+
+	//	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  })
 //    @JoinTable(name = "user_course", joinColumns = { @JoinColumn(name = "userDBid") }, inverseJoinColumns = { @JoinColumn(name = "courseId") })
-	@OneToMany( mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany( mappedBy = "user",  fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  }, orphanRemoval = true)
 	public Set<UserCourseEntity> getUsercourse() {
 		return usercourse;
 	}
@@ -78,7 +103,7 @@ public class UserEntity implements Serializable{
 		this.userDBid = userDBid;
 	}
 
-	@Column(name = "userNEU_id", nullable = false,  unique = true)
+	@Column(name = "userneu_id", nullable = false)
 	public Long getUserId() {
 		return userId;
 	}
