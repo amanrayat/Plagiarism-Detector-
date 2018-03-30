@@ -12,16 +12,11 @@ import Navbar from "./Navbar";
 import ChooseCourse from "./ChooseCourse";
 import ChooseCoursePage from "./ChooseCoursePage";
 import './App.css';
-import Header from "./Header"
 
 export default class Header extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD:PhaseC/msdproject-client/src/components/App.js
-      <div className="container text-center">
-      <Header />
-=======
       <div>
       <Router>
         <div>
@@ -46,7 +41,6 @@ export default class Header extends React.Component {
 
         </div>
       </Router>
->>>>>>> HerokuIntegration:PhaseC/PlagiarismDetector/msdproject-client/src/components/Header.js
       </div>
     );
   }
