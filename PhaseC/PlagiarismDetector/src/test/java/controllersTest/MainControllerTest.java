@@ -6,19 +6,28 @@ import org.junit.Test;
 
 import com.team208.controllers.MainController;
 import com.team208.domain.UserEntity;
+import com.team208.jsonresponse.StatusBean;
+import com.team208.jsonresponse.UserJsonBean;
 
 
 public class MainControllerTest{
 	
 	private MainController mc = new MainController();
-	@Test(expected= NullPointerException.class)
+	@Test()
 	public void test1(){ 
+		UserJsonBean u = new UserJsonBean();
+		StatusBean status = new StatusBean();
 		Long userId = (long) 001226315;
 		String name = "rachana";
 		String userRole = "student";
 		String password = "zzeeddqq";
 		String email = "r.t@gmail.com";
-		String status = mc.addNewUser(userId, name, userRole, password, email);
+		u.setUserId(userId);
+		u.setEmail(email);
+		u.setName(name);
+		u.setPassword(password);
+		u.setUserRole(userRole);
+		status = mc.addNewUser(u);
 		
 	}
 	
