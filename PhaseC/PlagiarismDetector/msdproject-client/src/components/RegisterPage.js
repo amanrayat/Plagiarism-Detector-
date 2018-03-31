@@ -15,10 +15,32 @@ class RegisterPage extends React.Component{
   handleClick() {
     console.log("Success from RegisterPage!")
 
-    console.log('https://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
-    axios.get('https://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: this.state.univID,
+          name: this.state.name,
+          userRole: this.state.userRole,
+          password: this.state.password,
+          email: this.state.email,
+        })
+      }).then(function(response) {
+	       return response.json();
+       }).then(j =>
+	        // console.log(Object.values(j)[1].name);
+          this.setState({
+            successMessage: "Saved!"
+          })
+        );
 
-    .then(response => this.setState({successMessage: "Saved!"}))
+    // console.log('https://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
+    // axios.get('https://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser?&userId='+this.state.univID+'&name='+this.state.name+'&userRole='+this.state.userRole+'&password='+this.state.password+'&email='+this.state.email)
+
+    // .then(response => this.setState({successMessage: "Saved!"}))
   }
 
   update(){
