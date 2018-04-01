@@ -32,7 +32,7 @@ public class AdminController2 {
 	 * @param student
 	 * @return
 	 */
-	@PostMapping("/plagarism/admin/user")
+	@PostMapping("/admin/user")
 	public UserEntity createUser(@RequestBody UserEntity student) {
 		return userrepository.save(student);
 	}
