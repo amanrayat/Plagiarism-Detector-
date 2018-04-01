@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.team208.domain.CourseRepository;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.detector.GitRepoDownload;
@@ -86,7 +87,7 @@ public class ProfessorController {
 
 		}
 
-		return ExecuteShellComand.getComparison("CS5500","homework1"); 
+		return ExecuteShellComand.getComparison("CS5500","homework1",75.0d); 
 
 	}
 

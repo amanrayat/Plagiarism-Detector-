@@ -26,7 +26,7 @@ public class ExecuteShellComand {
 	 * @return String
 	 * @throws IOException 
 	 */
-	public static String getComparison(String course, String hw) throws IOException {
+	public static String getComparison(String course, String hw, Double threshold) throws IOException {
 		GitRepoDownload.downloadJar("https://github.com/jplag/jplag/releases/download/v2.11.9-SNAPSHOT/jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar");
 		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -target/results ";
 		command = command +"DownloadedReports/"+ course+"/"+hw;
@@ -45,7 +45,7 @@ public class ExecuteShellComand {
 		} catch (Exception e) {
 			logger.info("Context : "+ "No directories found to parse");
 		}
-		return output.toString();
+		return ReportGenerator.setThreshold(threshold);
 
 	}
 	
