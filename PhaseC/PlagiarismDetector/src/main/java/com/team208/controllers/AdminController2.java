@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
@@ -20,6 +21,7 @@ import com.team208.domain.UserRepository;
 
 @CrossOrigin
 @RestController
+@RequestMapping(path="/team208")
 public class AdminController2 {
 
 	@Autowired
@@ -39,7 +41,7 @@ public class AdminController2 {
 	 * This mapping is used to find all the users 
 	 * @return
 	 */
-	@GetMapping("/plagarism/admin/user")
+	@GetMapping("/admin/user")
 	public List<UserEntity> findAllUsers(){
 		return (List<UserEntity>) userrepository.findAll();
 	}
@@ -52,9 +54,9 @@ public class AdminController2 {
 	 * @param newUser
 	 * @return
 	 */
-	@PutMapping("/plagarism/admin/user/{UserId}")
-	public UserEntity UpdateUserById(@PathVariable ("UserId") long UserId, @RequestBody UserEntity newUser ) {
-		UserEntity student = userrepository.findByNEUId(UserId);
+	@PutMapping("/admin/user/{userId}")
+	public UserEntity updateUserById(@PathVariable ("userId") long userId, @RequestBody UserEntity newUser ) {
+		UserEntity student = userrepository.findByNEUId(userId);
 		student.set(newUser);
 		return userrepository.save(student);
 	}
@@ -63,9 +65,9 @@ public class AdminController2 {
 	 * This mapping deletes the user with the given userId 
 	 * @param UserId
 	 */
-	@DeleteMapping("/plagarism/admin/user/{UserId}")
-	public void DeleteUserById(@PathVariable ("UserId") long UserId) {
-		int dbId = userrepository.findByNEUId(UserId).getUserDBid();
+	@DeleteMapping("/admin/user/{userId}")
+	public void deleteUserById(@PathVariable ("userId") long userId) {
+		int dbId = userrepository.findByNEUId(userId).getUserDBid();
 		userrepository.deleteById(dbId);
 	}
 
