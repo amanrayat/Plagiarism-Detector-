@@ -15,9 +15,7 @@ export default class HomePage extends React.Component{
 
   constructor(){
     super();
-
     this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: ''};
-
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -25,9 +23,7 @@ export default class HomePage extends React.Component{
     this.setState({
       userID: this.refs.userID.value,
       password: this.refs.password.value,
-
       adminlogin: this.state.username === 'admin' ? true : false
-
     })
   }
 
@@ -57,7 +53,6 @@ export default class HomePage extends React.Component{
   }
 
   render(){
-    // const state = this;
     let isLoggedIn = this.state.isLoggedIn;
     let username = this.state.username;
     let isAdmin = this.state.adminlogin;
@@ -69,7 +64,6 @@ export default class HomePage extends React.Component{
       return <ProfessorCoursePage />
     }
     else if (isLoggedIn && isAdmin) {
-
       return <AdminPage />
     }
     else {
@@ -91,7 +85,9 @@ export default class HomePage extends React.Component{
           <br />
           <br />
           <button className={'btn btn-primary'} onClick={this.handleClick}> Login </button>
-
+          <button className={'btn'}>
+            <Link to="register"> Register </Link>
+          </button>
         </div>
       );
     }

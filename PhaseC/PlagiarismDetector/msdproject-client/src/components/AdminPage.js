@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 
 class AdminPage extends React.Component{
 
@@ -12,7 +13,6 @@ class AdminPage extends React.Component{
   }
 
   componentDidMount() {
-
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));
@@ -30,6 +30,9 @@ class AdminPage extends React.Component{
             {user.name} | {user.email} | {user.userRole}
           </div>
       )}
+      <button className={'btn'}>
+        <Link to="logout"> Logout </Link>
+      </button>
       </div>
     );
   }

@@ -11,6 +11,7 @@ import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import Navbar from "./Navbar";
 import ChooseCourse from "./ChooseCourse";
 import ChooseCoursePage from "./ChooseCoursePage";
+import ViewStudentFilesPage from "./ViewStudentFilesPage";
 import './App.css';
 
 export default class Header extends React.Component {
@@ -24,20 +25,13 @@ export default class Header extends React.Component {
             <h1 > Plagiarism Detection System </h1>
             <div className={'container'}>
             <button className={'btn'}>
-              <Link to="login"> Login </Link>
+              <Link to="login"> Home Page </Link>
             </button>
-            <button className={'btn'}>
-              <Link to="register"> Register </Link>
-              </button>
-              <button className={'btn'}>
-                <Link to="logout"> Logout </Link>
-              </button>
           </div>
-
           <Route path="/login" component={HomePage} />
           <Route path="/logout" component={HomePage} />
-
           <Route path="/register" component={RegisterPage} />
+          <Route path="/viewFiles" component={ViewStudentFilesPage} />
 
         </div>
       </Router>
