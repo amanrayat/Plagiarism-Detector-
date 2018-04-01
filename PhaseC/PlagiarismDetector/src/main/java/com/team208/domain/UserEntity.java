@@ -149,5 +149,21 @@ public class UserEntity implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	/**
+	 * This function is used to update the user whenever they are changed 
+	 * Only the value that is changed will be updated 
+	 * @author amanrayat
+	 * @param newUser
+	 */
+	public void set(UserEntity newUser) {
+		this.email=newUser.email!=null? newUser.email:this.email;
+		this.name=newUser.name!=null? newUser.name:this.name;
+		this.password=newUser.password!=null? newUser.password:this.password;
+		this.userId=newUser.userId!=null? newUser.userId:this.userId;
+		this.userRole=newUser.userRole!=null? newUser.userRole:this.userRole;
+
+	}
+
+
 
 }
