@@ -23,8 +23,9 @@ public class ReportGenerator {
 	 * @throws IOException
 	 */
 	public static String  setThreshold(Double threshold) throws IOException  {
-		String	content = new String ( Files.readAllBytes( Paths.get("/target/-target/results/index.html").toAbsolutePath() ) );
+		String	content = new String ( Files.readAllBytes( Paths.get("/Users/harshmeet/untitledfolder3/-target/results/index.html").toAbsolutePath() ) );
 		Document doc=Jsoup.parse(content);
+		content = doc.html();
 		Element table1=doc.select("table").get(2);
 		Element table2=doc.select("table").get(3);
 		Element tempTable = table1;
@@ -40,8 +41,11 @@ public class ReportGenerator {
 				Element e = cols.get(j);
 				Elements thresholdString=e.select("font");
 				Double thresholdFromFile = Double.parseDouble(thresholdString.text().replaceAll("[()%]",""));
-				if (thresholdFromFile <= threshold) {
-					cols.remove();
+				if (thresholdFromFile >= threshold) {
+					//cols.remove(e);
+//					e.append("    ");
+					String temp ="<bgcolor=\"#FF0000\">"+ "<b>"+e.html()+ "</b>";
+					content = content.replace(e.html(), temp);
 				}
 			}
 		}
@@ -52,20 +56,23 @@ public class ReportGenerator {
 				Element e1=cols2.get(k);
 				Elements thresholdedString=e1.select("font");
 				Double thresholdedFromFile1 = Double.parseDouble(thresholdedString.text().replaceAll("[()%]",""));
-				if (thresholdedFromFile1 <= threshold) {
-					cols2.remove();
+				if (thresholdedFromFile1 >= threshold) {
+					String temp ="<bgcolor=\"#FF0000\">"+ "<b>"+e1.html()+ "</b>";
+					content = content.replace(e1.html(), temp);
+
+//					cols2.remove(e1);
 				}
 			}
 		}
-		String c = doc.html().replace(tempTable.html(), table1.html());
-		content = c.replace(tempTable2.html(), table2.html());
+		content= content.replace(tempTable.html(), table1.html());
+		content = content.replace(tempTable2.html(), table2.html());
 		return content;
 	}
 
-//	public static void main(String[] args) throws IOException {
-//		ReportGenerator gen =new ReportGenerator();
-////		System.out.println(gen.setThreshold(5.0d));
-//
-//	}
+	public static void main(String[] args) throws IOException {
+		ReportGenerator gen =new ReportGenerator();
+		System.out.println(gen.setThreshold(86.0d));
+
+	}
 
 }
