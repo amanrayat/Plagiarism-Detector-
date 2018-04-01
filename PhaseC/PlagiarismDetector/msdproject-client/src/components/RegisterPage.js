@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios'
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 
 class RegisterPage extends React.Component{
 
