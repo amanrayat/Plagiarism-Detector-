@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +13,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.team208.detector.ExecuteShellComand;
-import com.team208.detector.GitRepoDownload;
-import com.team208.domain.CourseEntity;
 import com.team208.domain.CourseRepository;
 import com.team208.jsonresponse.StatusBean;
+import com.team208.detector.GitRepoDownload;
+import com.team208.detector.ExecuteShellComand;
 
 @CrossOrigin
 @Controller
@@ -37,7 +33,7 @@ public class ProfessorController {
 
 	@RequestMapping("/generateReport")
 	@ResponseBody
-	public String generateReport() {
+	public String generateReport() throws IOException {
 
 		String gitLink = "https://github.com/amanrayat/testRepo.git";
 		List<String> hwlist = new ArrayList<>();
@@ -52,17 +48,15 @@ public class ProfessorController {
 
 		studentRepo.put("student001", gitLink);
 
-		studentRepo.put("student002", "https://github.com/amanrayat/testRepo.git");
+		studentRepo.put("student002", "https://github.com/enrolled02/python-crawler");
 
 		studentRepo.put("student003", gitLink);
 
-		studentRepo.put("student004", "https://github.com/CSSE120StartingCode/IntroductionToPython.git");
+		studentRepo.put("student004", "https://github.com/enrolled02/python-crawler");
 
 		String hw;
 
 		String course;
-
-
 
 		List<String> courses = new ArrayList<>();
 
@@ -83,43 +77,37 @@ public class ProfessorController {
 				for(Map.Entry<String, String> entry: studentRepo.entrySet())
 
 					try {
-
 						GitRepoDownload.downloadRepo(course,hw,entry.getKey(),entry.getValue());
 
 					} catch (IOException e) {
-
 						LOGGER.info("Context : "+e.getMessage());
-
 					}
-
 			}
 
 		}
 
-		ExecuteShellComand.main(new String[0]);
+		return ExecuteShellComand.getComparison("CS5500","homework1"); 
 
-		return "star"  ;
 	}
-
 
 	@RequestMapping("/deletCourse")
 	public @ResponseBody  StatusBean deleteCourse(@RequestParam int courseId){
 		StatusBean status = new StatusBean();
-	try {
-		if(courseRepository.existsById(courseId)) {
-			courseRepository.deleteById(courseId);
-			status.setStatus("Success");
-			status.setStatusCode(200);
+		try {
+			if(courseRepository.existsById(courseId)) {
+				courseRepository.deleteById(courseId);
+				status.setStatus("Success");
+				status.setStatusCode(200);
+			}
+		}catch (Exception e) {
+
+			LOGGER.info("Context : "+e.getMessage());
+			status.setStatus("Failure");
+			status.setStatusCode(400);
+
 		}
-	}catch (Exception e) {
-
-		LOGGER.info("Context : "+e.getMessage());
-		status.setStatus("Failure");
-		status.setStatusCode(400);
-
-	}
 		return status;
-	
+
 	}
 
 }

@@ -1,33 +1,35 @@
 package com.team208.detector;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
-public class ExecuteShellComand {
-	
-	private static final  Logger logger = Logger.getLogger(ExecuteShellComand.class.getName());
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import com.team208.detector.GitRepoDownload;
+
+public class ExecuteShellComand {
+	private static final  Logger logger = Logger.getLogger(ExecuteShellComand.class.getName());
 	private ExecuteShellComand() {
 		super();
-	}
-
-	public static void main(String[] args) {
-		getComparison( "CS5500",  "homework1");
-		
 	}
 	/**
 	 * 
 	 * @param course
 	 * @param hw
 	 * @return String
+	 * @throws IOException 
 	 */
-	public static   String getComparison(String course, String hw) {
+	public static String getComparison(String course, String hw) throws IOException {
+		GitRepoDownload.downloadJar("https://github.com/jplag/jplag/releases/download/v2.11.9-SNAPSHOT/jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar");
 		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -target/results ";
-		command = command +"target/DownloadedReports/"+ course+"/"+hw;
-		
+		command = command +"DownloadedReports/"+ course+"/"+hw;
 		StringBuilder output = new StringBuilder();
 		Process p;
 		try {
@@ -35,7 +37,6 @@ public class ExecuteShellComand {
 			p.waitFor();
 			BufferedReader reader =
                             new BufferedReader(new InputStreamReader(p.getInputStream()));
-
                         String line = "";
 			while ((line = reader.readLine())!= null) {
 				output.append(line + "\n");
@@ -44,11 +45,9 @@ public class ExecuteShellComand {
 		} catch (Exception e) {
 			logger.info("Context : "+ "No directories found to parse");
 		}
-
-		
 		return output.toString();
 
 	}
-
+	
 
 }
