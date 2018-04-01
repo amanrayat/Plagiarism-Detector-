@@ -36,8 +36,8 @@ public class ExecuteShellComand {
 			p = Runtime.getRuntime().exec(command);
 			p.waitFor();
 			BufferedReader reader =
-                            new BufferedReader(new InputStreamReader(p.getInputStream()));
-                        String line = "";
+					new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line = "";
 			while ((line = reader.readLine())!= null) {
 				output.append(line + "\n");
 			}
@@ -45,9 +45,13 @@ public class ExecuteShellComand {
 		} catch (Exception e) {
 			logger.info("Context : "+ "No directories found to parse");
 		}
+		//Setting default threshold 
+		if(threshold==0.0d) {
+			threshold=50.0d;
+		}
 		return ReportGenerator.setThreshold(threshold);
 
 	}
-	
+
 
 }
