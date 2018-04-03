@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 
-class RegisterPage extends React.Component{
+class NewUser extends React.Component{
 
   constructor(){
     super();
@@ -34,7 +34,7 @@ class RegisterPage extends React.Component{
        }).then(j =>
 	        // console.log(Object.values(j)[1].name);
           this.setState({
-            successMessage: "Saved! Click Home to Login."
+            successMessage: "New User Created!"
           })
         );
   }
@@ -87,11 +87,10 @@ class RegisterPage extends React.Component{
 
         <h2> {this.state.successMessage} </h2>
         <button onClick={this.handleClick}> Submit </button>
-        <button> <a href="/"> HOME </a> </button> 
 
       </div>
     );
   }
 }
 
-export default RegisterPage
+export default NewUser
