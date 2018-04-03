@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Navbar, Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem, ButtonToolbar, DropdownButton, Pager, Panel} from 'react-bootstrap';
+import { Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem, ButtonToolbar, DropdownButton, Pager, Panel} from 'react-bootstrap';
 
 class ViewStudentFilesPage extends React.Component{
 
