@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
-import {Navbar, Nav, NavItem, NavDropdown, Button, Jumbotron, MenuItem, ButtonToolbar, DropdownButton, Pager, Modal, Tooltip, OverlayTrigger,Popover} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 class ProfessorCoursePage extends React.Component{
 
@@ -63,7 +63,7 @@ class ProfessorCoursePage extends React.Component{
     </div>
       <Button className={'btn btn-primary float-left'}> <Link to="viewFiles"> Check Plagarism </Link></Button>
       <Button className = {'btn - btn-primary float-right'}> Set Percentage </Button>
-      <Button className={'btn'}>  <Link to="logout"> Logout </Link> </Button>
+      <Button className={'btn'}>  <a className="nav-link" href="/logout">Log Out</a> </Button>
     </div>
   );
   }

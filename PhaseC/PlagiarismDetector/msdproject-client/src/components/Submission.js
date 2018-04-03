@@ -54,6 +54,7 @@ export default class Submission extends React.Component {
           <input type="text" className="form-control" id="GithubLink" placeholder="Place your GitHub Link Here" />
         </div>
         <button className={'btn btn-primary my-1'} onClick={this.handleClick}>Submit</button>
+        <a className="nav-link" href="/logout">Log Out</a>
       </div>
     );
   } else

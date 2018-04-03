@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
-import AdminPage from './AdminPage.js'
+import AdminPage from './Admin/AdminPage.js'
 import RegisterPage from './RegisterPage.js'
 import axios from 'axios'
 import CoursePage from './CoursePage.js'
@@ -15,8 +15,9 @@ export default class HomePage extends React.Component{
 
   constructor(){
     super();
-    this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: ''};
-    this.handleClick = this.handleClick.bind(this)
+    this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: '',register: false};
+    this.handleClick = this.handleClick.bind(this);
+    this.register = this.register.bind(this);
   }
 
   update(){
@@ -24,6 +25,12 @@ export default class HomePage extends React.Component{
       userID: this.refs.userID.value,
       password: this.refs.password.value,
       adminlogin: this.state.username === 'admin' ? true : false
+    })
+  }
+
+  register(){
+    this.setState({
+      register:true
     })
   }
 
@@ -57,6 +64,10 @@ export default class HomePage extends React.Component{
     let username = this.state.username;
     let isAdmin = this.state.adminlogin;
     let role = this.state.role;
+    let register = this.state.register;
+    if(register){
+      return <RegisterPage />
+    }
     if (isLoggedIn && !isAdmin && role === 'student') {
       return <StudentSubmissionPage />
     }
@@ -85,9 +96,7 @@ export default class HomePage extends React.Component{
           <br />
           <br />
           <button className={'btn btn-primary'} onClick={this.handleClick}> Login </button>
-          <button className={'btn'}>
-            <Link to="register"> Register </Link>
-          </button>
+          <button className={'btn'} onClick={this.register}> Register </button>
         </div>
       );
     }
