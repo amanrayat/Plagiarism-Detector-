@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 import com.team208.detector.GitRepoDownload;
+import com.team208.detector.ReportGenerator;
 
 //This class is used to execute Jplag and run comparison 
 public class ExecuteShellComand {

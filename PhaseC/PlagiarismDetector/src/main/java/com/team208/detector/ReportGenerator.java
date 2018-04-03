@@ -1,14 +1,12 @@
 package com.team208.detector;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
-
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,9 +22,8 @@ public class ReportGenerator {
 	//Declare maps to store maximum plagiarism
 	protected static Map<String, Double> maxSimilaritystudentMap = new TreeMap<>();
 	 static FileWriter file;
-	private static final Logger LOGGER = Logger.getLogger(ReportGenerator.class.getName());
 	static String destination= "-target/results";
-	static String table="table";
+	static String table="table"; 
      
 	
 
@@ -119,17 +116,10 @@ public class ReportGenerator {
 		content = content.replace(tempTable.html(), table1.html());
 		content = content.replace(tempTable2.html(), table2.html());
 		//Write the report to file
-		try {
-		 file = new FileWriter("-target/results" + course + "_" + homework + "/Reports.html");
-		file.write(content);
-		}
-		catch(FileNotFoundException e) {
-			LOGGER.info("Context : "+e.getMessage());
-		}
-		finally {
-			file.close();
-
-		}
+		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("-target/results" + course + "_" + homework + "/Reports.html"))){
+		    writer.write(content);
+	 }
 		//convert maps to json 
 		JSONObject obj = new JSONObject();
 		obj.put("average similarity", avergeSimilaritystudentMap.toString());

@@ -1,4 +1,5 @@
 package com.team208.detector;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +17,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 
 //This class takes the link of a github repository , studentID,homework, course and downloads the github repositories 
 public class GitRepoDownload {
-	static FileWriter fw;
+	//Declare variables
+	BufferedWriter bw = null;	
 	private GitRepoDownload() {
 		throw new IllegalStateException("Utility class");
 	}
@@ -58,18 +60,10 @@ public class GitRepoDownload {
 				byte[] encoded = Files.readAllBytes(Paths.get(file.getCanonicalPath()));
 				String content =  new String(encoded, Charset.defaultCharset());
 				//write content to file
-				try {
-					 fw = new FileWriter(newFile);
-					fw.write(content);
-						
-				}
-				finally{
-					fw.close();
-				}
-			
-
-				
-
+				 try (BufferedWriter bw = new BufferedWriter(new FileWriter(newFile))){
+					    bw.write(content);
+				 }
+				 
 			}
 			FileUtils.deleteDirectory(new File(path.toString()));
 
