@@ -79,13 +79,20 @@
     <version>5.2.2.Final</version>
 </dependency>
 
+
+ 			<!-- EMAIL  -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+    <version>1.4.3.RELEASE</version>
+  </dependency>
     <!-- AWS -->
 		  <dependency>
 		    <groupId>com.amazonaws</groupId>
 		    <artifactId>aws-java-sdk</artifactId>
 		    <version>1.11.106</version>
 		  </dependency>
-    
+
 	</dependencies>
 
 	<build>
