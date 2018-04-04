@@ -4,7 +4,7 @@ package com.team208.controllers;
 
 import java.util.logging.Logger;
 
-import org.hibernate.mapping.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.domain.AssignmentEntity;
 import com.team208.domain.AssignmentRepository;
-import com.team208.domain.AssignmentSubmissionEntity;
 import com.team208.domain.AssignmentSubmissionRepository;
 import com.team208.domain.CourseEntity;
 import com.team208.domain.CourseRepository;
