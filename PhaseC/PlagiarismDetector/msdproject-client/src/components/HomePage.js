@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
-import AdminPage from './AdminPage.js'
+import AdminPage from './Admin/AdminPage.js'
 import RegisterPage from './RegisterPage.js'
 import axios from 'axios'
 import CoursePage from './CoursePage.js'
@@ -15,40 +15,59 @@ export default class HomePage extends React.Component{
 
   constructor(){
     super();
-
-    this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: ''};
-
-    this.handleClick = this.handleClick.bind(this)
+    this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: '',register: false};
+    this.handleClick = this.handleClick.bind(this);
+    this.register = this.register.bind(this);
   }
 
   update(){
     this.setState({
       userID: this.refs.userID.value,
       password: this.refs.password.value,
-
       adminlogin: this.state.username === 'admin' ? true : false
+    })
+  }
 
+  register(){
+    this.setState({
+      register:true
     })
   }
 
   handleClick() {
     console.log("Success!")
 
-    console.log('https://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
-    axios.get('https://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login?userId='+this.state.userID+'&password='+this.state.password)
-    .then(response => this.setState({
-      username: response.data.name,
-      adminlogin: response.data.name === 'admin' ? true : false,
-      role: response.data.userRole,
-      isLoggedIn: true}));
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: this.state.userID,
+          password: this.state.password,
+        })
+      }).then(function(response) {
+	       return response.json();
+       }).then(j =>
+	        // console.log(Object.values(j)[1].name);
+          this.setState({
+            username: Object.values(j)[1].name,
+            adminlogin: Object.values(j)[1].name === 'admin' ? true : false,
+            role: Object.values(j)[1].userRole,
+            isLoggedIn: true})
+          );
   }
 
   render(){
-    // const state = this;
     let isLoggedIn = this.state.isLoggedIn;
     let username = this.state.username;
     let isAdmin = this.state.adminlogin;
     let role = this.state.role;
+    let register = this.state.register;
+    if(register){
+      return <RegisterPage />
+    }
     if (isLoggedIn && !isAdmin && role === 'student') {
       return <StudentSubmissionPage />
     }
@@ -56,7 +75,6 @@ export default class HomePage extends React.Component{
       return <ProfessorCoursePage />
     }
     else if (isLoggedIn && isAdmin) {
-
       return <AdminPage />
     }
     else {
@@ -78,7 +96,7 @@ export default class HomePage extends React.Component{
           <br />
           <br />
           <button className={'btn btn-primary'} onClick={this.handleClick}> Login </button>
-
+          <button className={'btn'} onClick={this.register}> Register </button>
         </div>
       );
     }
