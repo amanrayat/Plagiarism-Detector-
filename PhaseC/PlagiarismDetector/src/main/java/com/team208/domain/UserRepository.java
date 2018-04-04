@@ -14,4 +14,7 @@ public interface UserRepository extends CrudRepository<UserEntity, Integer>  {
 
 	 @Query("SELECT s FROM UserEntity s WHERE s.userId=:user_id ")
 	 UserEntity findByNEUId(@Param("user_id") Long userId);
+	 
+	 @Query("SELECT s FROM UserEntity s WHERE s.userId=:userDBid ")
+	 UserEntity findByStudentId(@Param("userDBid") int userId);
 }

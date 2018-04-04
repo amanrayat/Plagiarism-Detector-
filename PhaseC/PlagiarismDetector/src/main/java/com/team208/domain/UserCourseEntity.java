@@ -10,11 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "user_course")
+@Table(name = "user_course", uniqueConstraints=
+@UniqueConstraint(columnNames={"course_id", "userDBid"}))
 public class UserCourseEntity implements Serializable{
 
 
@@ -32,7 +35,8 @@ public class UserCourseEntity implements Serializable{
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "course_id")  
+	@JoinColumn(name = "course_id") 
+	@JsonBackReference
 	public CourseEntity getCourse() {
 		return course;
 	}
@@ -42,7 +46,8 @@ public class UserCourseEntity implements Serializable{
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "userneu_id")  
+	@JoinColumn(name = "userDBid")  
+	@JsonBackReference
 	public UserEntity getUser() {
 		return user;
 	}

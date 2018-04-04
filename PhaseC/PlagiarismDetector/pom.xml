@@ -78,6 +78,13 @@
     <artifactId>hibernate-entitymanager</artifactId>
     <version>5.2.2.Final</version>
 </dependency>
+
+ 			<!-- EMAIL  -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+    <version>1.4.3.RELEASE</version>
+</dependency>
     
 	</dependencies>
 

@@ -4,21 +4,25 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "course")
+@Table(name = "course", uniqueConstraints=
+@UniqueConstraint(columnNames={"courseName", "courseTerm"}))
 public class CourseEntity implements Serializable{
 
 
@@ -27,44 +31,72 @@ public class CourseEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
+
 	private int courseId;
-	
-	
-	private String courseName;
-	
-	
-	private String courseAbbr;
-	
-	
-	private String courseTerm;
-	
-	
-	private String courseLoc;
-	
-	private Set<UserCourseEntity> usercourse = new HashSet<>();
 
 	
-	@JsonIgnore
-	@OneToMany( mappedBy = "course" )
+	private String courseName;
+
+
+	private String courseAbbr;
+
+
+	private String courseTerm;
+
+	private String courseLoc;
+	
+	private UserEntity createdCourseBy;
+	
+	@ManyToOne
+	@JoinColumn(name = "userDBid")
+	@JsonBackReference
+	public UserEntity getCreatedCourseBy() {
+		return createdCourseBy;
+	}
+
+
+	public void setCreatedCourseBy(UserEntity createdCourseBy) {
+		this.createdCourseBy = createdCourseBy;
+	}
+
+
+	private Set<UserCourseEntity> usercourse = new HashSet<>();
+
+	private Set<AssignmentEntity> assignment = new HashSet<>();
+
+	
+	
+	@OneToMany( mappedBy = "assignmentCourse",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
+	@JsonManagedReference
+	public Set<AssignmentEntity> getAssignment() {
+		return assignment;
+	}
+
+
+	public void setAssignment(Set<AssignmentEntity> assignment) {
+		this.assignment = assignment;
+	}
+
+
+	@OneToMany( mappedBy = "course",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
+	@JsonManagedReference
 	public Set<UserCourseEntity> getUsercourse() {
 		return usercourse;
 	}
 
 
+	
+
+
 	public void setUsercourse(Set<UserCourseEntity> usercourse) {
 		this.usercourse = usercourse;
 	}
-	
 
-	
+
+
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;
 	}
-
-
-	
-
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -104,7 +136,7 @@ public class CourseEntity implements Serializable{
 		return courseLoc;
 	}
 
-	
+
 	public void setCourseLoc(String courseLoc) {
 		this.courseLoc = courseLoc;
 	}

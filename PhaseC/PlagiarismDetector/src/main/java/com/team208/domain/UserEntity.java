@@ -13,13 +13,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 
 
 
 @Entity
-@Table(name = "user")
+@Table(name = "user" , uniqueConstraints=
+@UniqueConstraint(columnNames={"userneu_id"}))
+
 public class UserEntity implements Serializable{
 
 
@@ -49,8 +54,11 @@ public class UserEntity implements Serializable{
 
 	private Set<UserCourseEntity> usercourse = new HashSet<>();
 
-
-
+	
+	private  Set<AssignmentSubmissionEntity> submissions = new HashSet<>();
+	
+	private Set<CourseEntity> createdCourse = new HashSet<>();
+	
 	public UserEntity(Long userId, String name, String userRole, String password, String email
 			) {
 		super();
@@ -73,12 +81,23 @@ public class UserEntity implements Serializable{
 	}
 
 
-	@OneToMany( mappedBy = "user",  fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  }, orphanRemoval = true)
-	public Set<UserCourseEntity> getUsercourse() {
-		return usercourse;
+	
+	@OneToMany( mappedBy = "createdCourseBy",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
+	@JsonManagedReference
+	public Set<CourseEntity> getCreatedCourse() {
+		return createdCourse;
 	}
 
 
+	public void setCreatedCourse(Set<CourseEntity> createdCourse) {
+		this.createdCourse = createdCourse;
+	}
+
+	@OneToMany( mappedBy = "user",  fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE  }, orphanRemoval = true)
+	@JsonManagedReference
+	public Set<UserCourseEntity> getUsercourse() {
+		return usercourse;
+	}
 
 	public void setUsercourse(Set<UserCourseEntity> usercourse) {
 		this.usercourse = usercourse;
@@ -87,21 +106,17 @@ public class UserEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "userDBid", nullable = false)  
 	public int getUserDBid() {
 		return userDBid;
 	}
-
-
-
-
-
 
 
 	public void setUserDBid(int userDBid) {
 		this.userDBid = userDBid;
 	}
 
-	@Column(name = "userneu_id", nullable = false)
+	@Column(name = "userneu_id", nullable = false, unique=true)
 	public Long getUserId() {
 		return userId;
 	}
@@ -149,5 +164,18 @@ public class UserEntity implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+
+	@OneToMany( mappedBy = "student",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
+	@JsonManagedReference
+	public Set<AssignmentSubmissionEntity> getSubmissions() {
+		return submissions;
+	}
+
+
+	public void setSubmissions(Set<AssignmentSubmissionEntity> submissions) {
+		this.submissions = submissions;
+	}
+
 
 }
