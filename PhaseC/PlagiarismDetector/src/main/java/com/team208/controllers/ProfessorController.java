@@ -60,7 +60,7 @@ public class ProfessorController {
 			}
 
 		}
-		return ExecuteShellComand.getComparison("CS5500","homework1",0.0d); 
+		return ExecuteShellComand.getComparison("CS5500","homework1",90.0d); 
 	}
 	@RequestMapping("/deletCourse")
 	public @ResponseBody  StatusBean deleteCourse(@RequestParam int courseId){

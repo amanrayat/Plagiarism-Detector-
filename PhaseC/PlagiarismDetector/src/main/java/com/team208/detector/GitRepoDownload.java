@@ -17,7 +17,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 
 //This class takes the link of a github repository , studentID,homework, course and downloads the github repositories 
 public class GitRepoDownload {
-	//Declare variables
+	//Declare variables 
 	BufferedWriter bw = null;	
 	private GitRepoDownload() {
 		throw new IllegalStateException("Utility class");
@@ -80,7 +80,7 @@ public class GitRepoDownload {
 	public static List<File> getAllPYFiles(File dir){
 		List<File> fileTree = new ArrayList<>();
 		if(dir==null||dir.listFiles()==null){
-			return fileTree;
+			return fileTree; 
 		}
 		for (File entry : dir.listFiles()) {
 			if (entry.isFile()) {
