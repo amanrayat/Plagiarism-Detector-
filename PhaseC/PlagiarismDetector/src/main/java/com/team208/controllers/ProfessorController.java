@@ -49,6 +49,8 @@ public class ProfessorController {
 	private UserRepository userRepository;
 	@Autowired
 	private AssignmentRepository assignmentRepository;
+	@Autowired 
+	private CourseRepository courseRepository;
 
 
 
