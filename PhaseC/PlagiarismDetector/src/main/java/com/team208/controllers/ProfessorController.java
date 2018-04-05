@@ -18,17 +18,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.team208.detector.ExecuteShellComand;
 import com.team208.detector.GitRepoDownload;
+
+
+import com.team208.domain.CourseRepository;
 import com.team208.domain.AssignmentEntity;
 import com.team208.domain.AssignmentRepository;
 import com.team208.domain.CourseEntity;
-import com.team208.domain.CourseRepository;
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
 import com.team208.jsonresponse.CourseJsonBean;
 import com.team208.jsonresponse.StatusBean;
+import com.team208.detector.GitRepoDownload;
+import com.team208.detector.ExecuteShellComand;
 import com.team208.utilities.Constants;
+
 
 @CrossOrigin
 @Controller
@@ -41,78 +47,45 @@ public class ProfessorController {
 	private static final Logger LOGGER = Logger.getLogger(ProfessorController.class.getName());
 	@Autowired 
 	private UserRepository userRepository;
-
+	@Autowired
+	private AssignmentRepository assignmentRepository;
 	@Autowired 
 	private CourseRepository courseRepository;
 
-	@Autowired
-	private AssignmentRepository assignmentRepository;
 
 
 	@RequestMapping("/generateReport")
 	@ResponseBody
-	public String generateReport() {
-
-		String gitLink = "https://github.com/amanrayat/testRepo.git";
+	public String generateReport() throws IOException {
 		List<String> hwlist = new ArrayList<>();
-
 		hwlist.add("homework1");
-
 		hwlist.add("homework2");
-
 		hwlist.add("homework3");
-
 		HashMap<String, String> studentRepo = new HashMap<>();
-
-		studentRepo.put("student001", gitLink);
-
-		studentRepo.put("student002", "https://github.com/amanrayat/testRepo.git");
-
-		studentRepo.put("student003", gitLink);
-
-		studentRepo.put("student004", "https://github.com/CSSE120StartingCode/IntroductionToPython.git");
-
+		studentRepo.put("student001", "https://github.com/enrolled01/Homework1");
+		studentRepo.put("student002", "https://github.com/enrolled02/cs5500");
+		studentRepo.put("student003", "https://github.com/enrolled3/CS550");
+		studentRepo.put("student004", "https://github.com/enrolled02/python-crawler");
 		String hw;
-
 		String course;
-
-
-
 		List<String> courses = new ArrayList<>();
-
 		courses.add("CS5500");
-
-		courses.add("CS6200");
-
-		courses.add("CS5800");
-
 		for(int k =0; k<courses.size();k++) {
-
 			course = courses.get(k);
-
 			for(int j=0;j<hwlist.size();j++) {
-
 				hw = hwlist.get(j);
-
 				for(Map.Entry<String, String> entry: studentRepo.entrySet())
-
 					try {
-
 						GitRepoDownload.downloadRepo(course,hw,entry.getKey(),entry.getValue());
-
 					} catch (IOException e) {
 
 						LOGGER.info(Constants.CONTEXT+e.getMessage());
 
 					}
-
 			}
 
 		}
-
-		ExecuteShellComand.main(new String[0]);
-
-		return "star"  ;
+		return ExecuteShellComand.getComparison("CS5500","homework1",90.0d); 
 	}
 
 	@RequestMapping(path="/addAssignment", method = RequestMethod.GET  )  // Map ONLY GET Requests
@@ -304,5 +277,4 @@ public class ProfessorController {
 
 	}
 
-	
 }
