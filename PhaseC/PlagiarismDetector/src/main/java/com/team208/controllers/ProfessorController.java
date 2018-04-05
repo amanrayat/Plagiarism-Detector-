@@ -24,6 +24,9 @@ import com.team208.detector.GitRepoDownload;
 
 
 import com.team208.domain.CourseRepository;
+import com.team208.domain.AssignmentEntity;
+import com.team208.domain.AssignmentRepository;
+import com.team208.domain.CourseEntity;
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
 import com.team208.jsonresponse.CourseJsonBean;
