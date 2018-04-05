@@ -98,6 +98,13 @@
     <artifactId>hibernate-entitymanager</artifactId>
     <version>5.2.2.Final</version>
 </dependency>
+		</dependency>
+    <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+<dependency>
+    <groupId>com.amazonaws</groupId>
+    <artifactId>aws-java-sdk-s3</artifactId>
+    <version>1.11.306</version>
+</dependency>
  			<!-- EMAIL  -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
