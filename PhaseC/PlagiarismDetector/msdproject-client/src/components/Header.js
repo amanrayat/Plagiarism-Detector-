@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 import HomePage from './HomePage.js'
 import RegisterPage from './RegisterPage.js'
 import CoursePage from './CoursePage.js'
-import AdminPage from './AdminPage.js'
+import AdminPage from './Admin/AdminPage.js'
 import ProfessorCoursePage from './ProfessorCoursePage.js'
 import PlagiarismReportsPage from './PlagiarismReportsPage.js'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
-import Navbar from "./Navbar";
 import ChooseCourse from "./ChooseCourse";
 import ChooseCoursePage from "./ChooseCoursePage";
+import ViewStudentFilesPage from "./ViewStudentFilesPage";
 import './App.css';
 
 export default class Header extends React.Component {
@@ -22,23 +22,11 @@ export default class Header extends React.Component {
         <div>
             <br />
             <h1 > Plagiarism Detection System </h1>
-            <div className={'container'}>
-            <button className={'btn'}>
-              <Link to="login"> Login </Link>
-            </button>
-            <button className={'btn'}>
-              <Link to="register"> Register </Link>
-              </button>
-              <button className={'btn'}>
-                <Link to="logout"> Logout </Link>
-              </button>
-          </div>
-
-          <Route path="/login" component={HomePage} />
-          <Route path="/logout" component={HomePage} />
-
-          <Route path="/register" component={RegisterPage} />
-
+            <HomePage />
+            <Route path="/login" component={HomePage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path="/viewFiles" component={ViewStudentFilesPage} />
+            <Route path="/home" component={HomePage} />
         </div>
       </Router>
       </div>

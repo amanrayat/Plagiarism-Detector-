@@ -26,7 +26,7 @@ export default class ChooseCourse extends React.Component {
   }
 newCourse(){
 
-     // noinspection JSAnnotator
+   // noinspection JSAnnotator
    let  newOne= {
         course : this.refs.newCourse.value,
         term: this.refs.newTerm.value
