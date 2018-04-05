@@ -2,11 +2,8 @@ package com.team208.controllers;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +15,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import com.team208.detector.ExecuteShellComand;
 import com.team208.detector.GitRepoDownload;
-
-
-import com.team208.domain.CourseRepository;
 import com.team208.domain.AssignmentEntity;
 import com.team208.domain.AssignmentRepository;
+import com.team208.domain.AssignmentSubmissionEntity;
 import com.team208.domain.CourseEntity;
+import com.team208.domain.CourseRepository;
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
+import com.team208.jsonresponse.AllSubmissionResponse;
 import com.team208.jsonresponse.CourseJsonBean;
 import com.team208.jsonresponse.StatusBean;
-import com.team208.detector.GitRepoDownload;
-import com.team208.detector.ExecuteShellComand;
 import com.team208.utilities.Constants;
-
 
 @CrossOrigin
 @Controller
@@ -54,38 +47,21 @@ public class ProfessorController {
 
 
 
-	@RequestMapping("/generateReport")
-	@ResponseBody
-	public String generateReport() throws IOException {
-		List<String> hwlist = new ArrayList<>();
-		hwlist.add("homework1");
-		hwlist.add("homework2");
-		hwlist.add("homework3");
-		HashMap<String, String> studentRepo = new HashMap<>();
-		studentRepo.put("student001", "https://github.com/enrolled01/Homework1");
-		studentRepo.put("student002", "https://github.com/enrolled02/cs5500");
-		studentRepo.put("student003", "https://github.com/enrolled3/CS550");
-		studentRepo.put("student004", "https://github.com/enrolled02/python-crawler");
-		String hw;
-		String course;
-		List<String> courses = new ArrayList<>();
-		courses.add("CS5500");
-		for(int k =0; k<courses.size();k++) {
-			course = courses.get(k);
-			for(int j=0;j<hwlist.size();j++) {
-				hw = hwlist.get(j);
-				for(Map.Entry<String, String> entry: studentRepo.entrySet())
-					try {
-						GitRepoDownload.downloadRepo(course,hw,entry.getKey(),entry.getValue());
-					} catch (IOException e) {
-
-						LOGGER.info(Constants.CONTEXT+e.getMessage());
-
-					}
+	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
+	public @ResponseBody String generateReport(@RequestBody int courseId,@RequestBody int assignId, @RequestBody Double threshold,@RequestBody AllSubmissionResponse allSubmission) throws IOException {
+		Set<AssignmentSubmissionEntity> submissions = allSubmission.getSubmissions();
+		for(AssignmentSubmissionEntity a: submissions) {
+			if(a.getAssignmentId().getAssignmentId() == assignId && a.getAssignmentId().getAssignmentCourse().getCourseId() == courseId) {
+				String gitLink = a.getGitLink();
+				String studntName = a.getStudent().getName();
+				String courseName = a.getAssignmentId().getAssignmentCourse().getCourseId() + "";
+				String hw = a.getAssignmentId().getAssignmentId() + "";
+				GitRepoDownload.downloadRepo(courseName, hw, studntName, gitLink);
 			}
 
 		}
-		return ExecuteShellComand.getComparison("CS5500","homework1",90.0d); 
+
+		return ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold);
 	}
 
 	@RequestMapping(path="/addAssignment", method = RequestMethod.GET  )  // Map ONLY GET Requests
@@ -148,24 +124,24 @@ public class ProfessorController {
 	@RequestMapping(path="/updateCourse", method = RequestMethod.PUT ) // Map ONLY GET Requests
 	public @ResponseBody StatusBean updateCourse (@RequestParam Long userId, @RequestParam int courseId, @RequestParam String courseAbr, @RequestParam String loc, @RequestParam String name,
 			@RequestParam String term) {
-		
+
 		StatusBean status = new StatusBean();
 		try {
 			if(courseRepository.existsById(courseId)) {
-				
+
 				UserEntity professor = userRepository.findByNEUId(userId);
 				int userDBId = professor.getUserDBid();
 				if(userRepository.existsById(userDBId)) {
-				CourseEntity n = courseRepository.findById(courseId);
-				n.setCreatedCourseBy(professor);
-				n.setCourseAbbr(courseAbr);
-				n.setCourseLoc(loc);
-				n.setCourseName(name);
-				n.setCourseTerm(term);
+					CourseEntity n = courseRepository.findById(courseId);
+					n.setCreatedCourseBy(professor);
+					n.setCourseAbbr(courseAbr);
+					n.setCourseLoc(loc);
+					n.setCourseName(name);
+					n.setCourseTerm(term);
 
-				courseRepository.save(n);
-				status.setStatus(Constants.SUCCESS_STATUS);
-				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+					courseRepository.save(n);
+					status.setStatus(Constants.SUCCESS_STATUS);
+					status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 				}else {
 					status.setStatus(Constants.UNREGISTERED_STATUS);
 					status.setStatusCode(Constants.UNREGISTERED_STATUS_CODE);
@@ -188,10 +164,10 @@ public class ProfessorController {
 
 	@RequestMapping(path="/updateAssignment", method = RequestMethod.PUT ) // Map ONLY GET Requests
 	public @ResponseBody StatusBean updateAssignment (@RequestParam int assignmentId,@RequestParam int courseId, @RequestParam int assignmentNo, @RequestParam String assignmentName, @RequestParam String date) {
-		
+
 		StatusBean status = new StatusBean();
 		try {
-			
+
 			if(assignmentRepository.existsById(assignmentId)) {
 				AssignmentEntity assignment = assignmentRepository.findById(assignmentId);
 
