@@ -1,6 +1,7 @@
 package com.team208.controllers;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class ProfessorController {
 
 
 	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
-	public @ResponseBody String generateReport(@RequestBody int courseId,@RequestBody int assignId, @RequestBody Double threshold,@RequestBody AllSubmissionResponse allSubmission) throws IOException {
+	public @ResponseBody String generateReport(@RequestBody int courseId,@RequestBody int assignId, @RequestBody Double threshold,@RequestBody AllSubmissionResponse allSubmission,@RequestBody String date) throws IOException {
 		Set<AssignmentSubmissionEntity> submissions = allSubmission.getSubmissions();
 		for(AssignmentSubmissionEntity a: submissions) {
 			if(a.getAssignmentId().getAssignmentId() == assignId && a.getAssignmentId().getAssignmentCourse().getCourseId() == courseId) {
