@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 @Transactional
 public interface UserCourseRepository extends CrudRepository<UserCourseEntity, Integer> {
 	
-	@Query("SELECT uc FROM UserCourseEntity uc where userneu_id = ?1 ")
+	@Query("SELECT uc FROM UserCourseEntity uc where userdbid = ?1 ")
 	Iterable<UserCourseEntity> findCourseById( int userId);
 
 }

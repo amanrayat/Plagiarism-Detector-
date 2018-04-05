@@ -6,12 +6,15 @@ import org.junit.Test;
 
 import com.team208.controllers.MainController;
 import com.team208.domain.UserEntity;
+import com.team208.jsonresponse.AllSubmissionResponse;
+import com.team208.jsonresponse.LoginJsonBean;
+import com.team208.jsonresponse.LoginResponse;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.jsonresponse.UserJsonBean;
 
 
 public class MainControllerTest{
-	
+
 	private MainController mc = new MainController();
 	@Test()
 	public void test1(){ 
@@ -28,32 +31,39 @@ public class MainControllerTest{
 		u.setPassword(password);
 		u.setUserRole(userRole);
 		status = mc.addNewUser(u);
-		
+
 	}
-	
-	
-//	@Test(expected= NullPointerException.class)
-//	public void test2(){
-//
-//		Long userId  = (long) 1226315;
-//		String password="zzeeddqq";
-//		try {
-//		StudentEntity  status = mc.login(userId, password);
-//		}
-//		catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	
-	@Test(expected= NullPointerException.class)
+
+	@Test()
+	public void test2(){ 
+		LoginResponse stud = new LoginResponse();
+		Long userId  = (long) 123;
+		stud= mc.findStudent(userId);
+
+	}
+
+
+	@Test()
 	public void test3(){ 
-		UserEntity stud = new UserEntity();
-		Long userId  = (long) 1226315;
-		 stud = mc.findStudent(userId);
-		
+		LoginResponse stud = new LoginResponse();
+		Long userId  = (long) 123;
+		String password = "pass";
+		LoginJsonBean jsonBean = new LoginJsonBean();
+		jsonBean.setPassword(password);
+		jsonBean.setUserId(userId);
+		stud= mc.login(jsonBean);
+
+	}
+
+	
+	@Test()
+	public void test5(){ 
+		AllSubmissionResponse users = mc.allSubmissionsByCourse("DM5500", 2);	
 	}
 	
-
-
+	@Test()
+	public void test6(){ 
+		AllSubmissionResponse users = mc.allSubmissionsByCourse("DM5500", 2);	
+	}
+	
 }
