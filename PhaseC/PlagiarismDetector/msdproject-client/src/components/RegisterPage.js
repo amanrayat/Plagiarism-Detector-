@@ -43,7 +43,7 @@ class RegisterPage extends React.Component{
     this.setState({
       userID: 10,
       univID: this.refs.id.value,
-      name: this.refs.password.value,
+      name: this.refs.name.value,
       password: this.refs.password.value,
       email: this.refs.email.value
     })
@@ -87,7 +87,7 @@ class RegisterPage extends React.Component{
 
         <h2> {this.state.successMessage} </h2>
         <button onClick={this.handleClick}> Submit </button>
-        <button> <a href="/"> HOME </a> </button> 
+        <button> <a href="/"> HOME </a> </button>
 
       </div>
     );
