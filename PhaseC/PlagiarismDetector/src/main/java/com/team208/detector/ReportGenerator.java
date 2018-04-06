@@ -37,10 +37,10 @@ public class ReportGenerator {
 	 * @throws IOException
 	 */
 	//Get a list of all the students 
-	public static void getAllStudents(String course, String homework) throws IOException {
+	public static void getAllStudents(String course, String homework, int student1 , int student2) throws IOException {
 		
 		String content = new String(Files
-				.readAllBytes(Paths.get(destination + course + "_" + homework + "/index.html").toAbsolutePath()));
+				.readAllBytes(Paths.get(destination +"_"+ student1 + "_" + student2+"_" + course + "_" + homework + "/index.html").toAbsolutePath()));
 		Document doc = Jsoup.parse(content);
 		doc.select("img").remove();
 		Elements rows = doc.select(table).get(0).select("tr");
@@ -61,10 +61,10 @@ public class ReportGenerator {
 	 * @throws IOException
 	 */
 	//method to filter reports based on threshold value
-	public static String setThreshold(Double threshold, String course, String homework) throws IOException {
-		getAllStudents(course, homework);
+	public static String[] setThreshold(Double threshold, String course, String homework, int student1, int student2) throws IOException {
+		getAllStudents(course, homework,student1,student2);
 		String content = new String(
-				Files.readAllBytes(Paths.get(destination + course + "_" + homework + "/index.html")));
+				Files.readAllBytes(Paths.get(destination +"_"+ student1 + "_" + student2+"_"+ course + "_" + homework + "/index.html")));
 		//crawl the document using Jsoup
 		Document doc = Jsoup.parse(content);
 		doc.select("img").remove();
@@ -116,15 +116,10 @@ public class ReportGenerator {
 		content = content.replace(tempTable.html(), table1.html());
 		content = content.replace(tempTable2.html(), table2.html());
 		//Write the report to file
-		
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("-target/results" + course + "_" + homework + "/Reports.html"))){
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("-target/results"+ "_" + student1 + "_" + student2 + "_" + course + "_" + homework + "/Reports.html"))){
 		    writer.write(content);
 	 }
-		//convert maps to json 
-		JSONObject obj = new JSONObject();
-		obj.put("average similarity", avergeSimilaritystudentMap.toString());
-		obj.put("maximum similarity", maxSimilaritystudentMap.toString());
-		obj.put("threshold", threshold);
-		return obj.toString();
+
+		return new String[] {Double.toString(avergeSimilaritystudentMap.entrySet().iterator().next().getValue()),"s3:link"};
 	}
 }
