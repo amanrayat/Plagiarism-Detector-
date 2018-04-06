@@ -12,8 +12,8 @@ public class SpringS3AmazonApplication implements CommandLineRunner{
 	@Autowired
 	S3Services s3Services;
 	
-	@Value("${jsa.s3.uploadfile}")
-	private String uploadFilePath;
+//	@Value("${jsa.s3.uploadfile}")
+//	private String uploadFilePath;
 	
 	@Value("${jsa.s3.key}")
 	private String uploadKey;
