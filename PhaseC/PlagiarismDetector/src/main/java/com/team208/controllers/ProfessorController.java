@@ -83,13 +83,12 @@ public class ProfessorController {
 					done.put(student1 + ","+ student2 +","+ courseId + "," + assignId, result[0]+ ","+ result[1]);
 					FileUtils.deleteDirectory(new File( Paths.get("downloadedReports/"+courseId).toString()));
 				}
-				
 			}
 		}
 
 		Map<String,String> res = new HashMap<>();
 		for(String s : done.keySet()) {
-			if(s.split(",")[2] == Integer.toString(courseId) && s.split(",")[3] == Integer.toString(assignId)) res.put(s,done.get(s));
+			if(s.split(",")[2].equals(Integer.toString(courseId)) && s.split(",")[3].equals(Integer.toString(assignId))) res.put(s,done.get(s));
 		}
 		//ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold)
 		JSONObject obj = new JSONObject();
