@@ -20,10 +20,10 @@ public class ExecuteShellComand {
 	 * @return String
 	 * @throws IOException 
 	 */
-	public static String getComparison(String course, String hw, Double threshold) throws IOException {
+	public static String[] getComparison(String course, String hw, double threshold,int student1,int student2) throws IOException {
 		//Download the jar and run the plagiarism
 		GitRepoDownload.downloadJar("https://github.com/jplag/jplag/releases/download/v2.11.9-SNAPSHOT/jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar");
-		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -target/"+ "results"+course+"_"+ hw + " ";
+		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l python3 -r -target/"+ "results_"+ student1 + "_"+ student2 + "_"+course+"_"+ hw + " ";
 		//Store the results
 		command = command +"DownloadedReports/"+ course+"/"+hw+"actual";
 		StringBuilder output = new StringBuilder();
@@ -43,9 +43,9 @@ public class ExecuteShellComand {
 		}
 		//Setting default threshold, if no threshold values are recieved, then default threshold is set 
 		if(threshold==0.0d) {
-			threshold=0.5d;
+			threshold=75.0d;
 		}
-		return ReportGenerator.setThreshold(threshold,course,hw);
+		return ReportGenerator.setThreshold(threshold,course,hw,student1,student2);
 
 	}
 	
