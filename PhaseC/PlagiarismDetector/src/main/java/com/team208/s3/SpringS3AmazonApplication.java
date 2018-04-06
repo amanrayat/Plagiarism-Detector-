@@ -21,12 +21,12 @@ public class SpringS3AmazonApplication implements CommandLineRunner{
 	@Value("${jsa.s3.bucket}")
 	private String bucket;
 		
-	private String downloadKey = "s3uploadtest2/test2.html";
+	private String downloadKey = "s3uploadtest3/test2.html";
 	
 	@Override
 	public void run(String... args) throws Exception {
 		
-		s3Services.uploadDirectory(uploadFilePath,"s3uploadtest2",bucket,false);
-		s3Services.downloadFile(downloadKey);
+//		s3Services.uploadDirectory(uploadFilePath,"s3uploadtest3",bucket,false);
+//		s3Services.downloadFile(downloadKey);
 	}
 }
