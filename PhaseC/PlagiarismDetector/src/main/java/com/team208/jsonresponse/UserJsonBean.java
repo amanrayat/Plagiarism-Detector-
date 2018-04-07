@@ -18,6 +18,15 @@ public class UserJsonBean implements Serializable{
 	private String password;
 	private String email;
 	
+
+	public UserJsonBean(Long userId, String name, String userRole, String password, String email) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.userRole = userRole;
+		this.password = password;
+		this.email = email;
+	}
 	public Long getUserId() {
 		return userId;
 	}

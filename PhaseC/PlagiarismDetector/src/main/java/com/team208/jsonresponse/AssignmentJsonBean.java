@@ -11,8 +11,25 @@ public class AssignmentJsonBean implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	private int assignmentId;
 	
 	private int courseId;
+
+	private  int assignmentNo;
+	
+	private String assignmentName;
+
+	private String submissionDate;
+
+	public int getAssignmentId() {
+		return assignmentId;
+	}
+
+	public void setAssignmentId(int assignmentId) {
+		this.assignmentId = assignmentId;
+	}
+
 	
 	public int getCourseId() {
 		return courseId;
@@ -22,12 +39,6 @@ public class AssignmentJsonBean implements Serializable{
 		this.courseId = courseId;
 	}
 
-	private String assignmentName;
-	
-	private CourseEntity assignmentCourse;
-	
-	private String submissionDate;
-
 	public String getAssignmentName() {
 		return assignmentName;
 	}
@@ -36,20 +47,20 @@ public class AssignmentJsonBean implements Serializable{
 		this.assignmentName = assignmentName;
 	}
 
-	public CourseEntity getAssignmentCourse() {
-		return assignmentCourse;
-	}
-
-	public void setAssignmentCourse(CourseEntity assignmentCourse) {
-		this.assignmentCourse = assignmentCourse;
-	}
-
 	public String getSubmissionDate() {
 		return submissionDate;
 	}
 
 	public void setSubmissionDate(String submissionDate) {
 		this.submissionDate = submissionDate;
+	}
+
+	public int getAssignmentNo() {
+		return assignmentNo;
+	}
+
+	public void setAssignmentNo(int assignmentNo) {
+		this.assignmentNo = assignmentNo;
 	}
 
 

@@ -31,7 +31,9 @@ import com.team208.domain.CourseEntity;
 import com.team208.domain.CourseRepository;
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
+import com.team208.jsonresponse.AssignmentJsonBean;
 import com.team208.jsonresponse.CourseJsonBean;
+import com.team208.jsonresponse.CourseUpdateResponseBean;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.s3.services.impl.S3ServicesImpl;
 import com.team208.utilities.Constants;
@@ -96,19 +98,19 @@ public class ProfessorController {
 		return obj.toString();
 	}
 
-	@RequestMapping(path="/addAssignment", method = RequestMethod.GET  )  // Map ONLY GET Requests
-	public @ResponseBody StatusBean addAssignment (@RequestParam int courseId, @RequestParam int assignmentNo, @RequestParam String assignmentName, @RequestParam String date) {
+	@RequestMapping(path="/addAssignment", method = RequestMethod.POST  )  // Map ONLY GET Requests
+	public @ResponseBody StatusBean addAssignment (@RequestBody AssignmentJsonBean assign) {
 		StatusBean status = new StatusBean();
 		try {
 			AssignmentEntity assignment = new AssignmentEntity();
 
-			CourseEntity course = courseRepository.findById(courseId);
+			CourseEntity course = courseRepository.findById(assign.getCourseId());
 			assignment.setAssignmentCourse(course);
-			assignment.setAssignmentName(assignmentName);
-			assignment.setAssignmentNo(assignmentNo);
+			assignment.setAssignmentName(assign.getAssignmentName());
+			assignment.setAssignmentNo(assign.getAssignmentNo());
 			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");//dd/MM/yyyy HH:mm:ss
 
-			Date endDate = sdfDate.parse(date);
+			Date endDate = sdfDate.parse(assign.getSubmissionDate());
 			assignment.setSubmissionDate(endDate);
 
 			assignmentRepository.save(assignment);
@@ -154,30 +156,26 @@ public class ProfessorController {
 	}
 
 	@RequestMapping(path="/updateCourse", method = RequestMethod.PUT ) // Map ONLY GET Requests
-	public @ResponseBody StatusBean updateCourse (@RequestParam Long userId, @RequestParam int courseId, @RequestParam String courseAbr, @RequestParam String loc, @RequestParam String name,
-			@RequestParam String term) {
-
+	public @ResponseBody StatusBean updateCourse (@RequestBody CourseUpdateResponseBean course) {
+		
 		StatusBean status = new StatusBean();
 		try {
-			if(courseRepository.existsById(courseId)) {
+			if(courseRepository.existsById(course.getCourseId())) {
+				
+				UserEntity professor = userRepository.findByNEUId(course.getCreatedCourseBy());
 
-				UserEntity professor = userRepository.findByNEUId(userId);
-				int userDBId = professor.getUserDBid();
-				if(userRepository.existsById(userDBId)) {
-					CourseEntity n = courseRepository.findById(courseId);
-					n.setCreatedCourseBy(professor);
-					n.setCourseAbbr(courseAbr);
-					n.setCourseLoc(loc);
-					n.setCourseName(name);
-					n.setCourseTerm(term);
+				CourseEntity n = courseRepository.findById(course.getCourseId());
+				n.setCreatedCourseBy(professor);
+				n.setCourseAbbr(course.getCourseAbbr());
+				n.setCourseLoc(course.getCourseLoc());
+				n.setCourseName(course.getCourseName());
+				n.setCourseTerm(course.getCourseTerm());
 
-					courseRepository.save(n);
-					status.setStatus(Constants.SUCCESS_STATUS);
-					status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
-				}else {
-					status.setStatus(Constants.UNREGISTERED_STATUS);
-					status.setStatusCode(Constants.UNREGISTERED_STATUS_CODE);
-				}
+				courseRepository.save(n);
+				status.setStatus(Constants.SUCCESS_STATUS);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+
+
 			}else {
 				status.setStatus(Constants.UNAVAILABLE_COURSE);
 				status.setStatusCode(Constants.UNAVAILABLE_COURSE_CODE);
@@ -195,31 +193,26 @@ public class ProfessorController {
 
 
 	@RequestMapping(path="/updateAssignment", method = RequestMethod.PUT ) // Map ONLY GET Requests
-	public @ResponseBody StatusBean updateAssignment (@RequestParam int assignmentId,@RequestParam int courseId, @RequestParam int assignmentNo, @RequestParam String assignmentName, @RequestParam String date) {
-
+	public @ResponseBody StatusBean updateAssignment (@RequestBody AssignmentJsonBean assign) {
+		
 		StatusBean status = new StatusBean();
 		try {
+			AssignmentEntity assignment = assignmentRepository.findById(assign.getAssignmentId());
+			if(assignmentRepository.existsById(assignment.getAssignmentId())) {
+			CourseEntity course = courseRepository.findById(assign.getCourseId());
+			assignment.setAssignmentCourse(course);
+			assignment.setAssignmentName(assign.getAssignmentName());
+			assignment.setAssignmentNo(assign.getAssignmentNo());
+			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");//dd/MM/yyyy HH:mm:ss
 
-			if(assignmentRepository.existsById(assignmentId)) {
-				AssignmentEntity assignment = assignmentRepository.findById(assignmentId);
+	
 
+			Date endDate = sdfDate.parse(assign.getSubmissionDate());
+			assignment.setSubmissionDate(endDate);
 
-				CourseEntity course = courseRepository.findById(courseId);
-				if(courseRepository.existsById(courseId)) {
-					status.setStatus(Constants.UNAVAILABLE_COURSE);
-					status.setStatusCode(Constants.UNAVAILABLE_COURSE_CODE);
-				}
-				assignment.setAssignmentCourse(course);
-				assignment.setAssignmentName(assignmentName);
-				assignment.setAssignmentNo(assignmentNo);
-				SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");//dd/MM/yyyy HH:mm:ss
-
-				Date endDate = sdfDate.parse(date);
-				assignment.setSubmissionDate(endDate);
-
-				assignmentRepository.save(assignment);
-				status.setStatus(Constants.SUCCESS_STATUS);
-				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+			assignmentRepository.save(assignment);
+			status.setStatus(Constants.SUCCESS_STATUS);
+			status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 			}else {
 				status.setStatus(Constants.UNAVAILABLE);
 				status.setStatusCode(Constants.UNAVAILABLE_CODE);
