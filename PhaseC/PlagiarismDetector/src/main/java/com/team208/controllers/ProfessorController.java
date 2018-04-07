@@ -1,8 +1,13 @@
 package com.team208.controllers;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
@@ -36,7 +42,16 @@ import com.team208.jsonresponse.StatusBean;
 import com.team208.s3.services.impl.S3ServicesImpl;
 import com.team208.utilities.Constants;
 
-
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 
@@ -58,8 +73,9 @@ public class ProfessorController {
 	private CourseRepository courseRepository;
 
 	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
-	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestBody String allSubmission) throws IOException {
+	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestBody String allSubmission) throws Exception {
 		Map<Integer, String> allSubmissionMap = new HashMap<>();
+		//Set<Integer> downloadedFiles = new HashSet<>();
 		List<Integer> allStudents = new ArrayList<>();
 		JSONObject o = new JSONObject(allSubmission);
 		JSONArray jsonarray = o.getJSONArray("submissions");
@@ -75,27 +91,56 @@ public class ProfessorController {
 			for(int j = i + 1; j < allStudents.size(); j++) {
 				int student1 = allStudents.get(i);
 				int student2 = allStudents.get(j);
-				
+
 				if(!done.containsKey(student1 + ","+ student2 + ","+courseId + "," + assignId) || !done.containsKey(student2 + "," + student1  + ","+courseId + "," + assignId)) {
+//first student submission
 					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student1), allSubmissionMap.get(student1));
+//second student submission
+
 					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2));
+					
+					//GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2));
 					String[] result = ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold,student1,student2);
-					done.put(student1 + ","+ student2 +","+ courseId + "," + assignId, result[0]+ ","+ result[1]);
+					done.put(student1 + ","+ student2 +","+ courseId + "," + assignId, result[0]+ ","+ "https://s3.amazonaws.com/plagiarismteam208/AllReports_" + courseId + "_"+ assignId + "/results_" + student1 + "_"+ student2 +"_" + courseId + "_"+ assignId +".zip");
+					Path path = Paths.get("-target/AllReports_"+ courseId + "_" + assignId);
+					if (!Files.exists(path)) {
+						try {
+							Files.createDirectories(path);
+						} catch (IOException e) {
+							//fail to create directory
+							e.printStackTrace();
+						}
+					}
+					zipFolder(Paths.get("-target/results_"+ student1 + "_"+ student2 + "_"+courseId+"_"+ assignId), Paths.get("-target/AllReports_"+ courseId + "_" + assignId+ "/results_"+ student1 + "_"+ student2 + "_"+courseId+"_"+ assignId + ".zip"));
+					FileUtils.deleteDirectory(new File( Paths.get("-target/results_"+ student1 + "_"+ student2 + "_"+courseId+"_"+ assignId).toString()));
 					FileUtils.deleteDirectory(new File( Paths.get("downloadedReports/"+courseId).toString()));
 				}
 			}
 		}
+		S3ServicesImpl s1 = new S3ServicesImpl();
+		s1.uploadDirectory("-target/AllReports_"+ courseId + "_" + assignId, "AllReports_"+ courseId + "_" + assignId, "plagiarismteam208", false);
+		FileUtils.deleteDirectory(new File( Paths.get("-target/AllReports_"+ courseId + "_" + assignId).toString()));
 
 		Map<String,String> res = new HashMap<>();
 		for(String s : done.keySet()) {
 			if(s.split(",")[2].equals(Integer.toString(courseId)) && s.split(",")[3].equals(Integer.toString(assignId))) res.put(s,done.get(s));
 		}
-		//ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold)
 		JSONObject obj = new JSONObject();
 		obj.put("Data", res.toString());
 		return obj.toString();
 	}
-
+	private void zipFolder(Path sourceFolderPath, Path zipPath) throws Exception {
+		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath.toFile()));
+		Files.walkFileTree(sourceFolderPath, new SimpleFileVisitor<Path>() {
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				zos.putNextEntry(new ZipEntry(sourceFolderPath.relativize(file).toString()));
+				Files.copy(file, zos);
+				zos.closeEntry();
+				return FileVisitResult.CONTINUE;
+			}
+		});
+		zos.close();
+	}
 	@RequestMapping(path="/addAssignment", method = RequestMethod.GET  )  // Map ONLY GET Requests
 	public @ResponseBody StatusBean addAssignment (@RequestParam int courseId, @RequestParam int assignmentNo, @RequestParam String assignmentName, @RequestParam String date) {
 		StatusBean status = new StatusBean();
@@ -284,6 +329,6 @@ public class ProfessorController {
 		return status;
 
 	}
-	
-	
+
+
 }
