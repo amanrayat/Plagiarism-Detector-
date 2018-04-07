@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
-export default class CoursePage extends React.Component {
+export default class CourseList extends React.Component {
 
   constructor(props){
     super(props);
@@ -93,32 +93,8 @@ export default class CoursePage extends React.Component {
     const courses = this.state.courses;
     return (
       <div className={'container col-md-6 col-md-offset-3'}>
-        <h1> Add New Course </h1>
-        <input type="text" ref="courseAbbr"
-                placeholder="Course Name"
-                value={this.state.courseAbbr}
-                onChange={this.update.bind(this)}/>
-        <br />
-        <input type="text" name="courseLoc" ref="courseLoc"
-              placeholder="Location"
-              value={this.state.courseLoc}
-              onChange={this.update.bind(this)}/>
-        <br />
-        <input type="text" name="courseName"
-              ref="courseName" placeholder="Title"
-              value={this.state.courseName}
-              onChange={this.update.bind(this)}/>
-        <br />
-        <input type="text" name="courseTerm" ref="courseTerm"
-              placeholder="Course Term"
-              value={this.state.courseTerm}
-              onChange={this.update.bind(this)}/>
-        <br />
-        <button onClick={this.handleEditSubmit.bind(this)}> Update </button>
-
-        <UserTable onRowDel={this.handleRowDel.bind(this)}
-                   courses={this.state.courses}
-                   onRowUpdate={this.handleRowUpdate.bind(this)} />
+        <h1> Course List </h1>
+        <UserTable courses={this.state.courses} />
       </div>
     );
   }
@@ -132,8 +108,6 @@ class UserTable extends React.Component {
     var course = this.props.courses.map(function(course) {
       return (<CourseRow
         course={course}
-        onRegisterEvent={rowUpdate.bind(this)}
-        onDeleteEvent={rowDel.bind(this)}
         key={course.id}/>)
     });
     return (
@@ -147,8 +121,6 @@ class UserTable extends React.Component {
               <th>Course Name</th>
               <th>Term</th>
               <th>Location</th>
-              <th>Udpate </th>
-              <th>Delete </th>
             </tr>
           </thead>
 
@@ -163,13 +135,6 @@ class UserTable extends React.Component {
 }
 
 class CourseRow extends React.Component {
-  onRegisterEvent() {
-    this.props.onRegisterEvent(this.props.course);
-  }
-
-  onDeleteEvent() {
-    this.props.onDeleteEvent(this.props.course);
-  }
 
   render() {
 
@@ -180,14 +145,6 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseAbbr} </td>
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onRegisterEvent.bind(this)}
-          value="Edit" className="del-btn"/>
-        </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onDeleteEvent.bind(this)}
-          value="Delete" className="del-btn"/>
-        </td>
       </tr>
     );
   }
