@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 import HomePage from './HomePage.js'
 import RegisterPage from './RegisterPage.js'
 import CoursePage from './CoursePage.js'
-import AdminPage from './Admin/AdminPage.js'
-import ProfessorCoursePage from './ProfessorCoursePage.js'
+import AdminPage from './admin/AdminPage.js'
+import ProfessorCoursePage from './professor/ProfessorCoursePage.js'
 import PlagiarismReportsPage from './PlagiarismReportsPage.js'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import ChooseCourse from "./ChooseCourse";

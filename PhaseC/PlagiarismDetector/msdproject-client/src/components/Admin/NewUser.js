@@ -34,6 +34,12 @@ class NewUser extends React.Component{
        }).then(j =>
 	        // console.log(Object.values(j)[1].name);
           this.setState({
+            userID:'',
+            univID:'',
+            name:'',
+            userRole:'',
+            password:'',
+            email:'',
             successMessage: "New User Created!"
           })
         );
@@ -43,7 +49,7 @@ class NewUser extends React.Component{
     this.setState({
       userID: 10,
       univID: this.refs.id.value,
-      name: this.refs.password.value,
+      name: this.refs.name.value,
       password: this.refs.password.value,
       email: this.refs.email.value
     })

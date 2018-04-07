@@ -1,21 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
-import AdminPage from './Admin/AdminPage.js'
+import AdminPage from './admin/AdminPage.js'
 import RegisterPage from './RegisterPage.js'
 import axios from 'axios'
 import CoursePage from './CoursePage.js'
-
-import StudentSubmissionPage from './StudentSubmissionPage.js'
-import ProfessorCoursePage from './ProfessorCoursePage.js'
-
+import TempProfPage from './professor/TempProfPage.js'
+import StudentSubmissionPage from './student/StudentSubmissionPage.js'
+import ProfessorCoursePage from './professor/ProfessorCoursePage.js'
+import ProfessorMainPage from './professor/ProfessorMainPage.js'
 
 
 export default class HomePage extends React.Component{
 
   constructor(){
     super();
-    this.state = {username:'' ,userID: '', password: '', loggedIn:false, adminlogin:false, role: '', status: '',register: false};
+    this.state = {username:'' ,
+                  userID: '',
+                  password: '',
+                  loggedIn:false,
+                  adminlogin:false,
+                  role: '',
+                  status: '',
+                  register: false};
     this.handleClick = this.handleClick.bind(this);
     this.register = this.register.bind(this);
   }
@@ -24,7 +31,7 @@ export default class HomePage extends React.Component{
     this.setState({
       userID: this.refs.userID.value,
       password: this.refs.password.value,
-      adminlogin: this.state.username === 'admin' ? true : false
+      adminlogin: this.state.role === 'admin' ? true : false
     })
   }
 
@@ -35,7 +42,6 @@ export default class HomePage extends React.Component{
   }
 
   handleClick() {
-    console.log("Success!")
 
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login', {
         method: 'POST',
@@ -50,13 +56,15 @@ export default class HomePage extends React.Component{
       }).then(function(response) {
 	       return response.json();
        }).then(j =>
-	        // console.log(Object.values(j)[1].name);
           this.setState({
             username: Object.values(j)[1].name,
-            adminlogin: Object.values(j)[1].name === 'admin' ? true : false,
+            adminlogin: Object.values(j)[1].userRole === 'admin' ? true : false,
             role: Object.values(j)[1].userRole,
             isLoggedIn: true})
-          );
+          ).catch(function() {
+            alert("Login Error! Please try again.")
+          });
+        // console.log(this.state.name)
   }
 
   render(){
@@ -65,14 +73,18 @@ export default class HomePage extends React.Component{
     let isAdmin = this.state.adminlogin;
     let role = this.state.role;
     let register = this.state.register;
+
     if(register){
       return <RegisterPage />
     }
-    if (isLoggedIn && !isAdmin && role === 'student') {
-      return <StudentSubmissionPage />
+    else if (isLoggedIn && !isAdmin && role === 'professor-temp') {
+      return <TempProfPage userID={this.state.userID}/>
+    }
+    else if (isLoggedIn && !isAdmin && role === 'student') {
+      return <StudentSubmissionPage userID={this.state.userID}/>
     }
     else if (isLoggedIn && !isAdmin && role === 'professor') {
-      return <ProfessorCoursePage />
+      return <ProfessorMainPage userID={this.state.userID}/>
     }
     else if (isLoggedIn && isAdmin) {
       return <AdminPage />
