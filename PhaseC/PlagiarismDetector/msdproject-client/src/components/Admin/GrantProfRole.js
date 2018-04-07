@@ -23,15 +23,19 @@ export default class GrantProfRole extends React.Component {
       .then(data => this.setState({users: data}));
   }
 
-  handlerowUpdate(user) {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/admin/user/'+user.userId, {
+  handleProfUpdate(user) {
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateUser', {
       method: 'PUT',
        headers: {
          'Accept': 'application/json',
          'Content-Type': 'application/json',
        },
        body: JSON.stringify({
-         userRole: 'professor'
+         userId: user.userId,
+	       name : user.name,
+	       userRole: 'professor',
+	       password: user.password,
+	       email: user.email,
        })
      }).then(this.fetchUsers);
   };
@@ -53,9 +57,9 @@ export default class GrantProfRole extends React.Component {
     return (
       <div>
         <UserTable
-        onrowUpdate={this.handlerowUpdate.bind(this)}
+        onProfUpdate={this.handleProfUpdate.bind(this)}
         onAdminUpdate={this.handleAdminUpdate.bind(this)}
-        users={this.state.users} />
+        users={this.state.users}/>
       </div>
     );
   }
@@ -64,18 +68,19 @@ export default class GrantProfRole extends React.Component {
 class UserTable extends React.Component {
 
   render() {
-    var rowUpdate = this.props.onrowUpdate;
+    var profUpdate = this.props.onProfUpdate;
     var adminUpdate = this.props.onAdminUpdate;
-    var user = this.props.users.map(function(user) {
+    var temp_profs = this.props.users.filter((prof) => prof.userRole === "professor-temp" );
+    var user = temp_profs.map(function(user) {
       return (<UserRow
         user={user}
-        onGrantProfRole={rowUpdate.bind(this)}
+        onGrantProfRole={profUpdate.bind(this)}
         onMakeAdmin={adminUpdate.bind(this)}
         key={user.id}/>)
     });
+
     return (
       <div>
-
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -85,7 +90,6 @@ class UserTable extends React.Component {
               <th>Password</th>
               <th>Email ID</th>
               <th>Grant Professor Role </th>
-              <th> Make Admin </th>
             </tr>
           </thead>
 
@@ -119,9 +123,6 @@ class UserRow extends React.Component {
         <td> {this.props.user.email} </td>
         <td className="del-cell">
           <input type="button" onClick={this.onGrantProfRole.bind(this)} value="GrantProfRole" className="del-btn"/>
-        </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onMakeAdmin.bind(this)} value="GrantAdminRole" className="del-btn"/>
         </td>
       </tr>
     );

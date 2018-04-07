@@ -1,20 +1,30 @@
 import React from 'react';
 
-export default class Submission extends React.Component {
+export default class NewSubmission extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: ['CS5200', 'CS5800', 'CS5500','CS5010','CS6240'],
+      courses: this.props.courses,
       assignments: ['homework1', 'homework2'],
       status: '',
-      disableSubmit: false
+      disableSubmit: false,
     };
     this.handleClick = this.handleClick.bind(this)
   }
+
   courseRow(text,i){
-    return (
-      <option key={i} value="">{text}</option>
-    );
+    let optionItems = this.state.courses.map((course) =>
+                <option key={course.courseId}>{course.courseAbbr}</option>
+            );
+    console.log("Option Items: ",optionItems)
+        return (
+         <div>
+             <select>
+                {optionItems}
+             </select>
+         </div>
+        )
+
   }
   assignmentRow(text,i){
     return (
@@ -28,17 +38,28 @@ export default class Submission extends React.Component {
     })
   }
 
+  // Submission API
+  // http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission
+//  REQUEST:
+//
+// {
+// 	"assignmentId" : 5,
+// 	"studentId": 201,
+// 	"gitLink": "https://github.com/enrolled02/python-crawler1"
+//
+// }
+
+
   render() {
     let disableSubmit = this.state.disableSubmit;
     if(!disableSubmit){
     return (
       <div className={'container text-center'}>
-         <h2> Assignment Submission : </h2>
          <div className="form-group">
           <select className="form-control" id="exampleFormControlSelect1">
             <option disabled selected={'true'}>Select your Course</option>
             {
-              this.state.course.map(this.courseRow.bind(this))
+              this.state.courses.map(this.courseRow.bind(this))
             }
           </select>
            <br />
@@ -54,7 +75,6 @@ export default class Submission extends React.Component {
           <input type="text" className="form-control" id="GithubLink" placeholder="Place your GitHub Link Here" />
         </div>
         <button className={'btn btn-primary my-1'} onClick={this.handleClick}>Submit</button>
-        <a className="nav-link" href="/logout">Log Out</a>
       </div>
     );
   } else

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import AdminNavBar from "./AdminNavBar"
 
 class UserList extends React.Component{
 
@@ -38,7 +37,6 @@ class UserList extends React.Component{
       }).then(function(response) {
 	       return response.json();
        }).then(j =>
-	        // console.log(Object.values(j)[1].name);
           this.setState({
             successMessage: "Saved!"
           })
@@ -46,12 +44,10 @@ class UserList extends React.Component{
   }
 
   render(){
-
     const users = this.state.users;
     return (
       <div>
       <div className={'container col-md-6 col-md-offset-3'}>
-        <h1> List of Users </h1>
       <BootstrapTable data={users} striped bordered condensed hover>
         <TableHeaderColumn dataField='userId'>UserID</TableHeaderColumn>
         <TableHeaderColumn isKey dataField='name'>Name</TableHeaderColumn>

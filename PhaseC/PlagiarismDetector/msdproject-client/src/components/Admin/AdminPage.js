@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import {BootstrapTable, TableHeaderColumn, Button} from 'react-bootstrap';
 import UserList from './UserList.js'
 import NewUser from './NewUser.js'
-import AdminNavBar from './AdminNavBar.js'
 import DeleteUser from './DeleteUser.js'
 import GrantProfRole from './GrantProfRole.js'
+import UpdateUser from './UpdateUser.js'
+
 
 class AdminPage extends React.Component{
 
@@ -84,12 +85,12 @@ class AdminPage extends React.Component{
     if(this.state.usersList){
       return (
         <div>
-          <button className={'btn btn-primary'} onClick={this.handleClick}> Users List </button>
-          <button className={'btn btn-primary'} onClick={this.registerUser}> New User </button>
-          <button className={'btn btn-primary'} onClick={this.updateUser}> Update User </button>
-          <button className={'btn btn-primary'} onClick={this.deleteUser}> Delete User </button>
-          <button className={'btn btn-primary'} onClick={this.grantProfRole}> Grant Professor Role </button>
-          <button className={'btn'}> <a href="/"> Logout </a> </button>
+          <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
+          <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.deleteUser}> Delete User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.grantProfRole}> Grant Professor Role </Button>
+          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
           <UserList />
@@ -99,12 +100,12 @@ class AdminPage extends React.Component{
     else if(this.state.newUser){
       return (
         <div>
-          <button className={'btn btn-primary'} onClick={this.handleClick}> Users List </button>
-          <button className={'btn btn-primary'} onClick={this.registerUser}> New User </button>
-          <button className={'btn btn-primary'} onClick={this.updateUser}> Update User </button>
-          <button className={'btn btn-primary'} onClick={this.deleteUser}> Delete User </button>
-          <button className={'btn btn-primary'} onClick={this.grantProfRole}> Grant Professor Role </button>
-          <button className={'btn'}> <a href="/"> Logout </a> </button>
+          <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
+          <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.deleteUser}> Delete User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.grantProfRole}> Grant Professor Role </Button>
+          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
           <NewUser />
@@ -114,15 +115,14 @@ class AdminPage extends React.Component{
     else if(this.state.deleteUser){
       return (
         <div>
-          <button className={'btn btn-primary'} onClick={this.handleClick}> Users List </button>
-          <button className={'btn btn-primary'} onClick={this.registerUser}> New User </button>
-          <button className={'btn btn-primary'} onClick={this.updateUser}> Update User </button>
-          <button className={'btn btn-primary'} onClick={this.deleteUser}> Delete User </button>
-          <button className={'btn btn-primary'} onClick={this.grantProfRole}> Grant Professor Role </button>
-          <button className={'btn'}> <a href="/"> Logout </a> </button>
+          <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
+          <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.deleteUser}> Delete User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.grantProfRole}> Grant Professor Role </Button>
+          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
-          <h1> Delete User!! </h1>
           <DeleteUser />
         </div>
       )
@@ -130,27 +130,27 @@ class AdminPage extends React.Component{
     else if(this.state.updateUser){
       return (
         <div>
-          <button className={'btn btn-primary'} onClick={this.handleClick}> Users List </button>
-          <button className={'btn btn-primary'} onClick={this.registerUser}> New User </button>
-          <button className={'btn btn-primary'} onClick={this.updateUser}> Update User </button>
-          <button className={'btn btn-primary'} onClick={this.deleteUser}> Delete User </button>
-          <button className={'btn btn-primary'} onClick={this.grantProfRole}> Grant Professor Role </button>
-          <button className={'btn'}> <a href="/"> Logout </a> </button>
+          <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
+          <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.deleteUser}> Delete User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.grantProfRole}> Grant Professor Role </Button>
+          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
-          <h1> Update User!! </h1>
+          <UpdateUser />
         </div>
       )
     }
     else if(this.state.grantProfRole){
       return (
         <div>
-          <button className={'btn btn-primary'} onClick={this.handleClick}> Users List </button>
-          <button className={'btn btn-primary'} onClick={this.registerUser}> New User </button>
-          <button className={'btn btn-primary'} onClick={this.updateUser}> Update User </button>
-          <button className={'btn btn-primary'} onClick={this.deleteUser}> Delete User </button>
-          <button className={'btn btn-primary'} onClick={this.grantProfRole}> Grant Professor Role </button>
-          <button className={'btn'}> <a href="/"> Logout </a> </button>
+          <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
+          <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.deleteUser}> Delete User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.grantProfRole}> Grant Professor Role </Button>
+          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
           <GrantProfRole />
@@ -160,12 +160,12 @@ class AdminPage extends React.Component{
     else{
       return(
         <div>
-          <button className={'btn btn-primary'} onClick={this.handleClick}> Users List </button>
-          <button className={'btn btn-primary'} onClick={this.registerUser}> New User </button>
-          <button className={'btn btn-primary'} onClick={this.updateUser}> Update User </button>
-          <button className={'btn btn-primary'} onClick={this.deleteUser}> Delete User </button>
-          <button className={'btn btn-primary'} onClick={this.grantProfRole}> Grant Professor Role </button>
-          <button className={'btn'}> <a href="/"> Logout </a> </button>
+          <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
+          <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
+          <Button className={'bsStyle="info"'} onClick={this.deleteUser}> Delete User </Button>
+          <Button className={'btn bsStyle="info"'} onClick={this.grantProfRole}> Grant Professor Role </Button>
+          <Button className={'btn bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
           <UserList />

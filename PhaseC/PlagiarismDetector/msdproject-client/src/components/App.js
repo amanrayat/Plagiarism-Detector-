@@ -1,15 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import HomePage from './HomePage.js'
-import RegisterPage from './RegisterPage.js'
-import CoursePage from './CoursePage.js'
-import AdminPage from './Admin/AdminPage.js'
-import ProfessorCoursePage from './ProfessorCoursePage.js'
-import PlagiarismReportsPage from './PlagiarismReportsPage.js'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
-import ChooseCourse from "./ChooseCourse";
-import ChooseCoursePage from "./ChooseCoursePage";
 import './App.css';
 import Header from "./Header"
 
