@@ -229,7 +229,9 @@ public class StudentController {
 			for(AssignmentSubmissionEntity i : id) {
 				SubmissionResponseBean sub = new SubmissionResponseBean();
 				AssignmentEntity assignment = assignmentRepository.findById(i.getAssignmentId().getAssignmentId());
-				sub.setAssignmentId(assignment);
+				CourseEntity course = assignment.getAssignmentCourse();
+				sub.setCourseAbbr(course.getCourseAbbr());
+				sub.setAssignmentName(assignment.getAssignmentName());
 				sub.setGitLink(i.getGitLink());
 				sub.setSubmissionTime(i.getTimestamp());
 

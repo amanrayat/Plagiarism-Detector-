@@ -15,8 +15,7 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name="submission", uniqueConstraints=
-@UniqueConstraint(columnNames={"assignmentId", "userDBid"}))
+@Table(name="submission")
 public class AssignmentSubmissionEntity implements Serializable{
 	
 
@@ -26,6 +25,7 @@ public class AssignmentSubmissionEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int submissionId;
+	
 	private String gitLink;
 	
 	private AssignmentEntity assignmentId;

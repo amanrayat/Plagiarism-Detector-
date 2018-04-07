@@ -2,25 +2,33 @@ package com.team208.jsonresponse;
 
 import java.io.Serializable;
 
-
-
-public class CourseJsonBean implements Serializable{
+public class CourseUpdateResponseBean implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private int courseId;
+
 	private String courseName;
 
 	private String courseAbbr;
-
+	
 	private String courseTerm;
 
 	private String courseLoc;
 	
 	private Long createdCourseBy;
 
+	public int getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
+	}
+	
 	public String getCourseName() {
 		return courseName;
 	}
@@ -61,8 +69,6 @@ public class CourseJsonBean implements Serializable{
 		this.createdCourseBy = createdCourseBy;
 	}
 	
-
 	
-	
-
 }
+
