@@ -31,6 +31,7 @@ import com.team208.domain.UserRepository;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.jsonresponse.StudentSubmissionJsonBean;
 import com.team208.jsonresponse.SubmissionResponseBean;
+import com.team208.jsonresponse.UpdateSubmissionRequestBean;
 import com.team208.utilities.Constants;
 
 @CrossOrigin
@@ -150,12 +151,12 @@ public class StudentController {
 	}
 
 
-	@RequestMapping(path="/updateSubmission", method= RequestMethod.POST)
-	public @ResponseBody StatusBean updateSubmission (@RequestBody int submissionId, @RequestBody StudentSubmissionJsonBean submisson) {
+	@RequestMapping(path="/updateSubmission", method= RequestMethod.PUT)
+	public @ResponseBody StatusBean updateSubmission ( @RequestBody UpdateSubmissionRequestBean submisson) {
 
 		StatusBean status = new StatusBean();
 		try {
-			if(submissionRepository.existsById(submissionId)) {
+			if(submissionRepository.existsById(submisson.getSubmissionId())) {
 				Long studentId = 	submisson.getStudentId();
 				int assignmentId =  submisson.getAssignmentId();
 
@@ -230,6 +231,7 @@ public class StudentController {
 				SubmissionResponseBean sub = new SubmissionResponseBean();
 				AssignmentEntity assignment = assignmentRepository.findById(i.getAssignmentId().getAssignmentId());
 				CourseEntity course = assignment.getAssignmentCourse();
+				sub.setSubmissionId(i.getSubmissionId());
 				sub.setCourseAbbr(course.getCourseAbbr());
 				sub.setAssignmentName(assignment.getAssignmentName());
 				sub.setGitLink(i.getGitLink());
