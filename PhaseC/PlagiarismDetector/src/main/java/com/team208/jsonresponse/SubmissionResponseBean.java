@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import com.team208.domain.AssignmentEntity;
+import com.team208.domain.CourseEntity;
 
 public class SubmissionResponseBean implements Serializable{
 
@@ -16,7 +17,9 @@ public class SubmissionResponseBean implements Serializable{
 
 	private String gitLink;
 
-	private AssignmentEntity assignmentId;
+	private String courseAbbr;
+	
+	private String assignmentName;
 	
 	private Timestamp submissionTime;
 
@@ -28,12 +31,14 @@ public class SubmissionResponseBean implements Serializable{
 		this.gitLink = gitLink;
 	}
 
-	public AssignmentEntity getAssignmentId() {
-		return assignmentId;
+	
+
+	public String getAssignmentName() {
+		return assignmentName;
 	}
 
-	public void setAssignmentId(AssignmentEntity assignmentId) {
-		this.assignmentId = assignmentId;
+	public void setAssignmentName(String assignmentName) {
+		this.assignmentName = assignmentName;
 	}
 
 	public Timestamp getSubmissionTime() {
@@ -43,7 +48,15 @@ public class SubmissionResponseBean implements Serializable{
 	public void setSubmissionTime(Timestamp submissionTime) {
 		this.submissionTime = submissionTime;
 	}
-	
+
+	public String getCourseAbbr() {
+		return courseAbbr;
+	}
+
+	public void setCourseAbbr(String courseAbbr) {
+		this.courseAbbr = courseAbbr;
+	}
+
 	
 	
 
