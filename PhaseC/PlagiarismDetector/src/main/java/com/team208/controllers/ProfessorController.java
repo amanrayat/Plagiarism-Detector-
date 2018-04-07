@@ -115,7 +115,7 @@ public class ProfessorController {
 					}
 					zipFolder(Paths.get("-target/results_"+ student1 + "_"+ student2 + "_"+courseId+"_"+ assignId), Paths.get("-target/AllReports_"+ courseId + "_" + assignId+ "/results_"+ student1 + "_"+ student2 + "_"+courseId+"_"+ assignId + ".zip"));
 					FileUtils.deleteDirectory(new File( Paths.get("-target/results_"+ student1 + "_"+ student2 + "_"+courseId+"_"+ assignId).toString()));
-					FileUtils.deleteDirectory(new File( Paths.get("downloadedReports/"+courseId).toString()));
+					FileUtils.deleteDirectory(new File( Paths.get("DownloadedReports/"+courseId).toString()));
 				}
 			}
 		}
