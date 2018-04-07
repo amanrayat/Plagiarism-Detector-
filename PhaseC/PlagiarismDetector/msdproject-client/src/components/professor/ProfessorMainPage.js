@@ -104,7 +104,7 @@ export default class ProfessorMainPage extends React.Component{
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
-          <h1> Assignments Page</h1>
+          <AssignmentsPage />
         </div>
       )
     }

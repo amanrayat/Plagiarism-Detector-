@@ -4,42 +4,15 @@ export default class NewSubmission extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      courses: this.props.courses,
-      assignments: ['homework1', 'homework2'],
-      status: '',
-      disableSubmit: false,
+      courses: '',
+      assignmentID: '',
+      gitLink: '',
+      studentId: this.props.userID,
     };
-    this.handleClick = this.handleClick.bind(this)
+    // this.handleClick = this.handleClick.bind(this)
   }
 
-  courseRow(text,i){
-    let optionItems = this.state.courses.map((course) =>
-                <option key={course.courseId}>{course.courseAbbr}</option>
-            );
-    console.log("Option Items: ",optionItems)
-        return (
-         <div>
-             <select>
-                {optionItems}
-             </select>
-         </div>
-        )
-
-  }
-  assignmentRow(text,i){
-    return (
-      <option key={i} value="">{text}</option>
-    );
-  }
-
-  handleClick() {
-    this.setState({
-      disableSubmit: true
-    })
-  }
-
-  // Submission API
-  // http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission
+//   http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission
 //  REQUEST:
 //
 // {
@@ -49,37 +22,53 @@ export default class NewSubmission extends React.Component {
 //
 // }
 
+update(){
+  this.setState({
+    assignmentID: this.refs.assignmentID.value,
+    gitLink: this.refs.gitLink.value,
+  })
+}
 
-  render() {
-    let disableSubmit = this.state.disableSubmit;
-    if(!disableSubmit){
-    return (
-      <div className={'container text-center'}>
-         <div className="form-group">
-          <select className="form-control" id="exampleFormControlSelect1">
-            <option disabled selected={'true'}>Select your Course</option>
-            {
-              this.state.courses.map(this.courseRow.bind(this))
-            }
-          </select>
-           <br />
-           <select className="form-control" id="exampleFormControlSelect1">
-              <option disabled selected={'true'} >Select your Assignment</option>
-               {
-                 this.state.assignments.map(this.assignmentRow.bind(this))
-                }
-           </select>
-        </div>
+handleClick(){
+  console.log(this.state.assignmentID)
+  console.log(this.state.studentId)
+  console.log(this.state.gitLink)
+  fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        assignmentId: this.state.assignmentID,
+        studentId: this.state.studentId,
+        gitLink: this.state.gitLink,
+      })
+    }).then(function(response) {
+       return response.json();
+     }).then(j =>
+        // console.log(Object.values(j)[1].name);
+        this.setState({
+          assignmentID: '',
+          studentId: '',
+          gitLink: '',
+        })
+      ).catch(function() {
+        alert("Error adding a new course. Please try again.")
+      });
+}
 
-        <div className="form-group">
-          <input type="text" className="form-control" id="GithubLink" placeholder="Place your GitHub Link Here" />
-        </div>
-        <button className={'btn btn-primary my-1'} onClick={this.handleClick}>Submit</button>
-      </div>
-    );
-  } else
-  {
-    return( <h2> Assignment Submission successful </h2>)
-  }
+render() {
+  return (
+    <div>
+    <input type="text"
+          ref="assignmentID"
+          placeholder="Assignment ID"
+          onChange={this.update.bind(this)} />
+    <input type="text" ref="gitLink" placeholder="GitLink"
+          onChange={this.update.bind(this)}/>
+    <button onClick={this.handleClick.bind(this)}> Submit </button>
+    </div>
+  );
 }
 }

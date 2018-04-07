@@ -113,7 +113,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button className={'bsStyle="info"'} onClick={this.viewAllSubmissions}> View Submission </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
-          <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
+          // <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
           <Button className={'bsStyle="success"'} onClick={this.deleteSubmission}> Delete Submission </Button>
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
@@ -129,7 +129,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button className={'bsStyle="info"'} onClick={this.viewAllSubmissions}> View Submission </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
-          <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
+          // <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
           <Button className={'bsStyle="success"'} onClick={this.deleteSubmission}> Delete Submission </Button>
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
@@ -145,7 +145,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button className={'bsStyle="info"'} onClick={this.viewAllSubmissions}> View Submission </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
-          <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
+          // <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
           <Button className={'bsStyle="success"'} onClick={this.deleteSubmission}> Delete Submission </Button>
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
@@ -161,7 +161,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button className={'bsStyle="info"'} onClick={this.viewAllSubmissions}> View Submission </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
-          <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
+          // <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
           <Button className={'bsStyle="success"'} onClick={this.deleteSubmission}> Delete Submission </Button>
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
@@ -177,7 +177,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button className={'bsStyle="info"'} onClick={this.viewAllSubmissions}> View Submission </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
-          <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
+          // <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
           <Button className={'bsStyle="success"'} onClick={this.deleteSubmission}> Delete Submission </Button>
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
@@ -193,7 +193,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button className={'bsStyle="info"'} onClick={this.viewAllSubmissions}> View Submission </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
-          <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
+          // <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
           <Button className={'bsStyle="success"'} onClick={this.deleteSubmission}> Delete Submission </Button>
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
@@ -209,7 +209,7 @@ export default class StudentSubmissionPage extends React.Component{
         <Button className={'bsStyle="info"'} onClick={this.viewAllSubmissions}> View Submission </Button>
         <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
         <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
-        <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
+        // <Button className={'bsStyle="success"'} onClick={this.updateSubmission}> Update Submission </Button>
         <Button className={'bsStyle="success"'} onClick={this.deleteSubmission}> Delete Submission </Button>
         <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
         <br />
