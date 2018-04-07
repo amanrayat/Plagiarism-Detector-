@@ -7,10 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 //This class is used to generate a report, based on the threshold values, the plagiarism
@@ -68,7 +70,13 @@ public class ReportGenerator {
 		//crawl the document using Jsoup
 		Document doc = Jsoup.parse(content);
 		doc.select("img").remove();
+		doc.select(table).get(0).select("tbody").append("<br> <br> <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>Course ID</td> <td>" + course +"</td></tr>"
+				+ " <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>HomeWork Id</td> <td>" + homework +"</td></tr>");
 		content = doc.html();
+		content=content+"<table>"+"<tr>"+"<td bgcolor= #FFFF00\">" + "<font color=\"#fff\">" + "<b>" + course + homework
+				+ "</font>" + "</td>"+"</tr>"+"</table>";
+		String table0 = doc.select(table).get(0).select("tr").get(0).select("td").get(1).html() ;
+		
 		Element table1 = doc.select(table).get(2);
 		Element table2 = doc.select(table).get(3);
 		Element tempTable = table1;

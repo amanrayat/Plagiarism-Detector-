@@ -61,7 +61,6 @@ public class S3ServicesImpl implements S3Services {
 	@Override
 	public void uploadDirectory(String dir_path,String key_prefix,String bucket_name,Boolean recursive) {
 		TransferManager xfer_mgr = new TransferManager();
-
 		MultipleFileUpload xfer = xfer_mgr.uploadDirectory(bucket_name, key_prefix, new File(dir_path), recursive);
 		try {
 			xfer.waitForCompletion();
