@@ -10,6 +10,12 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+/**
+ * 
+ * @author amanrayat
+ * This class is used to setup the connection with the S3client 
+ *
+ */
 @Configuration
 public class S3Config {
 	@Value("${jsa.aws.access_key_id}")
@@ -25,7 +31,9 @@ public class S3Config {
 	public AmazonS3 s3client() {
 		
 		BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-		AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+	
+		AmazonS3 s3Client = AmazonS3ClientBuilder
+								.standard()
 								.withRegion(Regions.fromName(region))
 		                        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 		                        .disableChunkedEncoding()

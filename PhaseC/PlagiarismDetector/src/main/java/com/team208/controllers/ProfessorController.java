@@ -1,6 +1,8 @@
 package com.team208.controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,12 +35,18 @@ import com.team208.jsonresponse.AssignmentJsonBean;
 import com.team208.jsonresponse.CourseJsonBean;
 import com.team208.jsonresponse.CourseUpdateResponseBean;
 import com.team208.jsonresponse.StatusBean;
+import com.team208.s3.services.impl.S3ServicesImpl;
 import com.team208.utilities.Constants;
+
+
+
+
 
 @CrossOrigin
 @Controller
 @RequestMapping(path="/team208") 
 public class ProfessorController {
+	public Map<String,String> done = new HashMap<>();
 
 	/**
 	 * Logger
@@ -43,78 +54,48 @@ public class ProfessorController {
 	private static final Logger LOGGER = Logger.getLogger(ProfessorController.class.getName());
 	@Autowired 
 	private UserRepository userRepository;
-
+	@Autowired
+	private AssignmentRepository assignmentRepository;
 	@Autowired 
 	private CourseRepository courseRepository;
 
-	@Autowired
-	private AssignmentRepository assignmentRepository;
-
-
-	@RequestMapping("/generateReport")
-	@ResponseBody
-	public String generateReport() {
-
-		String gitLink = "https://github.com/amanrayat/testRepo.git";
-		List<String> hwlist = new ArrayList<>();
-
-		hwlist.add("homework1");
-
-		hwlist.add("homework2");
-
-		hwlist.add("homework3");
-
-		HashMap<String, String> studentRepo = new HashMap<>();
-
-		studentRepo.put("student001", gitLink);
-
-		studentRepo.put("student002", "https://github.com/amanrayat/testRepo.git");
-
-		studentRepo.put("student003", gitLink);
-
-		studentRepo.put("student004", "https://github.com/CSSE120StartingCode/IntroductionToPython.git");
-
-		String hw;
-
-		String course;
-
-
-
-		List<String> courses = new ArrayList<>();
-
-		courses.add("CS5500");
-
-		courses.add("CS6200");
-
-		courses.add("CS5800");
-
-		for(int k =0; k<courses.size();k++) {
-
-			course = courses.get(k);
-
-			for(int j=0;j<hwlist.size();j++) {
-
-				hw = hwlist.get(j);
-
-				for(Map.Entry<String, String> entry: studentRepo.entrySet())
-
-					try {
-
-						GitRepoDownload.downloadRepo(course,hw,entry.getKey(),entry.getValue());
-
-					} catch (IOException e) {
-
-						LOGGER.info(Constants.CONTEXT+e.getMessage());
-
-					}
-
+	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
+	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestBody String allSubmission) throws IOException {
+		Map<Integer, String> allSubmissionMap = new HashMap<>();
+		List<Integer> allStudents = new ArrayList<>();
+		JSONObject o = new JSONObject(allSubmission);
+		JSONArray jsonarray = o.getJSONArray("submissions");
+		for(int i = 0 ; i < jsonarray.length(); i++) {
+			JSONArray submission = jsonarray.getJSONArray(i);
+			String gitLink = submission.getJSONObject(0).getString("gitLink");
+			int userId = submission.getJSONObject(1).getInt("userId");
+			allSubmissionMap.put(userId,gitLink);
+			allStudents.add(userId);
+		}
+		//get all pairs and check plagerism pairwise
+		for(int i = 0 ; i < allStudents.size(); i++) {
+			for(int j = i + 1; j < allStudents.size(); j++) {
+				int student1 = allStudents.get(i);
+				int student2 = allStudents.get(j);
+				
+				if(!done.containsKey(student1 + ","+ student2 + ","+courseId + "," + assignId) || !done.containsKey(student2 + "," + student1  + ","+courseId + "," + assignId)) {
+					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student1), allSubmissionMap.get(student1));
+					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2));
+					String[] result = ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold,student1,student2);
+					done.put(student1 + ","+ student2 +","+ courseId + "," + assignId, result[0]+ ","+ result[1]);
+					FileUtils.deleteDirectory(new File( Paths.get("downloadedReports/"+courseId).toString()));
+				}
 			}
-
 		}
 
-		ExecuteShellComand.main(new String[0]);
-
-		return "star"  ;
+		Map<String,String> res = new HashMap<>();
+		for(String s : done.keySet()) {
+			if(s.split(",")[2].equals(Integer.toString(courseId)) && s.split(",")[3].equals(Integer.toString(assignId))) res.put(s,done.get(s));
+		}
+		//ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold)
+		JSONObject obj = new JSONObject();
+		obj.put("Data", res.toString());
+		return obj.toString();
 	}
 
 	@RequestMapping(path="/addAssignment", method = RequestMethod.POST  )  // Map ONLY GET Requests
@@ -194,7 +175,7 @@ public class ProfessorController {
 				status.setStatus(Constants.SUCCESS_STATUS);
 				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 
-				
+
 			}else {
 				status.setStatus(Constants.UNAVAILABLE_COURSE);
 				status.setStatusCode(Constants.UNAVAILABLE_COURSE_CODE);
@@ -222,7 +203,9 @@ public class ProfessorController {
 			assignment.setAssignmentCourse(course);
 			assignment.setAssignmentName(assign.getAssignmentName());
 			assignment.setAssignmentNo(assign.getAssignmentNo());
-			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");//dd/MM/yyyy HH:mm:ss
+			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");//dd/MM/yyyy HH:mm:ss
+
+	
 
 			Date endDate = sdfDate.parse(assign.getSubmissionDate());
 			assignment.setSubmissionDate(endDate);
@@ -294,6 +277,6 @@ public class ProfessorController {
 		return status;
 
 	}
-
+	
 	
 }
