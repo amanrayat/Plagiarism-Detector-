@@ -23,6 +23,7 @@ export default class GrantProfRole extends React.Component {
       .then(data => this.setState({users: data}));
   }
 
+
   handleProfUpdate(user) {
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateUser', {
       method: 'PUT',
@@ -124,6 +125,7 @@ class UserRow extends React.Component {
         <td className="del-cell">
           <input type="button" onClick={this.onGrantProfRole.bind(this)} value="GrantProfRole" className="del-btn"/>
         </td>
+
       </tr>
     );
   }
