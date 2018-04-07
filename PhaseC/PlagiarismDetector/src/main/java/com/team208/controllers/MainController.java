@@ -1,5 +1,8 @@
 package com.team208.controllers;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * Main controller with generic functionalities accross the application
  * @author rachanatondare
@@ -28,12 +31,14 @@ import com.team208.domain.CourseRepository;
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
 import com.team208.jsonresponse.AllSubmissionResponse;
+import com.team208.jsonresponse.AssignmentListBean;
+import com.team208.jsonresponse.CourseJsonBean;
 import com.team208.jsonresponse.LoginJsonBean;
 import com.team208.jsonresponse.LoginResponse;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.jsonresponse.UserJsonBean;
 import com.team208.utilities.Constants;
-
+import com.team208.jsonresponse.CourseListBean;
 
 @CrossOrigin
 @Controller
@@ -59,6 +64,8 @@ public class MainController {
 
 	@Autowired
 	private AssignmentRepository assignmentRepository;
+
+
 
 	@RequestMapping("/")
 	@ResponseBody
@@ -243,4 +250,92 @@ public class MainController {
 		return subs;
 
 	}
+
+	@RequestMapping(path="/coursesByTerm", method=RequestMethod.GET)
+	public @ResponseBody CourseListBean getcoursesByTerm(@RequestParam String term){
+		CourseListBean courses = null;
+		StatusBean status = new StatusBean();
+		Set<CourseEntity> course = null;
+		try{
+			course = courseRepository.findByTerm(term);
+			if(course != null) {
+				courses = new CourseListBean();
+				courses.setCourses(course);
+				status.setStatus(Constants.SUCCESS_STATUS);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				courses.setStatus(status);	
+			}
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+			courses = new CourseListBean();
+			status.setStatus(Constants.FAILURE_EXCEPTION_STATUS);
+			status.setStatusCode(Constants.FAILURE_EXCEPTION_STATUS_CODE);
+			courses.setCourses(course);
+			courses.setStatus(status);
+		}
+
+		return courses;
+
+	}
+
+
+	@RequestMapping(path="/assignmentsByCourse", method=RequestMethod.GET)
+	public @ResponseBody AssignmentListBean getassignmentsByCourse(@RequestParam int courseId){
+		AssignmentListBean assignments = null;
+		StatusBean status = new StatusBean();
+		Set<AssignmentEntity> assignment = null;
+		try{
+			assignment = assignmentRepository.findByCourse(courseId);
+			if(assignment != null) {
+				assignments = new AssignmentListBean();
+				assignments.setAssignments(assignment);
+				status.setStatus(Constants.SUCCESS_STATUS);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				assignments.setStatus(status);	
+			}
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+			assignments = new AssignmentListBean();
+			status.setStatus(Constants.FAILURE_EXCEPTION_STATUS);
+			status.setStatusCode(Constants.FAILURE_EXCEPTION_STATUS_CODE);
+			assignments.setAssignments(assignment);
+			assignments.setStatus(status);
+		}
+
+		return assignments;
+
+	}
+
+
+	@RequestMapping(path="/CourseById", method=RequestMethod.GET)
+	public @ResponseBody CourseJsonBean getCourseById(@RequestParam int courseId){
+		CourseJsonBean courseResponse = null;
+		CourseEntity course = null;
+
+		try{
+			course = courseRepository.findById(courseId);
+			if(course != null) {
+				courseResponse = new CourseJsonBean();
+				courseResponse.setCourseAbbr(course.getCourseAbbr());
+				courseResponse.setCourseLoc(course.getCourseLoc());
+				courseResponse.setCourseName(course.getCourseName());
+				courseResponse.setCourseTerm(course.getCourseTerm());
+				courseResponse.setCreatedCourseBy(course.getCreatedCourseBy().getUserId());
+
+
+			}else {
+				courseResponse = new CourseJsonBean();
+			}
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+
+
+		}
+
+		return courseResponse;
+
+	}
+
+
+
 }

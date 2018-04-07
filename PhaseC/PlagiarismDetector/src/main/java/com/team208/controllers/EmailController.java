@@ -41,7 +41,7 @@ public class EmailController {
 	        	
 	        		
 	       for(EmailJsonResponse s : emails) {
-	    	   System.out.println("EMAIL    " + s.getEmail());
+	    	 
 	    	   		sendEmail(s.getEmail());
 	       }
 	            status.setStatus(Constants.SUCCESS_STATUS);

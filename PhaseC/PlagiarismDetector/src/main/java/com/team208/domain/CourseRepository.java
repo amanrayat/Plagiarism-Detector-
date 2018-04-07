@@ -1,5 +1,8 @@
 package com.team208.domain;
 
+
+import java.util.Set;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,5 +18,8 @@ public interface CourseRepository extends CrudRepository<CourseEntity, Integer> 
 	 
 	 @Query("SELECT s FROM CourseEntity s WHERE s.courseAbbr=:courseAbbr")
 	 CourseEntity findByAbbr(@Param("courseAbbr") String courseAbbr);
+	 
+	 @Query("SELECT s FROM CourseEntity s WHERE s.courseTerm=:course_term")
+	 Set<CourseEntity> findByTerm(@Param("course_term") String courseTerm);
 	 
 }
