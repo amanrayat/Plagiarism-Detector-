@@ -14,6 +14,14 @@ public class SubmissionResponseBean implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private int submissionId;
+	public int getSubmissionId() {
+		return submissionId;
+	}
+
+	public void setSubmissionId(int submissionId) {
+		this.submissionId = submissionId;
+	}
 
 	private String gitLink;
 
