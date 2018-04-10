@@ -11,6 +11,7 @@ import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import ChooseCourse from "./ChooseCourse";
 import ChooseCoursePage from "./ChooseCoursePage";
 import ViewStudentFilesPage from "./ViewStudentFilesPage";
+import ReportsPage from "./professor/ReportsPage";
 import './App.css';
 
 export default class Header extends React.Component {
@@ -27,6 +28,7 @@ export default class Header extends React.Component {
             <Route path="/register" component={RegisterPage} />
             <Route path="/viewFiles" component={ViewStudentFilesPage} />
             <Route path="/home" component={HomePage} />
+            <Route path="/reports" component={ReportsPage} />
         </div>
       </Router>
       </div>
