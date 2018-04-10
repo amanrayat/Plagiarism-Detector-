@@ -23,40 +23,103 @@ export default class DeleteSubmission extends React.Component {
     console.log("Submissions",this.state.submissions)
   }
 
-  // View Courses registered for:
-  // http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentCourses?userId=201
+  fetchSubmissions(userID){
+    console.log("User ID from fetch submissions: ",userID)
 
-  update(){
-    this.setState({
-      submissionID: this.refs.submissionID.value,
-    })
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentSubmissions?userId='+userID)
+      .then(response => response.json())
+      .then(data => this.setState({submissions: data}));
   }
 
 
-  handleClick(){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/deletSubmission?submissionId='+this.state.submissionID)
-      .then(response => response.json())
+  handleRowDel(submission) {
+    console.log("Submission ID from submissions:",submission.submissionId)
+    console.log("User ID: ",this.state.userID)
+    let userID = this.state.userID
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/deletSubmission?submissionId='+submission.submissionId)
+        .then(this.fetchSubmissions(userID));
+  };
+
+  handleRowUpdate(submission){
+    console.log("Updating Submission:",submission.submissionId)
   }
 
   render(){
     let submissions = this.state.submissions;
+    console.log("Submisiions: ",submissions)
+    console.log("user:",this.state.userID)
     return(
       <div>
-        <h3> Enter submission ID to delete </h3>
-        <input type="text" ref="submissionID"
-              placeholder="Submission ID"
-              onChange={this.update.bind(this)} />
-        <button onClick={this.handleClick.bind(this)}> Delete </button>
-        <div className={'container col-md-6 col-md-offset-3'}>
-        <BootstrapTable data={submissions} striped bordered condensed hover>
-          <TableHeaderColumn isKey dataField='submissionId'>Submission ID</TableHeaderColumn>
-          <TableHeaderColumn dataField='assignmentName'>Assignment Name</TableHeaderColumn>
-          <TableHeaderColumn dataField='courseAbbr'>Course Name</TableHeaderColumn>
-          <TableHeaderColumn dataField='gitLink'>Git Link</TableHeaderColumn>
-          <TableHeaderColumn dataField='submissionTime'>Due Date</TableHeaderColumn>
-        </BootstrapTable>
-        </div>
+        <UserTable onRowDel={this.handleRowDel.bind(this)}
+        onRowUpdate={this.handleRowUpdate.bind(this)}
+        submissions={this.state.submissions} />
       </div>
+    );
+  }
+}
+
+class UserTable extends React.Component {
+
+  render() {
+    var rowDel = this.props.onRowDel;
+    var rowUpdate = this.props.onRowUpdate;
+    var submission = this.props.submissions.map(function(submission) {
+      return (<UserRow  submission={submission}
+        onDelEvent={rowDel.bind(this)}
+        onUpdateEvent = {rowUpdate.bind(this)}
+        key={submission.id}/>)
+    });
+    return (
+      <div>
+
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>Submission ID</th>
+              <th>Assignment Name</th>
+              <th>Course Name</th>
+              <th>Git Link</th>
+              <th>Due Date</th>
+              <th> Delete </th>
+              <th> Update Link </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {submission}
+          </tbody>
+
+        </table>
+      </div>
+    );
+  }
+}
+
+class UserRow extends React.Component {
+  onDelEvent() {
+    this.props.onDelEvent(this.props.submission);
+  }
+
+  onUpdateEvent() {
+    this.props.onUpdateEvent(this.props.submission);
+  }
+
+  render() {
+
+    return (
+      <tr className="eachRow">
+        <td> {this.props.submission.submissionId} </td>
+        <td> {this.props.submission.assignmentName} </td>
+        <td> {this.props.submission.courseAbbr} </td>
+        <td> <a> {this.props.submission.gitLink} </a> </td>
+        <td> {this.props.submission.submissionTime} </td>
+        <td>
+          <input type="button" onClick={this.onDelEvent.bind(this)} value="Delete" />
+        </td>
+        <td>
+          <input type="button" onClick={this.onUpdateEvent.bind(this)} value="Update" />
+        </td>
+      </tr>
     );
   }
 }

@@ -94,8 +94,8 @@ export default class UpdateUser extends React.Component{
         <input type="radio" name="role" ref="studentRole" value="student"
                 checked={this.state.userRole === 'student'}
                 onChange={this.handleUserRole.bind(this)} /> <label>Student    </label>
-        <input type="radio" name="role" ref="profRole" value="professor-temp"
-              checked={this.state.userRole === 'professor-temp'}
+        <input type="radio" name="role" ref="profRole" value="professor"
+              checked={this.state.userRole === 'professor'}
               onChange={this.handleUserRole.bind(this)} /> <label>Professor</label>
         <h2> {this.state.successMessage} </h2>
         <button onClick={this.handleClick.bind(this)}> Update </button>
@@ -146,7 +146,6 @@ class UserTable extends React.Component {
 class UserRow extends React.Component {
 
   onUpdateUser() {
-    // alert(this.props.user.name)
     this.props.onUpdateUser(this.props.user);
   }
 

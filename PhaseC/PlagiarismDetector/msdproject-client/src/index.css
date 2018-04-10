@@ -2,7 +2,7 @@
 
 body {
   background-image: url('./images/background.jpg');
-  /* background-color: black; */
+  background-color: black;
   background-size: 100%;
   font-family: 'Nanum Pen Script', cursive;
 }

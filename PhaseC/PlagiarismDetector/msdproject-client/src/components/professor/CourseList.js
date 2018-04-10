@@ -103,8 +103,6 @@ export default class CourseList extends React.Component {
 class UserTable extends React.Component {
 
   render() {
-    var rowDel = this.props.onRowDel;
-    var rowUpdate = this.props.onRowUpdate;
     var course = this.props.courses.map(function(course) {
       return (<CourseRow
         course={course}
