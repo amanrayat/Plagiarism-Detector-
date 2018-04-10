@@ -166,7 +166,7 @@ public class StudentController {
 				if(assignmentRepository.existsById(assignmentId) ) {
 					UserEntity student = userRepository.findByNEUId(studentId);
 					AssignmentEntity assignment = assignmentRepository.findById(submisson.getAssignmentId());
-					AssignmentSubmissionEntity sub = new AssignmentSubmissionEntity();
+					AssignmentSubmissionEntity sub = submissionRepository.findById(submisson.getSubmissionId());
 
 					sub.setAssignmentId(assignment);
 					sub.setStudent(student);
@@ -219,7 +219,7 @@ public class StudentController {
 		return status;
 
 	}
-	
+
 	@GetMapping(path="/getStudentSubmissions")
 	public @ResponseBody  Set<SubmissionResponseBean> getStudentSubmissions(@RequestParam long userId){
 		Set<SubmissionResponseBean> submission = new  HashSet<>();
@@ -247,6 +247,39 @@ public class StudentController {
 		return submission;
 
 	}
-	
-	
+
+	/**
+	 * deletes the user course registration
+	 * @param user
+	 * @param courseId
+	 * @return
+	 */
+	@RequestMapping(path="/dropCourse", method = RequestMethod.GET)
+	public @ResponseBody  StatusBean dropCourse(@RequestParam int user, @RequestParam int courseId)
+	{
+		StatusBean status = new StatusBean();
+		try {
+
+			UserCourseEntity  userCourse = userCourseRepository.findCourseTodrop(user, courseId);
+			if(userCourse != null) {
+				userCourseRepository.delete(userCourse);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				status.setStatus(Constants.SUCCESS_STATUS);
+			}else {
+				status.setStatusCode(Constants.UNREGISTERED_COURSE_STATUS_CODE);
+				status.setStatus(Constants.UNREGISTERED_COURSE_STATUS);
+
+			}
+
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+			status.setStatus(Constants.FAILURE_EXCEPTION_STATUS);
+			status.setStatusCode(Constants.FAILURE_EXCEPTION_STATUS_CODE);
+		}
+
+		return status;
+
+	}
+
+
 }
