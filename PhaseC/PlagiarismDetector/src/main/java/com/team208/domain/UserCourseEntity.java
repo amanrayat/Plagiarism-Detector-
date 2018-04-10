@@ -27,7 +27,7 @@ public class UserCourseEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
-	private long ucid;
+	private int ucid;
 	
 	private CourseEntity course;
 	
@@ -59,11 +59,11 @@ public class UserCourseEntity implements Serializable{
 	@Id
 	@GeneratedValue
 	@Column(name = "user_course_id")
-	public long getUcid() {
+	public int getUcid() {
 		return ucid;
 	}
 
-	public void setUcid(long ucid) {
+	public void setUcid(int ucid) {
 		this.ucid = ucid;
 	}
 	
