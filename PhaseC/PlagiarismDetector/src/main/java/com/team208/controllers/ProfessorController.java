@@ -75,7 +75,7 @@ public class ProfessorController {
 	private CourseRepository courseRepository;
 
 	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
-	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestBody String allSubmission) throws Exception {
+	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestParam String lang,@RequestBody String allSubmission) throws Exception {
 		Map<Integer, String> allSubmissionMap = new HashMap<>();
 		//Set<Integer> downloadedFiles = new HashSet<>();
 		List<Integer> allStudents = new ArrayList<>();
@@ -96,13 +96,11 @@ public class ProfessorController {
 
 				if(!done.containsKey(student1 + ","+ student2 + ","+courseId + "," + assignId) || !done.containsKey(student2 + "," + student1  + ","+courseId + "," + assignId)) {
 //first student submission
-					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student1), allSubmissionMap.get(student1));
+					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student1), allSubmissionMap.get(student1),lang );
 //second student submission
 
-					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2));
-					
-					//GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2));
-					String[] result = ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold,student1,student2);
+					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2), lang);
+					String[] result = ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold,student1,student2,lang);
 					done.put(student1 + ","+ student2 +","+ courseId + "," + assignId, result[0]+ ","+ "https://s3.amazonaws.com/plagiarismteam208/AllReports_" + courseId + "_"+ assignId + "/results_" + student1 + "_"+ student2 +"_" + courseId + "_"+ assignId +".zip");
 					Path path = Paths.get("-target/AllReports_"+ courseId + "_" + assignId);
 					if (!Files.exists(path)) {

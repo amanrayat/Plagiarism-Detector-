@@ -32,7 +32,7 @@ public class GitRepoDownload {
 	 * @throws IOException
 	 */
 	//Method to download a repository from github 
-	public static  void downloadRepo(String course, String hw,String studentID, String gitRepoLink) throws  IOException{
+	public static  void downloadRepo(String course, String hw,String studentID, String gitRepoLink, String lang) throws  IOException{
 		//Declare variables
 		String current;
 		String filePath = "/";
@@ -49,7 +49,7 @@ public class GitRepoDownload {
 			.setURI(gitRepoLink)
 			.setDirectory(localPath)
 			.call() ;
-			List<File> files = getAllPYFiles(localPath);
+			List<File> files = getAllPYFiles(localPath,lang);
 			Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw + "actual");
 			Files.createDirectories(pathAc);
 			Path pathAc2 = Paths.get(current+downloadedReports+filePath+course+filePath+hw + "actual/" + studentID);
@@ -77,17 +77,28 @@ public class GitRepoDownload {
 	 * @return fileTree
 	 */
 	//Method to filter only .py files from downloaded when github repositories for students are downloaded
-	public static List<File> getAllPYFiles(File dir){
+	public static List<File> getAllPYFiles(File dir, String lang){
 		List<File> fileTree = new ArrayList<>();
 		if(dir==null||dir.listFiles()==null){
 			return fileTree; 
 		}
 		for (File entry : dir.listFiles()) {
 			if (entry.isFile()) {
-				if(entry.getName().endsWith(".py"))
-					fileTree.add(entry);
+				if(lang.equals("java17")|| lang.equals("java15")||lang.equals("java12") || lang.equals("java11")) {
+					if(entry.getName().endsWith(".java"))
+						fileTree.add(entry);
+				}
+					if(lang.equals("python3")) {
+						if(entry.getName().endsWith(".py"))
+							fileTree.add(entry);
+					}
+					if(lang.equals("c/c++")){
+						if(entry.getName().endsWith(".cpp"))
+							fileTree.add(entry);
+					}
+					
 			} 
-			else fileTree.addAll(getAllPYFiles(entry));
+			else fileTree.addAll(getAllPYFiles(entry,lang));
 		}
 		return fileTree;
 	}
