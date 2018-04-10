@@ -93,7 +93,9 @@ export default class CoursePage extends React.Component {
     const courses = this.state.courses;
     return (
       <div className={'container col-md-6 col-md-offset-3'}>
-        <h1> Add New Course </h1>
+      <UserTable onRowDel={this.handleRowDel.bind(this)}
+                 courses={this.state.courses}
+                 onRowUpdate={this.handleRowUpdate.bind(this)} />
         <input type="text" ref="courseAbbr"
                 placeholder="Course Name"
                 value={this.state.courseAbbr}
@@ -115,10 +117,6 @@ export default class CoursePage extends React.Component {
               onChange={this.update.bind(this)}/>
         <br />
         <button onClick={this.handleEditSubmit.bind(this)}> Update </button>
-
-        <UserTable onRowDel={this.handleRowDel.bind(this)}
-                   courses={this.state.courses}
-                   onRowUpdate={this.handleRowUpdate.bind(this)} />
       </div>
     );
   }

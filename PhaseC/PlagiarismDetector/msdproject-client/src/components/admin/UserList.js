@@ -47,17 +47,61 @@ class UserList extends React.Component{
     const users = this.state.users;
     return (
       <div>
-      <div className={'container col-md-6 col-md-offset-3'}>
-      <BootstrapTable data={users} striped bordered condensed hover>
-        <TableHeaderColumn dataField='userId'>UserID</TableHeaderColumn>
-        <TableHeaderColumn isKey dataField='name'>Name</TableHeaderColumn>
-        <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
-        <TableHeaderColumn dataField='userRole'>Role</TableHeaderColumn>
-      </BootstrapTable>
-      </div>
+      <UserTable
+        users={this.state.users}/>
       </div>
     );
   }
 }
+
+class UserTable extends React.Component {
+
+  render() {
+    var user = this.props.users.map(function(user) {
+      return (<UserRow
+        user={user}
+        key={user.id}/>)
+    });
+
+    return (
+      <div>
+        <table className="table table-bordered">
+          <thead /*style={{backgroundColor: '#cbd0d6'}}*/>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Password</th>
+              <th>Email ID</th>
+            </tr>
+          </thead>
+
+          <tbody /*style={{backgroundColor: '#f2f2f2'}}*/>
+            {user}
+          </tbody>
+
+        </table>
+      </div>
+    );
+  }
+}
+
+
+class UserRow extends React.Component {
+
+  render() {
+
+    return (
+      <tr className="eachRow">
+        <td> {this.props.user.userId} </td>
+        <td> {this.props.user.name} </td>
+        <td> {this.props.user.userRole} </td>
+        <td> {this.props.user.password} </td>
+        <td> {this.props.user.email} </td>
+      </tr>
+    );
+  }
+}
+
 
 export default UserList

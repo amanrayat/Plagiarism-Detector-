@@ -13,6 +13,7 @@ export default class AddNewAssignmentsPage extends React.Component {
       assignmentName: '',
       submissionDate: '',
       courses: [],
+      isForm: false,
     }
   }
 
@@ -36,6 +37,7 @@ handleRowUpdate(course) {
   console.log("handleRowUpdate>CourseID>",course.courseId);
   this.setState({
     courseId: course.courseId,
+    isForm: true,
   });
   console.log("handleRowUpdate<CourseID<",this.state.courseId);
 }
@@ -73,44 +75,52 @@ handleClick(){
         assignmentNo: '',
         assignmentName: '',
         submissionDate: '',
+        isForm: false,
       })
 }
 
 
   render(){
+    let form
+    if(this.state.isForm){
+      form = <div>
+      <input type="text"
+          name="courseId"
+          ref="courseId"
+          placeholder="Course ID"
+          value={this.state.courseId}
+          onChange={this.update.bind(this)}/>
+      <br />
+      <br />
+      <input type="number" name="assignmentNo" ref="assignmentNo" placeholder="Assignment Number"
+            onChange={this.update.bind(this)}/>
+      <br />
+      <br />
+      <input type="text" name="assignmentName" ref="assignmentName" placeholder="Assignment Name"
+            onChange={this.update.bind(this)}/>
+      <br />
+      <br />
+      <label> Submission Date </label> <br />
+      <input type="text" name="yyyy" ref="yyyy" placeholder="yyyy"
+            onChange={this.update.bind(this)}/>
+      <input type="text" name="mm" ref="mm" placeholder="mm"
+            onChange={this.update.bind(this)}/>
+      <input type="text" name="dd" ref="dd" placeholder="dd"
+            onChange={this.update.bind(this)}/>
+      <br />
+      <br />
+      <button onClick={this.handleClick.bind(this)}> Submit </button>
+                </div>
+
+    }
+
     return(
       <div>
-        <h1> AddNewAssignmentsPage </h1>
-        <input type="text"
-            name="courseId"
-            ref="courseId"
-            placeholder="Course ID"
-            value={this.state.courseId}
-            onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <input type="number" name="assignmentNo" ref="assignmentNo" placeholder="Assignment Number"
-              onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <input type="text" name="assignmentName" ref="assignmentName" placeholder="Assignment Name"
-              onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <label> Submission Date </label> <br />
-        <input type="text" name="yyyy" ref="yyyy" placeholder="yyyy"
-              onChange={this.update.bind(this)}/>
-        <input type="text" name="mm" ref="mm" placeholder="mm"
-              onChange={this.update.bind(this)}/>
-        <input type="text" name="dd" ref="dd" placeholder="dd"
-              onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <button onClick={this.handleClick.bind(this)}> Submit </button>
-        <h2> List of Courses and IDs </h2>
+        <h2> Select course to add assignment </h2>
         <UserTable
                    courses={this.state.courses}
                    onRowUpdate={this.handleRowUpdate.bind(this)} />
+        {form}
       </div>
     );
   }

@@ -23,19 +23,65 @@ export default class ViewCourses extends React.Component {
   render(){
     console.log("Courses: ",this.state.courses)
     const courses = this.state.courses;
+    let table
+    if(courses){
+      table = <UserTable courses={this.state.courses} />
+    }
+
     return(
       <div>
       <h3> My Courses </h3>
-      <div className={'container col-md-6 col-md-offset-3'}>
-      <BootstrapTable data={courses} striped bordered condensed hover>
-        <TableHeaderColumn isKey dataField='courseId'>CourseId</TableHeaderColumn>
-        <TableHeaderColumn dataField='courseName'>Course Title</TableHeaderColumn>
-        <TableHeaderColumn dataField='courseAbbr'>Course Name</TableHeaderColumn>
-        <TableHeaderColumn dataField='courseTerm'>Course Term</TableHeaderColumn>
-        <TableHeaderColumn dataField='courseLoc'>Course Location</TableHeaderColumn>
-      </BootstrapTable>
+          {table}
       </div>
+    );
+  }
+}
+
+
+class UserTable extends React.Component {
+
+  render() {
+    var course = this.props.courses.map(function(course) {
+      return (<CourseRow
+        course={course}
+        key={course.id}/>)
+    });
+    return (
+      <div>
+
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>Course ID</th>
+              <th>Course Title</th>
+              <th>Course Name</th>
+              <th>Term</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {course}
+          </tbody>
+
+        </table>
       </div>
+    );
+  }
+}
+
+class CourseRow extends React.Component {
+
+  render() {
+
+    return (
+      <tr className="eachRow">
+        <td> {this.props.course.courseId} </td>
+        <td> {this.props.course.courseName} </td>
+        <td> {this.props.course.courseAbbr} </td>
+        <td> {this.props.course.courseTerm} </td>
+        <td> {this.props.course.courseLoc} </td>
+      </tr>
     );
   }
 }
