@@ -255,12 +255,14 @@ public class StudentController {
 	 * @return
 	 */
 	@RequestMapping(path="/dropCourse", method = RequestMethod.GET)
-	public @ResponseBody  StatusBean dropCourse(@RequestParam int user, @RequestParam int courseId)
+	public @ResponseBody  StatusBean dropCourse(@RequestParam long userId, @RequestParam int courseId)
 	{
 		StatusBean status = new StatusBean();
 		try {
 
-			UserCourseEntity  userCourse = userCourseRepository.findCourseTodrop(user, courseId);
+			UserEntity user = userRepository.findByNEUId(userId);
+			int userdbId = user.getUserDBid();
+			UserCourseEntity  userCourse = userCourseRepository.findCourseTodrop(userdbId, courseId);
 			if(userCourse != null) {
 				userCourseRepository.delete(userCourse);
 				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
