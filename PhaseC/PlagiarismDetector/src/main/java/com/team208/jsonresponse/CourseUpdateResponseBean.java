@@ -19,6 +19,16 @@ public class CourseUpdateResponseBean implements Serializable{
 
 	private String courseLoc;
 	
+	private int sections;
+	
+	public int getSections() {
+		return sections;
+	}
+
+	public void setSections(int sections) {
+		this.sections = sections;
+	}
+
 	private Long createdCourseBy;
 
 	public int getCourseId() {

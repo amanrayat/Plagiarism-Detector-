@@ -78,14 +78,14 @@ public class MainControllerTest{
 	
 	@Test()
 	public void test5(){ 
-		AllSubmissionResponse users = mc.allSubmissionsByCourse("DM5500", 2);	
+		//AllSubmissionResponse users = mc.allSubmissionsByCourse("DM5500", 2);	
 	}
 	
 	@Test()
 	public void test6(){ 
 		String codename = "CS5500";
-		AllSubmissionResponse users = mc.allSubmissionsByCourse(codename, 1);	
-		System.out.println( "CODE "+ users.getStatus().getStatusCode());
+	//	AllSubmissionResponse users = mc.allSubmissionsByCourse(codename, 1);	
+		//System.out.println( "CODE "+ users.getStatus().getStatusCode());
 	}
 	
 	

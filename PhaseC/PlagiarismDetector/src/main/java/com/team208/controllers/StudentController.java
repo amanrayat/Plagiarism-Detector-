@@ -57,6 +57,12 @@ public class StudentController {
 	@Autowired 
 	private AssignmentSubmissionRepository submissionRepository;
 
+	/**
+	 * 
+	 * @param userId
+	 * @param courseId
+	 * @return
+	 */
 	@GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
 	public @ResponseBody StatusBean addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
 		StatusBean status = null;
@@ -86,7 +92,11 @@ public class StudentController {
 
 	}
 
-
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@GetMapping(path="/getStudentCourses")
 	public @ResponseBody  Set<CourseEntity> getStudentCourses(@RequestParam long userId){
 		Set<CourseEntity> courses = new  HashSet<>();
@@ -109,7 +119,11 @@ public class StudentController {
 	}
 
 
-
+	/**
+	 * 
+	 * @param submisson
+	 * @return
+	 */
 	@RequestMapping(path="/submitSubmission", method= RequestMethod.POST)
 	public @ResponseBody StatusBean assignmentSubmission (@RequestBody StudentSubmissionJsonBean submisson) {
 
@@ -150,7 +164,11 @@ public class StudentController {
 		return status;
 	}
 
-
+	/**
+	 * 
+	 * @param submisson
+	 * @return
+	 */
 	@RequestMapping(path="/updateSubmission", method= RequestMethod.PUT)
 	public @ResponseBody StatusBean updateSubmission ( @RequestBody UpdateSubmissionRequestBean submisson) {
 
@@ -185,7 +203,11 @@ public class StudentController {
 		return status;
 	}
 
-	//Student controller
+	/**
+	 * 
+	 * @param submissionId
+	 * @return
+	 */
 	@RequestMapping(path="/deletSubmission", method = RequestMethod.GET  ) 
 	public @ResponseBody  StatusBean deletSubmission(@RequestParam int submissionId){
 		StatusBean status = new StatusBean();
@@ -210,6 +232,11 @@ public class StudentController {
 
 	}
 
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@GetMapping(path="/getStudentSubmissions")
 	public @ResponseBody  Set<SubmissionResponseBean> getStudentSubmissions(@RequestParam long userId){
 		Set<SubmissionResponseBean> submission = new  HashSet<>();

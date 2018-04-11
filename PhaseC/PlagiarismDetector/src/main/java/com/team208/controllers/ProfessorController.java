@@ -74,6 +74,16 @@ public class ProfessorController {
 	@Autowired 
 	private CourseRepository courseRepository;
 
+	/**
+	 * 
+	 * @param courseId
+	 * @param assignId
+	 * @param threshold
+	 * @param lang
+	 * @param allSubmission
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
 	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestParam String lang,@RequestBody String allSubmission) throws Exception {
 		Map<Integer, String> allSubmissionMap = new HashMap<>();
@@ -95,9 +105,9 @@ public class ProfessorController {
 				int student2 = allStudents.get(j);
 
 				if(!done.containsKey(student1 + ","+ student2 + ","+courseId + "," + assignId) || !done.containsKey(student2 + "," + student1  + ","+courseId + "," + assignId)) {
-//first student submission
+					//first student submission
 					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student1), allSubmissionMap.get(student1),lang );
-//second student submission
+					//second student submission
 
 					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2), lang);
 					String[] result = ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold,student1,student2,lang);
@@ -143,7 +153,11 @@ public class ProfessorController {
 		zos.close();
 	}
 
-
+	/**
+	 * adding assignment for a course
+	 * @param assign
+	 * @return status
+	 */
 	@RequestMapping(path="/addAssignment", method = RequestMethod.POST  )  // Map ONLY GET Requests
 	public @ResponseBody StatusBean addAssignment (@RequestBody AssignmentJsonBean assign) {
 
@@ -174,6 +188,11 @@ public class ProfessorController {
 		return status;
 	}
 
+	/**
+	 * adds a course 
+	 * @param course
+	 * @return status
+	 */
 	@RequestMapping(path="/addCourse", method = RequestMethod.POST) // Map ONLY GET Requests
 	public @ResponseBody StatusBean addCourse (@RequestBody CourseJsonBean course) {
 		StatusBean status = new StatusBean();
@@ -181,14 +200,22 @@ public class ProfessorController {
 
 			UserEntity professor = userRepository.findByNEUId(course.getCreatedCourseBy());
 
-			CourseEntity n = new CourseEntity();
-			n.setCreatedCourseBy(professor);
-			n.setCourseAbbr(course.getCourseAbbr());
-			n.setCourseLoc(course.getCourseLoc());
-			n.setCourseName(course.getCourseName());
-			n.setCourseTerm(course.getCourseTerm());
+			List<Integer> section = course.getSections();
 
-			courseRepository.save(n);
+
+			for(int i=0 ; i<section.size(); i++) {
+
+				CourseEntity n = new CourseEntity();
+				n.setCreatedCourseBy(professor);
+				n.setCourseAbbr(course.getCourseAbbr());
+				n.setSection(section.get(i));
+				n.setCourseLoc(course.getCourseLoc());
+				n.setCourseName(course.getCourseName());
+				n.setCourseTerm(course.getCourseTerm());
+
+				courseRepository.save(n);
+
+			}
 			status.setStatus(Constants.SUCCESS_STATUS);
 			status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 
@@ -201,20 +228,26 @@ public class ProfessorController {
 		}
 		return status;
 	}
-
+	
+	/**
+	 * 
+	 * @param course
+	 * @return
+	 */
 	@RequestMapping(path="/updateCourse", method = RequestMethod.PUT ) // Map ONLY GET Requests
 	public @ResponseBody StatusBean updateCourse (@RequestBody CourseUpdateResponseBean course) {
-		
+
 		StatusBean status = new StatusBean();
 		try {
 			if(courseRepository.existsById(course.getCourseId())) {
-				
+
 				UserEntity professor = userRepository.findByNEUId(course.getCreatedCourseBy());
 
 				CourseEntity n = courseRepository.findByCourseId(course.getCourseId());
 				n.setCreatedCourseBy(professor);
 				n.setCourseAbbr(course.getCourseAbbr());
 				n.setCourseLoc(course.getCourseLoc());
+				n.setSection(course.getSections());
 				n.setCourseName(course.getCourseName());
 				n.setCourseTerm(course.getCourseTerm());
 
@@ -238,28 +271,32 @@ public class ProfessorController {
 		return status;
 	}
 
-
+	/**
+	 * 
+	 * @param assign
+	 * @return
+	 */
 	@RequestMapping(path="/updateAssignment", method = RequestMethod.PUT ) // Map ONLY GET Requests
 	public @ResponseBody StatusBean updateAssignment (@RequestBody AssignmentJsonBean assign) {
-		
+
 		StatusBean status = new StatusBean();
 		try {
 			AssignmentEntity assignment = assignmentRepository.findById(assign.getAssignmentId());
 			if(assignmentRepository.existsById(assignment.getAssignmentId())) {
-			CourseEntity course = courseRepository.findByCourseId(assign.getCourseId());
-			assignment.setAssignmentCourse(course);
-			assignment.setAssignmentName(assign.getAssignmentName());
-			assignment.setAssignmentNo(assign.getAssignmentNo());
-			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");//dd/MM/yyyy HH:mm:ss
+				CourseEntity course = courseRepository.findByCourseId(assign.getCourseId());
+				assignment.setAssignmentCourse(course);
+				assignment.setAssignmentName(assign.getAssignmentName());
+				assignment.setAssignmentNo(assign.getAssignmentNo());
+				SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");//dd/MM/yyyy HH:mm:ss
 
-	
 
-			Date endDate = sdfDate.parse(assign.getSubmissionDate());
-			assignment.setSubmissionDate(endDate);
 
-			assignmentRepository.save(assignment);
-			status.setStatus(Constants.SUCCESS_STATUS);
-			status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				Date endDate = sdfDate.parse(assign.getSubmissionDate());
+				assignment.setSubmissionDate(endDate);
+
+				assignmentRepository.save(assignment);
+				status.setStatus(Constants.SUCCESS_STATUS);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 			}else {
 				status.setStatus(Constants.UNAVAILABLE);
 				status.setStatusCode(Constants.UNAVAILABLE_CODE);
@@ -275,7 +312,12 @@ public class ProfessorController {
 		}
 		return status;
 	}
-
+	
+	/**
+	 * 
+	 * @param courseId
+	 * @return
+	 */
 	@RequestMapping(path="/deletCourse", method = RequestMethod.GET  ) 
 	public @ResponseBody  StatusBean deleteCourse(@RequestParam int courseId){
 		StatusBean status = new StatusBean();
@@ -301,6 +343,11 @@ public class ProfessorController {
 
 	}
 
+	/**
+	 * 
+	 * @param assignmentId
+	 * @return
+	 */
 	@RequestMapping(path="/deletAssignment", method = RequestMethod.GET  ) 
 	public @ResponseBody  StatusBean deletAssignment(@RequestParam int assignmentId){
 		StatusBean status = new StatusBean();

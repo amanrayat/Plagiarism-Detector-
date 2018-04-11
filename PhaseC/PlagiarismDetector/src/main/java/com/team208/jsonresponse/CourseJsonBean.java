@@ -1,6 +1,7 @@
 package com.team208.jsonresponse;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 
@@ -13,6 +14,8 @@ public class CourseJsonBean implements Serializable{
 	
 	private String courseName;
 
+	private List<Integer> sections;
+	
 	private String courseAbbr;
 
 	private String courseTerm;
@@ -59,6 +62,14 @@ public class CourseJsonBean implements Serializable{
 
 	public void setCreatedCourseBy(Long createdCourseBy) {
 		this.createdCourseBy = createdCourseBy;
+	}
+
+	public List<Integer> getSections() {
+		return sections;
+	}
+
+	public void setSections(List<Integer> sections) {
+		this.sections = sections;
 	}
 	
 
