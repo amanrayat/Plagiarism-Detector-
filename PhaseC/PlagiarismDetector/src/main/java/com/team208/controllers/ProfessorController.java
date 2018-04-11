@@ -151,7 +151,7 @@ public class ProfessorController {
 		try {
 			AssignmentEntity assignment = new AssignmentEntity();
 
-			CourseEntity course = courseRepository.findById(assign.getCourseId());
+			CourseEntity course = courseRepository.findByCourseId(assign.getCourseId());
 			assignment.setAssignmentCourse(course);
 			assignment.setAssignmentName(assign.getAssignmentName());
 			assignment.setAssignmentNo(assign.getAssignmentNo());
@@ -211,7 +211,7 @@ public class ProfessorController {
 				
 				UserEntity professor = userRepository.findByNEUId(course.getCreatedCourseBy());
 
-				CourseEntity n = courseRepository.findById(course.getCourseId());
+				CourseEntity n = courseRepository.findByCourseId(course.getCourseId());
 				n.setCreatedCourseBy(professor);
 				n.setCourseAbbr(course.getCourseAbbr());
 				n.setCourseLoc(course.getCourseLoc());
@@ -246,7 +246,7 @@ public class ProfessorController {
 		try {
 			AssignmentEntity assignment = assignmentRepository.findById(assign.getAssignmentId());
 			if(assignmentRepository.existsById(assignment.getAssignmentId())) {
-			CourseEntity course = courseRepository.findById(assign.getCourseId());
+			CourseEntity course = courseRepository.findByCourseId(assign.getCourseId());
 			assignment.setAssignmentCourse(course);
 			assignment.setAssignmentName(assign.getAssignmentName());
 			assignment.setAssignmentNo(assign.getAssignmentNo());

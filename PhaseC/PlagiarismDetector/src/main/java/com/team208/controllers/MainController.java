@@ -1,5 +1,10 @@
 package com.team208.controllers;
 
+import static org.mockito.Matchers.anyCollection;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team208.domain.AssignmentEntity;
 import com.team208.domain.AssignmentRepository;
+import com.team208.domain.AssignmentSubmissionEntity;
 import com.team208.domain.AssignmentSubmissionRepository;
 import com.team208.domain.CourseEntity;
 import com.team208.domain.CourseRepository;
@@ -35,6 +41,7 @@ import com.team208.jsonresponse.AssignmentListBean;
 import com.team208.jsonresponse.CourseJsonBean;
 import com.team208.jsonresponse.LoginJsonBean;
 import com.team208.jsonresponse.LoginResponse;
+import com.team208.jsonresponse.MultipleTermSubmissionJson;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.jsonresponse.UserJsonBean;
 import com.team208.utilities.Constants;
@@ -210,8 +217,9 @@ public class MainController {
 		AllSubmissionResponse subs = new AllSubmissionResponse();
 		StatusBean status = new StatusBean();
 		try {
-			CourseEntity course = courseRepository.findByAbbr(courseAbbr);
-
+			
+			Integer id = courseRepository.findByAbbr(courseAbbr);
+			CourseEntity course =  courseRepository.findByCourseId(id);
 			if(courseRepository.existsById(course.getCourseId())) {
 
 				int courseId = course.getCourseId();
@@ -313,7 +321,7 @@ public class MainController {
 		CourseEntity course = null;
 
 		try{
-			course = courseRepository.findById(courseId);
+			course = courseRepository.findByCourseId(courseId);
 			if(course != null) {
 				courseResponse = new CourseJsonBean();
 				courseResponse.setCourseAbbr(course.getCourseAbbr());
@@ -337,5 +345,63 @@ public class MainController {
 	}
 
 
+
+	/**
+	 * Find all submissions with course abbreviation and assignment number with different terms
+	 * @param courseAbbr
+	 * @param assignmentNo
+	 * @return list of the submissions by students for the requirement 
+	 */
+	@RequestMapping(path="/allSubmissionsByCourseMultipleTerms", method=RequestMethod.POST)
+	public @ResponseBody AllSubmissionResponse allSubmissionsByCourseMultipleTerms(@RequestBody MultipleTermSubmissionJson data ) {
+		AllSubmissionResponse subs = new AllSubmissionResponse();
+		StatusBean status = new StatusBean();
+		try {
+			List<Integer> courseIds = courseRepository.findByTermAndAbbr(data.getTerm(), data.getCourseAbbr());
+
+			List<Integer> assignmentIds = assignmentRepository.findByCourses(courseIds);
+
+			Set<AssignmentSubmissionEntity> submissions = submissionRepository.findSubmissionByMultpileAssignmentIds(assignmentIds);
+			
+			subs.setSubmissions(submissions);
+			status.setStatus(Constants.SUCCESS_STATUS);
+			status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+			subs.setStatus(status);
+
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+			status.setStatus(Constants.FAILURE_EXCEPTION_STATUS);
+			status.setStatusCode(Constants.FAILURE_EXCEPTION_STATUS_CODE);
+			subs.setStatus(status);
+		}
+
+		return subs;
+
+	}
+
+
+	@RequestMapping(path="/CourseByAbbr", method=RequestMethod.GET)
+	public @ResponseBody List<String> courseByAbbr(@RequestParam String courseAbbr){
+		Set<CourseEntity> courses = null;
+		List<String> terms = new ArrayList<>();
+
+		try{
+			courses = courseRepository.findByMultipleCourseAbbr(courseAbbr);
+			if(courses != null) {
+				
+				for(CourseEntity c :  courses) {
+					terms.add(c.getCourseTerm());
+				}
+				Collections.sort(terms);
+			}
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+
+
+		}
+
+		return terms;
+
+	}
 
 }

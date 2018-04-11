@@ -1,6 +1,7 @@
 package com.team208.domain;
 
 
+import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -22,5 +23,7 @@ public interface AssignmentRepository extends CrudRepository<AssignmentEntity, I
 	@Query("SELECT s FROM AssignmentEntity s inner join s.assignmentCourse c WHERE    c.courseId=:course_id ")
 	Set<AssignmentEntity> findByCourse( @Param("course_id")int courseId);
 	
+	@Query("SELECT s.assignmentId FROM AssignmentEntity s inner join s.assignmentCourse c WHERE    c.courseId IN ?1 ")
+	List<Integer> findByCourses( List<Integer> courseIds);
 	
 }
