@@ -157,29 +157,19 @@ public class StudentController {
 		StatusBean status = new StatusBean();
 		try {
 			if(submissionRepository.existsById(submisson.getSubmissionId())) {
-				Long studentId = 	submisson.getStudentId();
-				int assignmentId =  submisson.getAssignmentId();
-
+		
 				long time = System.currentTimeMillis();
 				Timestamp timestamp = new Timestamp(time);
-
-				if(assignmentRepository.existsById(assignmentId) ) {
-					UserEntity student = userRepository.findByNEUId(studentId);
-					AssignmentEntity assignment = assignmentRepository.findById(submisson.getAssignmentId());
+					
 					AssignmentSubmissionEntity sub = submissionRepository.findById(submisson.getSubmissionId());
-
-					sub.setAssignmentId(assignment);
-					sub.setStudent(student);
+			
 					sub.setGitLink(submisson.getGitLink());
 					sub.setTimestamp(timestamp);
 
 					submissionRepository.save(sub);
 					status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 					status.setStatus(Constants.SUCCESS_STATUS);
-				}else {
-					status.setStatusCode(600);
-					status.setStatus("Assignment doesnt exist");
-				}
+				
 			}else {
 				status.setStatusCode(601);
 				status.setStatus("Submission doesnt exist");
