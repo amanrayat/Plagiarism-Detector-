@@ -11,6 +11,7 @@ export default class AssignmentsPage extends React.Component {
     this.state = {
       courseId: '',
       assignements: [],
+      assignmentId: '',
       assignmentNo: '',
       assignmentName: '',
       submissionDate: '',
@@ -52,18 +53,21 @@ export default class AssignmentsPage extends React.Component {
     .then(this.fetchAssignments(this.state.selectedCourse))
   }
 
-
-
   onUpdateAssignment(assignment){
 
     this.setState({
-      isForm:true
+      isForm:true,
+      assignmentId:assignment.assignmentId
     })
   }
 
   handleFormSubmit(){
-    console.log("Updating Assignment with date",this.state.submissionDate)
-    console.log("Selected Course ID", this.state.selectedCourse.courseId)
+    console.log("On assignment update")
+    console.log("AssignmentID :",this.state.assignmentId)
+    console.log("courseId :",this.state.selectedCourse.courseId)
+    console.log("AssignmentNo :",this.state.assignmentNo)
+    console.log("AssignmentName :",this.state.assignmentName)
+    console.log("submissionDate :",this.state.submissionDate+"-00:00:00")
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateAssignment', {
         method: 'PUT',
         headers: {
@@ -71,22 +75,19 @@ export default class AssignmentsPage extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+	        assignmentId: this.state.assignmentId,
           courseId: this.state.selectedCourse.courseId,
           assignmentNo: this.state.assignmentNo,
           assignmentName: this.state.assignmentName,
-          submissionDate: this.state.submissionDate,
+          submissionDate: this.state.submissionDate+"-00:00:00",
         })
       }).then(function(response) {
          return response.json();
-       }).then(j =>
-          // console.log(Object.values(j)[1].name);
-          this.setState({
-            assignmentNo: '',
-            assignmentName: '',
-            submissionDate: '',
-            isForm: false,
-          })
-        ).catch(function() {
+       }).then(this.fetchAssignments(this.state.selectedCourse))
+       .then(this.setState({
+         isForm: false
+       }))
+       .catch(function() {
           alert("Error updating a new assignment. Please try again.")
         });
   }

@@ -92,7 +92,7 @@ export default class CoursePage extends React.Component {
   render(){
     const courses = this.state.courses;
     return (
-      <div className={'container col-md-6 col-md-offset-3'}>
+      <div>
       <UserTable onRowDel={this.handleRowDel.bind(this)}
                  courses={this.state.courses}
                  onRowUpdate={this.handleRowUpdate.bind(this)} />

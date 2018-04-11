@@ -9,7 +9,7 @@ import TempProfPage from './professor/TempProfPage.js'
 import StudentSubmissionPage from './student/StudentSubmissionPage.js'
 import ProfessorCoursePage from './professor/ProfessorCoursePage.js'
 import ProfessorMainPage from './professor/ProfessorMainPage.js'
-
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 export default class HomePage extends React.Component{
 
@@ -91,7 +91,7 @@ export default class HomePage extends React.Component{
     }
     else {
       return (
-        <div className={'container col-md-6 col-md-offset-3'}>
+        <div style={{ padding: '25px'}} className={'container col-md-6 col-md-offset-3'}>
           <h1> User Log In </h1>
           <input className={'col-4'}
                 type="number"
@@ -107,8 +107,8 @@ export default class HomePage extends React.Component{
                 onChange={this.update.bind(this)} />
           <br />
           <br />
-          <button className={'btn btn-primary'} onClick={this.handleClick}> Login </button>
-          <button className={'btn'} onClick={this.register}> Register </button>
+          <Button className={'btn btn-primary'} onClick={this.handleClick}> Login </Button>
+          <Button className={'btn'} onClick={this.register}> Register </Button>
         </div>
       );
     }

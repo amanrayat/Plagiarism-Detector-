@@ -20,7 +20,7 @@ export default class Header extends React.Component {
     return (
       <div>
       <Router>
-        <div>
+        <div style={{ padding: '25px'}}>
             <br />
             <h1 > Plagiarism Detection System </h1>
             <HomePage />

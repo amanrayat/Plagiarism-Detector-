@@ -11,6 +11,7 @@ export default class RegisterForCourse extends React.Component {
       userID: this.props.userID,
       courses: [],
       studentCourses: [],
+      user: [],
     };
     this.fetchUsers = this.fetchUsers.bind(this);
   }
@@ -19,6 +20,11 @@ export default class RegisterForCourse extends React.Component {
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
+
+      fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/findStudent?userId='+this.state.userID)
+          .then(response => response.json())
+          .then(data => this.setState({user: data.user}));
+        console.log("Email:",this.state.user.email)
   }
 
   fetchUsers() {
@@ -35,6 +41,23 @@ export default class RegisterForCourse extends React.Component {
     .catch(function() {
       alert("Registration completed.")
     });
+
+    let postBody = [{
+        "email": this.state.user.email,
+        "content": "ADD",
+        "link":""
+     }]
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/Email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*'
+      },
+      body: JSON.stringify(postBody)
+     }).then(response => response.json())
+     .catch(function() {
+       alert("Failed to send Email")});
+
   }
 
   render(){

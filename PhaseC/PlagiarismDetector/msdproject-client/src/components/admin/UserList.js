@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Table } from 'reactstrap';
 
 class UserList extends React.Component{
 
@@ -47,7 +47,7 @@ class UserList extends React.Component{
     const users = this.state.users;
     return (
       <div>
-      <UserTable
+      <UserTable className='table'
         users={this.state.users}/>
       </div>
     );
@@ -65,8 +65,8 @@ class UserTable extends React.Component {
 
     return (
       <div>
-        <table className="table table-bordered">
-          <thead /*style={{backgroundColor: '#cbd0d6'}}*/>
+        <Table>
+          <thead>
             <tr>
               <th>User ID</th>
               <th>Name</th>
@@ -80,7 +80,7 @@ class UserTable extends React.Component {
             {user}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }

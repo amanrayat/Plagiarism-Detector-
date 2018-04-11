@@ -11,7 +11,9 @@ export default class DeleteSubmission extends React.Component {
     this.state = {
       userID: this.props.userID,
       submissionID: '',
-      submissions: []
+      submissions: [],
+      gitLink: '',
+      isForm: false,
     }
   }
 
@@ -41,10 +43,50 @@ export default class DeleteSubmission extends React.Component {
   };
 
   handleRowUpdate(submission){
-    console.log("Updating Submission:",submission.submissionId)
+    console.log("From handleRowUpdate")
+    this.setState({
+      isForm: true,
+      submissionID: submission.submissionId
+    })
+
+  }
+
+  update(){
+    console.log("From update form")
+    this.setState({
+      gitLink: this.refs.gitLink.value,
+    })
+  }
+
+  handleClick(){
+    console.log("Updating Submission:",this.state.submissionID)
+    let userID = this.state.userID
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateSubmission', {
+      method: 'PUT',
+       headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify({
+         submissionId: this.state.submissionID,
+	       gitLink : this.state.gitLink,
+
+       })
+     }).then(this.fetchSubmissions(userID));
   }
 
   render(){
+    let gitForm
+
+    if(this.state.isForm){
+      gitForm = <div>
+      <input type="text" name="gitLink" ref="gitLink" placeholder="gitlink"
+            value={this.state.name}
+            onChange={this.update.bind(this)} />
+      <button onClick={this.handleClick.bind(this)}> Update </button>
+            </div>
+    }
+
     let submissions = this.state.submissions;
     console.log("Submisiions: ",submissions)
     console.log("user:",this.state.userID)
@@ -53,6 +95,7 @@ export default class DeleteSubmission extends React.Component {
         <UserTable onRowDel={this.handleRowDel.bind(this)}
         onRowUpdate={this.handleRowUpdate.bind(this)}
         submissions={this.state.submissions} />
+        {gitForm}
       </div>
     );
   }
@@ -90,6 +133,7 @@ class UserTable extends React.Component {
           </tbody>
 
         </table>
+
       </div>
     );
   }

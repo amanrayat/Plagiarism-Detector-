@@ -1,4 +1,5 @@
 import React from 'react';
+import S3Uploader from './S3Uploader'
 
 export default class NewSubmission extends React.Component {
   constructor(props) {
@@ -113,6 +114,10 @@ render() {
     <input type="text" ref="gitLink" placeholder="GitLink"
           onChange={this.update.bind(this)}/>
     <button onClick={this.handleClick.bind(this)}> Submit </button>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+      <input type="file" name="file" /><br/><br/>
+      <input type="submit" value="Submit" />
+    </form>
     </div>
   }
 
@@ -121,6 +126,7 @@ render() {
     {table}
     {assignmentsComp}
     {form}
+    <S3Uploader />
     </div>
   );
 }
