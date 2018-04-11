@@ -29,4 +29,7 @@ public interface CourseRepository extends CrudRepository<CourseEntity, Integer> 
 	 @Query("SELECT s FROM CourseEntity s WHERE s.courseAbbr=:courseAbbr")
 	 Set<CourseEntity> findByMultipleCourseAbbr(@Param("courseAbbr") String courseAbbr);
 
+	 @Query("SELECT s.courseId FROM CourseEntity s WHERE   s.courseAbbr=:courseAbbr and s.courseTerm=:course_term and s.section IN (:course_sections)") 
+	 List<Integer> findByAbbrTermSections(@Param("courseAbbr")String courseAbbr, @Param("course_term")String currentTerm, @Param("course_sections")List<Integer> sections);
+
 }

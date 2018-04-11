@@ -213,41 +213,23 @@ public class MainController {
 	 * @return list of the submissions by students for the requirement 
 	 */
 	@GetMapping(path="/allSubmissionsByCourse")
-	public @ResponseBody AllSubmissionResponse allSubmissionsByCourse(@RequestParam String courseAbbr,@RequestParam int assignmentNo ) {
+	public @ResponseBody AllSubmissionResponse allSubmissionsByCourse(@RequestParam String courseAbbr,@RequestParam int assignmentNo,
+			@RequestParam List<String> term ,@RequestParam List<Integer> sections) {
 		AllSubmissionResponse subs = new AllSubmissionResponse();
 		StatusBean status = new StatusBean();
 		try {
-			
-			Integer id = courseRepository.findByAbbr(courseAbbr);
-			CourseEntity course =  courseRepository.findByCourseId(id);
-			if(courseRepository.existsById(course.getCourseId())) {
 
-				int courseId = course.getCourseId();
+			String currentTerm = term.get(0);
+			List<Integer> ids = courseRepository.findByAbbrTermSections(courseAbbr, currentTerm,  sections);
 
-				AssignmentEntity assignment = assignmentRepository.findByNoAndCourse(assignmentNo, courseId );
+			List<Integer> assignmentIds = assignmentRepository.findByCourses(ids);
 
-				if(assignmentRepository.existsById(assignment.getAssignmentId()) ) {
+			Set<AssignmentSubmissionEntity> submissions = submissionRepository.findSubmissionByMultpileAssignmentIds(assignmentIds);
 
-
-
-					int assignmentId = assignment.getAssignmentId();
-					subs.setSubmissions(submissionRepository.findSubmissionByAssignmentId(assignmentId));
-					status.setStatus(Constants.SUCCESS_STATUS);
-					status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
-					subs.setStatus(status);
-
-				}else {
-					status.setStatus(Constants.UNAVAILABLE_ASSIGNMENT);
-					status.setStatusCode(Constants.UNAVAILABLE_ASSIGNMENT_CODE);
-					subs.setStatus(status);
-				}
-			}else {
-				status.setStatus(Constants.UNAVAILABLE_COURSE);
-				status.setStatusCode(Constants.UNAVAILABLE_COURSE_CODE);
-				subs.setStatus(status);
-
-			}
-
+			subs.setSubmissions(submissions);
+			status.setStatus(Constants.SUCCESS_STATUS);
+			status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+			subs.setStatus(status);
 		}catch (Exception e) {
 			logger.info(Constants.CONTEXT+e.getMessage());
 			status.setStatus(Constants.FAILURE_EXCEPTION_STATUS);
@@ -259,6 +241,11 @@ public class MainController {
 
 	}
 
+	/**
+	 * 
+	 * @param term
+	 * @return
+	 */
 	@RequestMapping(path="/coursesByTerm", method=RequestMethod.GET)
 	public @ResponseBody CourseListBean getcoursesByTerm(@RequestParam String term){
 		CourseListBean courses = null;
@@ -286,7 +273,11 @@ public class MainController {
 
 	}
 
-
+	/**
+	 * 
+	 * @param courseId
+	 * @return
+	 */
 	@RequestMapping(path="/assignmentsByCourse", method=RequestMethod.GET)
 	public @ResponseBody AssignmentListBean getassignmentsByCourse(@RequestParam int courseId){
 		AssignmentListBean assignments = null;
@@ -314,7 +305,11 @@ public class MainController {
 
 	}
 
-
+	/**
+	 * 
+	 * @param courseId
+	 * @return
+	 */
 	@RequestMapping(path="/CourseById", method=RequestMethod.GET)
 	public @ResponseBody CourseJsonBean getCourseById(@RequestParam int courseId){
 		CourseJsonBean courseResponse = null;
@@ -362,7 +357,7 @@ public class MainController {
 			List<Integer> assignmentIds = assignmentRepository.findByCourses(courseIds);
 
 			Set<AssignmentSubmissionEntity> submissions = submissionRepository.findSubmissionByMultpileAssignmentIds(assignmentIds);
-			
+
 			subs.setSubmissions(submissions);
 			status.setStatus(Constants.SUCCESS_STATUS);
 			status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
@@ -379,7 +374,11 @@ public class MainController {
 
 	}
 
-
+	/**
+	 * 
+	 * @param courseAbbr
+	 * @return
+	 */
 	@RequestMapping(path="/CourseByAbbr", method=RequestMethod.GET)
 	public @ResponseBody List<String> courseByAbbr(@RequestParam String courseAbbr){
 		Set<CourseEntity> courses = null;
@@ -388,7 +387,7 @@ public class MainController {
 		try{
 			courses = courseRepository.findByMultipleCourseAbbr(courseAbbr);
 			if(courses != null) {
-				
+
 				for(CourseEntity c :  courses) {
 					terms.add(c.getCourseTerm());
 				}
