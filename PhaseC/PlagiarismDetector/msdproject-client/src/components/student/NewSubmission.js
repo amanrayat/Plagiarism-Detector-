@@ -123,7 +123,11 @@ render() {
     <br />
     <h3> OR </h3>
     <div align="center">
-      <Uploader courseAbbr={this.state.courseAbbr} assignmentName={this.state.assignmentName}/>
+      <Uploader
+            courseAbbr={this.state.courseAbbr}
+            assignmentName={this.state.assignmentName}
+            submitAssignmentId={this.state.submitAssignmentId}
+            studentId={this.state.studentId} />
     </div>
     </div>
   }

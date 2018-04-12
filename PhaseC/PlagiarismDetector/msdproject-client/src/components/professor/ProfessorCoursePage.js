@@ -163,7 +163,6 @@ export default class AssignmentsPage extends React.Component {
       });
   }
 
-//TODO: Send term as an array!!
   getSubmissions(){
     console.log("From getSubmissions course term array:",this.state.courseTerm)
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208'+
@@ -204,6 +203,26 @@ export default class AssignmentsPage extends React.Component {
 
   generateReport(){
     console.log("From generate Report")
+    console.log("submissions",JSON.stringify(this.state.submissions))
+
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
+      method: 'POST',
+      mode: 'cors',
+       headers: {
+         'Content-Type': 'application/json',
+         'Access-Control-Allow-Origin':'*'
+       },
+       body: JSON.stringify(this.state.submissions)
+     }).then(response => response.json())
+     .then(data => this.setState({reports: data}))
+     .catch(function() {
+       alert("Failed to Generate Reports")
+     });
+     console.log("Reports1:",this.state.reports)
+  }
+
+  generateReport2(){
+    console.log("From generate Report2")
     console.log("submissions",JSON.stringify(this.state.submissions))
 
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
@@ -279,6 +298,7 @@ export default class AssignmentsPage extends React.Component {
     let assignmentsComp
     let form
     let generateReport
+    let generateReport2
     let generatingReports
     let viewReports
     let generateReportByTerms
@@ -290,6 +310,7 @@ export default class AssignmentsPage extends React.Component {
 
     if(this.state.gotSubmissions){
       generateReport = <button onClick={this.generateReport.bind(this)}> Generate Reports </button>
+      generateReport2 = <button onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</button>
       generatingReports = <h1> Click on Generate Reports and please wait while reports are being generated. </h1>
     }
 
@@ -343,6 +364,9 @@ export default class AssignmentsPage extends React.Component {
         {form}
         {generateReportByTerms}
         {generateReport}
+        <br />
+        <br />
+        {generateReport2}
         {generatingReports}
       </div>
     );
