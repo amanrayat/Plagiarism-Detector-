@@ -57,6 +57,12 @@ public class StudentController {
 	@Autowired 
 	private AssignmentSubmissionRepository submissionRepository;
 
+	/**
+	 * 
+	 * @param userId
+	 * @param courseId
+	 * @return
+	 */
 	@GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
 	public @ResponseBody StatusBean addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
 		StatusBean status = null;
@@ -86,7 +92,11 @@ public class StudentController {
 
 	}
 
-
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@GetMapping(path="/getStudentCourses")
 	public @ResponseBody  Set<CourseEntity> getStudentCourses(@RequestParam long userId){
 		Set<CourseEntity> courses = new  HashSet<>();
@@ -109,7 +119,11 @@ public class StudentController {
 	}
 
 
-
+	/**
+	 * 
+	 * @param submisson
+	 * @return
+	 */
 	@RequestMapping(path="/submitSubmission", method= RequestMethod.POST)
 	public @ResponseBody StatusBean assignmentSubmission (@RequestBody StudentSubmissionJsonBean submisson) {
 
@@ -150,36 +164,30 @@ public class StudentController {
 		return status;
 	}
 
-
+	/**
+	 * 
+	 * @param submisson
+	 * @return
+	 */
 	@RequestMapping(path="/updateSubmission", method= RequestMethod.PUT)
 	public @ResponseBody StatusBean updateSubmission ( @RequestBody UpdateSubmissionRequestBean submisson) {
 
 		StatusBean status = new StatusBean();
 		try {
 			if(submissionRepository.existsById(submisson.getSubmissionId())) {
-				Long studentId = 	submisson.getStudentId();
-				int assignmentId =  submisson.getAssignmentId();
-
+		
 				long time = System.currentTimeMillis();
 				Timestamp timestamp = new Timestamp(time);
-
-				if(assignmentRepository.existsById(assignmentId) ) {
-					UserEntity student = userRepository.findByNEUId(studentId);
-					AssignmentEntity assignment = assignmentRepository.findById(submisson.getAssignmentId());
-					AssignmentSubmissionEntity sub = new AssignmentSubmissionEntity();
-
-					sub.setAssignmentId(assignment);
-					sub.setStudent(student);
+					
+					AssignmentSubmissionEntity sub = submissionRepository.findById(submisson.getSubmissionId());
+			
 					sub.setGitLink(submisson.getGitLink());
 					sub.setTimestamp(timestamp);
 
 					submissionRepository.save(sub);
 					status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 					status.setStatus(Constants.SUCCESS_STATUS);
-				}else {
-					status.setStatusCode(600);
-					status.setStatus("Assignment doesnt exist");
-				}
+				
 			}else {
 				status.setStatusCode(601);
 				status.setStatus("Submission doesnt exist");
@@ -195,7 +203,11 @@ public class StudentController {
 		return status;
 	}
 
-	//Student controller
+	/**
+	 * 
+	 * @param submissionId
+	 * @return
+	 */
 	@RequestMapping(path="/deletSubmission", method = RequestMethod.GET  ) 
 	public @ResponseBody  StatusBean deletSubmission(@RequestParam int submissionId){
 		StatusBean status = new StatusBean();
@@ -219,7 +231,12 @@ public class StudentController {
 		return status;
 
 	}
-	
+
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@GetMapping(path="/getStudentSubmissions")
 	public @ResponseBody  Set<SubmissionResponseBean> getStudentSubmissions(@RequestParam long userId){
 		Set<SubmissionResponseBean> submission = new  HashSet<>();
@@ -247,6 +264,41 @@ public class StudentController {
 		return submission;
 
 	}
-	
-	
+
+	/**
+	 * deletes the user course registration
+	 * @param user
+	 * @param courseId
+	 * @return
+	 */
+	@RequestMapping(path="/dropCourse", method = RequestMethod.GET)
+	public @ResponseBody  StatusBean dropCourse(@RequestParam long userId, @RequestParam int courseId)
+	{
+		StatusBean status = new StatusBean();
+		try {
+
+			UserEntity user = userRepository.findByNEUId(userId);
+			int userdbId = user.getUserDBid();
+			UserCourseEntity  userCourse = userCourseRepository.findCourseTodrop(userdbId, courseId);
+			if(userCourse != null) {
+				userCourseRepository.delete(userCourse);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				status.setStatus(Constants.SUCCESS_STATUS);
+			}else {
+				status.setStatusCode(Constants.UNREGISTERED_COURSE_STATUS_CODE);
+				status.setStatus(Constants.UNREGISTERED_COURSE_STATUS);
+
+			}
+
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+			status.setStatus(Constants.FAILURE_EXCEPTION_STATUS);
+			status.setStatusCode(Constants.FAILURE_EXCEPTION_STATUS_CODE);
+		}
+
+		return status;
+
+	}
+
+
 }

@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Nanum+Pen+Script');
 
 body {
-  background-image: url('./images/background.jpg');
-  /* background-color: black; */
+  /*background-image: url('./images/background.jpg');*/
+  background-color: #a1e0df;
   background-size: 100%;
-  font-family: 'Nanum Pen Script', cursive;
+}
+
+.table {
+  border-color: black;
 }

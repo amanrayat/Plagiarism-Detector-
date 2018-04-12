@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "course", uniqueConstraints=
-@UniqueConstraint(columnNames={"courseName", "courseTerm", "courseLoc"  }))
+@UniqueConstraint(columnNames={"courseName", "courseTerm", "courseLoc", "courseSection"  }))
 public class CourseEntity implements Serializable{
 
 
@@ -34,6 +34,8 @@ public class CourseEntity implements Serializable{
 	private int courseId;
 
 	private String courseName;
+
+	private int section; 
 
 	private String courseAbbr;
 	
@@ -114,6 +116,17 @@ public class CourseEntity implements Serializable{
 		this.courseAbbr = courseAbbr;
 	}
 
+	@Column(name = "courseSection", nullable = false)
+	public int getSection() {
+		return section;
+	}
+
+
+	public void setSection(int section) {
+		this.section = section;
+	}
+
+	
 	@Column(name = "courseTerm", nullable = false)
 	public String getCourseTerm() {
 		return courseTerm;

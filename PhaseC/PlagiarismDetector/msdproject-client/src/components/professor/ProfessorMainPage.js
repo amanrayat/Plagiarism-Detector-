@@ -80,7 +80,7 @@ export default class ProfessorMainPage extends React.Component{
   render(){
     if(this.state.generateReports){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
           <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
           <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
@@ -89,13 +89,13 @@ export default class ProfessorMainPage extends React.Component{
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
-          <ProfessorCoursePage />
+          <ProfessorCoursePage userID={this.state.userID}/>
         </div>
       )
     }
     else if(this.state.assignmentsPage){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
           <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
           <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
@@ -110,7 +110,7 @@ export default class ProfessorMainPage extends React.Component{
     }
     else if(this.state.addNewAssignment){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
           <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
           <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
@@ -124,7 +124,7 @@ export default class ProfessorMainPage extends React.Component{
       )
     } else if(this.state.addNewCourse){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
           <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
           <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
@@ -139,7 +139,7 @@ export default class ProfessorMainPage extends React.Component{
     }
     else if(this.state.coursePage){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
           <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
           <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
@@ -154,7 +154,7 @@ export default class ProfessorMainPage extends React.Component{
     }
     else {
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
           <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
           <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
@@ -163,7 +163,7 @@ export default class ProfessorMainPage extends React.Component{
           <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
           <br />
           <br />
-          <ProfessorCoursePage />
+          <ProfessorCoursePage userID={this.state.userID}/>
         </div>
       )
     }

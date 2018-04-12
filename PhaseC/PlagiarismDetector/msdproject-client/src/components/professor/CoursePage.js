@@ -16,7 +16,8 @@ export default class CoursePage extends React.Component {
       courseAbbr: '',
       courseLoc: '',
       courseName: '',
-      courseTerm: ''
+      courseTerm: '',
+      section: '',
     };
 
     this.fetchCourses = this.fetchCourses.bind(this);
@@ -53,6 +54,7 @@ export default class CoursePage extends React.Component {
   handleEditSubmit() {
     console.log("handleEditSubmit>courseID>",this.state.courseId);
     console.log("handleEditSubmit>courseAbbr>",this.state.courseAbbr);
+    console.log("Sections111: ",this.state.section)
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateCourse', {
       method: 'PUT',
        headers: {
@@ -65,6 +67,7 @@ export default class CoursePage extends React.Component {
          courseLoc: this.state.courseLoc,
          courseName: this.state.courseName,
          courseTerm: this.state.courseTerm,
+         sections: this.state.section,
        })
      }).then(this.fetchCourses);
      this.setState({
@@ -78,12 +81,14 @@ export default class CoursePage extends React.Component {
   handleRowUpdate(course) {
     console.log("handleRowUpdate>CourseID>",course.courseId);
     console.log("handleRowUpdate>courseAbbr> ",this.state.courseAbbr);
+    console.log("Sections:",course.section)
     this.setState({
       courseId: course.courseId,
       courseAbbr: course.courseAbbr,
       courseLoc: course.courseLoc,
       courseName: course.courseName,
       courseTerm: course.courseTerm,
+      section: course.section,
     });
     console.log("handleRowUpdate<CourseID<",this.state.courseId);
     console.log("handleRowUpdate<courseAbbr<",this.state.courseAbbr);
@@ -92,8 +97,10 @@ export default class CoursePage extends React.Component {
   render(){
     const courses = this.state.courses;
     return (
-      <div className={'container col-md-6 col-md-offset-3'}>
-        <h1> Add New Course </h1>
+      <div>
+      <UserTable onRowDel={this.handleRowDel.bind(this)}
+                 courses={this.state.courses}
+                 onRowUpdate={this.handleRowUpdate.bind(this)} />
         <input type="text" ref="courseAbbr"
                 placeholder="Course Name"
                 value={this.state.courseAbbr}
@@ -115,10 +122,6 @@ export default class CoursePage extends React.Component {
               onChange={this.update.bind(this)}/>
         <br />
         <button onClick={this.handleEditSubmit.bind(this)}> Update </button>
-
-        <UserTable onRowDel={this.handleRowDel.bind(this)}
-                   courses={this.state.courses}
-                   onRowUpdate={this.handleRowUpdate.bind(this)} />
       </div>
     );
   }
@@ -147,6 +150,7 @@ class UserTable extends React.Component {
               <th>Course Name</th>
               <th>Term</th>
               <th>Location</th>
+              <th>Section </th>
               <th>Udpate </th>
               <th>Delete </th>
             </tr>
@@ -180,6 +184,7 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseAbbr} </td>
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
+        <td> {this.props.course.section} </td>
         <td className="del-cell">
           <input type="button" onClick={this.onRegisterEvent.bind(this)}
           value="Edit" className="del-btn"/>

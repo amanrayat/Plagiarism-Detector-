@@ -33,7 +33,8 @@ public final class Constants {
 	public static final String UNAVAILABLE_ASSIGNMENT = "Assignment Unavailable";
 	public static final Integer UNAVAILABLE_ASSIGNMENT_CODE = 205;
 	
-
+	public static final String UNREGISTERED_COURSE_STATUS = " Unregistered course";
+	public static final Integer UNREGISTERED_COURSE_STATUS_CODE = 206;
 	
 	
 }
