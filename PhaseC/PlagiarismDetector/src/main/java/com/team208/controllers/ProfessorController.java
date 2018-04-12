@@ -1,6 +1,7 @@
 package com.team208.controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -8,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
@@ -43,19 +47,6 @@ import com.team208.jsonresponse.CourseUpdateResponseBean;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.s3.services.impl.S3ServicesImpl;
 import com.team208.utilities.Constants;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-
 
 @CrossOrigin
 @Controller
@@ -87,7 +78,6 @@ public class ProfessorController {
 	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
 	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestParam String lang,@RequestBody String allSubmission) throws Exception {
 		Map<Integer, String> allSubmissionMap = new HashMap<>();
-		//Set<Integer> downloadedFiles = new HashSet<>();
 		List<Integer> allStudents = new ArrayList<>();
 		JSONObject o = new JSONObject(allSubmission);
 		JSONArray jsonarray = o.getJSONArray("submissions");
@@ -139,7 +129,7 @@ public class ProfessorController {
 		obj.put("Data", res.toString());
 		return obj.toString();
 	}
-
+	
 	private void zipFolder(Path sourceFolderPath, Path zipPath) throws Exception {
 		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath.toFile()));
 		Files.walkFileTree(sourceFolderPath, new SimpleFileVisitor<Path>() {

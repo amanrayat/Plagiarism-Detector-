@@ -26,7 +26,6 @@ public class ExecuteShellComand {
 		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l "+ lang + " -r -target/"+ "results_"+ student1 + "_"+ student2 + "_"+course+"_"+ hw + " ";
 		//Store the results
 		command = command +"DownloadedReports/"+ course+"/"+hw+"actual";
-		System.out.println(command);
 		StringBuilder output = new StringBuilder();
 		Process p;
 		try {
@@ -38,7 +37,6 @@ public class ExecuteShellComand {
 			while ((line = reader.readLine())!= null) {
 				output.append(line + "\n");
 			}
-			System.out.println(output);
 
 		} catch (Exception e) {
 			logger.info("Context : "+ "No directories found to parse");
