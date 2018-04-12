@@ -61,7 +61,7 @@ public class GitRepoDownload {
 				.call() ;
 			}
 			else {
-				System.out.println(gitRepoLink);
+//				System.out.println(gitRepoLink);
 				unZipIt(gitRepoLink, path.toString());
 				localPath = new File(gitRepoLink.split("/")[gitRepoLink.split("/").length - 1].replaceAll(".zip", ""));
 			}
@@ -150,7 +150,6 @@ public class GitRepoDownload {
 					}
 					is.close();
 					fos.close();
-
 				}
 				zipFile.close();
 			} catch (IOException e) {
