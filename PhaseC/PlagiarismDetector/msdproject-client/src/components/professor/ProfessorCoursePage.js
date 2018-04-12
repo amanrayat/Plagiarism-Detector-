@@ -150,11 +150,24 @@ export default class AssignmentsPage extends React.Component {
     });
   }
 
+  fetchBySections(){
+    console.log("Fetching by Sections!!")
+    console.log("From getSubmissions course term array:",this.state.courseTerm)
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208'+
+    '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo+'&term='+this.state.courseTerm+'&sections=1,2')
+      .then(response => response.json())
+      .then(data => this.setState({submissions: data,
+                                  gotSubmissions: true}))
+      .catch(function() {
+        alert("Failed to get submissions")
+      });
+  }
+
 //TODO: Send term as an array!!
   getSubmissions(){
     console.log("From getSubmissions course term array:",this.state.courseTerm)
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208'+
-    '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo)
+    '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo+'&term='+this.state.courseTerm+'&sections=1')
       .then(response => response.json())
       .then(data => this.setState({submissions: data,
                                   gotSubmissions: true}))
@@ -268,11 +281,11 @@ export default class AssignmentsPage extends React.Component {
     let generateReport
     let generatingReports
     let viewReports
-    let generateReportByTerms =  <button onClick={this.checkPlaigarism.bind(this)}> Fetch Submissions </button>
+    let generateReportByTerms
 
 
     if(this.state.checkByTerms){
-      generateReportByTerms = <button onClick={this.getSubmissionsPerTerm.bind(this)}> Fetch Submissions per Terms </button>
+      generateReportByTerms = <div><button onClick={this.getSubmissionsPerTerm.bind(this)}> Fetch Submissions per Terms </button></div>
     }
 
     if(this.state.gotSubmissions){
@@ -299,8 +312,19 @@ export default class AssignmentsPage extends React.Component {
         <option value="java17">Java</option>
         <option value="python3">Python</option>
       </select>
-      <button onClick={this.fetchTermsByCourse.bind(this)}> Fetch Terms</button>
-      {generateReportByTerms}
+      <br />
+      <br />
+      <h4>Choose any one</h4>
+      <br />
+      <button onClick={this.fetchTermsByCourse.bind(this)}> Fetch by Terms</button>
+      <br />
+      <br />
+      <button onClick={this.fetchBySections.bind(this)}> Fetch by Sections</button>
+      <br />
+      <br />
+      <button onClick={this.checkPlaigarism.bind(this)}> Fetch Submissions </button>
+      <br />
+      <br />
       </div>
     }
 
@@ -346,6 +370,7 @@ class CourseTable extends React.Component {
               <th>Course Name</th>
               <th>Term</th>
               <th>Location</th>
+              <th>Section</th>
               <th>View Assignments</th>
             </tr>
           </thead>
@@ -376,6 +401,7 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseAbbr} </td>
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
+        <td> {this.props.course.section} </td>
         <td>
           <input type="button" onClick={this.onClickEvent.bind(this)}
           value="View Assignments"/>
