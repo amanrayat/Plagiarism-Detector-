@@ -63,7 +63,7 @@ class NewUser extends React.Component{
 
   render(){
     return (
-      <div className={'container col-md-6 col-md-offset-3'}>
+      <div style={{ padding: '25px'}} className={'container col-md-6 col-md-offset-3'}>
         <h1> User Registration </h1>
         <input type="text" ref="id" placeholder="University ID"
                 onChange={this.update.bind(this)}/>
@@ -81,16 +81,14 @@ class NewUser extends React.Component{
               onChange={this.update.bind(this)}/>
         <br />
         <br />
-        <input type="radio" name="role" ref="studentRole" value="student"
+        <input style={{ padding: '25px'}} type="radio" name="role" ref="studentRole" value="student"
                 checked={this.state.userRole === 'student'}
                 onChange={this.handleUserRole.bind(this)} /> <label>Student</label>
-        <br />
-        <input type="radio" name="role" ref="profRole" value="professor-temp"
+        <input style={{ padding: '25px'}} type="radio" name="role" ref="profRole" value="professor-temp"
               checked={this.state.userRole === 'professor-temp'}
               onChange={this.handleUserRole.bind(this)} /> <label>Professor</label>
         <br />
         <br />
-
         <h2> {this.state.successMessage} </h2>
         <button onClick={this.handleClick}> Submit </button>
 

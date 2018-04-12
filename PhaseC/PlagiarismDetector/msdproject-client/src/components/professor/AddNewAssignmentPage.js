@@ -147,6 +147,7 @@ class UserTable extends React.Component {
               <th>Course Name</th>
               <th>Term</th>
               <th>Location</th>
+              <th> Section </th>
               <th>Add assignment </th>
             </tr>
           </thead>
@@ -177,6 +178,7 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseAbbr} </td>
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
+        <td> {this.props.course.section} </td>
         <td className="del-cell">
           <input type="button" onClick={this.onRegisterEvent.bind(this)}
           value="Add" className="del-btn"/>

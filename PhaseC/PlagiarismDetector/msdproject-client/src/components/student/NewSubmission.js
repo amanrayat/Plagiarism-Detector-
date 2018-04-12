@@ -1,4 +1,5 @@
 import React from 'react';
+import Uploader from './Uploader.js'
 
 export default class NewSubmission extends React.Component {
   constructor(props) {
@@ -13,6 +14,8 @@ export default class NewSubmission extends React.Component {
       userID: this.props.userID,
       submitAssignmentId: '',
       isForm: false,
+      courseAbbr: '',
+      assignmentName: '',
     };
     // this.handleClick = this.handleClick.bind(this)
   }
@@ -40,7 +43,7 @@ fetchAssignments(course){
   fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/assignmentsByCourse?courseId='+course.courseId)
     .then(response => response.json())
     .then(data => this.setState({assignments: Object.values(data)[0],
-                                  selectedCourse: course }));
+                                  selectedCourse: course}));
   console.log("Assignments ",this.state.assignments)
 }
 
@@ -55,6 +58,8 @@ onMakeSubmission(assignment){
   this.setState({
     submitAssignmentId: assignment.assignmentId,
     isForm: true,
+    assignmentName: assignment.assignmentName,
+    courseAbbr: this.state.selectedCourse.courseAbbr,
   })
 }
 
@@ -109,10 +114,17 @@ render() {
   }
 
   if(this.state.isForm){
+    console.log("Assignment Name: ",this.state.assignmentName)
+    console.log("CourseAbbr: ",this.state.courseAbbr)
     form = <div>
     <input type="text" ref="gitLink" placeholder="GitLink"
           onChange={this.update.bind(this)}/>
     <button onClick={this.handleClick.bind(this)}> Submit </button>
+    <br />
+    <h3> OR </h3>
+    <div align="center">
+      <Uploader courseAbbr={this.state.courseAbbr} assignmentName={this.state.assignmentName}/>
+    </div>
     </div>
   }
 
