@@ -11,7 +11,9 @@ export default class AddNewCoursePage extends React.Component {
                   courseAbbr: '',
                   courseLoc:'',
                   courseName:'',
-                  courseTerm:''
+                  courseTerm:'',
+                  section: [1],
+                  isSecondSection: false
                 };
 
     this.handleClick = this.handleClick.bind(this)
@@ -19,7 +21,9 @@ export default class AddNewCoursePage extends React.Component {
 
   handleClick() {
     console.log("Handle click from Add new course")
-
+    console.log("Section :",this.state.section)
+    console.log("CourseName:",this.state.courseName)
+    console.log("")
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/addCourse', {
         method: 'POST',
         headers: {
@@ -32,6 +36,7 @@ export default class AddNewCoursePage extends React.Component {
           courseLoc: this.state.courseLoc,
           courseName: this.state.courseName,
           courseTerm: this.state.courseTerm,
+          sections: this.state.section,
         })
       }).then(function(response) {
 	       return response.json();
@@ -42,19 +47,37 @@ export default class AddNewCoursePage extends React.Component {
             courseLoc:'',
             courseName:'',
             courseTerm:'',
+            section: [1],
+            isSecondSection: false
           })
         ).catch(function() {
           alert("Error adding a new course. Please try again.")
         });
   }
 
-  update(){
+  update(event){
+    const target = event.target;
+    let sectionValue
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    if(value){
+      sectionValue = [2]
+    }
+    else{
+      sectionValue = [1]
+    }
+    console.log("Second section: ", value)
+    console.log("Section: ",sectionValue)
+    const name = target.name;
+    console.log("Target Name:",name)
     this.setState({
       courseAbbr: this.refs.courseAbbr.value,
       courseLoc: this.refs.courseLoc.value,
       courseName: this.refs.courseName.value,
       courseTerm: this.refs.courseTerm.value,
+      isSecondSection: value,
+      section: sectionValue,
     })
+
   }
 
 
@@ -76,6 +99,11 @@ export default class AddNewCoursePage extends React.Component {
         <br />
         <br />
         <input type="text" name="courseTerm" ref="courseTerm" placeholder="Semester"
+              onChange={this.update.bind(this)}/>
+        <br />
+        <br />
+        <label htmlFor={this.id}>Add second section</label>
+        <input type="checkbox" name="isSecondSection" checked={this.state.isSecondSection}
               onChange={this.update.bind(this)}/>
         <br />
         <br />

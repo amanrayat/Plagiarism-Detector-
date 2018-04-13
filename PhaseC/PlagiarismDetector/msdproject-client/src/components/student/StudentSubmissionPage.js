@@ -43,7 +43,6 @@ export default class StudentSubmissionPage extends React.Component{
     })
   }
 
-
   registerCourse(){
     this.setState({
       registerCourse: true,
@@ -74,7 +73,7 @@ export default class StudentSubmissionPage extends React.Component{
   render(){
     if(this.state.registerCourse){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.newSubmission}> Submit Assignment </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
@@ -88,7 +87,7 @@ export default class StudentSubmissionPage extends React.Component{
     }
     else if(this.state.newSubmission){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.newSubmission}> Submit Assignment </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
@@ -102,7 +101,7 @@ export default class StudentSubmissionPage extends React.Component{
     }
     else if(this.state.viewCourses){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.newSubmission}> Submit Assignment </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
@@ -116,7 +115,7 @@ export default class StudentSubmissionPage extends React.Component{
     }
     else if(this.state.deleteSubmission){
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.newSubmission}> Submit Assignment </Button>
           <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
           <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>
@@ -130,7 +129,7 @@ export default class StudentSubmissionPage extends React.Component{
     }
     else
     return(
-      <div>
+      <div style={{ padding: '25px'}}>
         <Button className={'btn-primary'} onClick={this.newSubmission}> Submit Assignment </Button>
         <Button className={'bsStyle="info"'} onClick={this.registerCourse}> Register Course </Button>
         <Button className={'bsStyle="success"'} onClick={this.viewCourses}> View Courses </Button>

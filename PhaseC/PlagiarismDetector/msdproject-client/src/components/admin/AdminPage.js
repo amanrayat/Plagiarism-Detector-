@@ -84,7 +84,7 @@ class AdminPage extends React.Component{
   render(){
     if(this.state.usersList){
       return (
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
           <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
           <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
@@ -99,7 +99,7 @@ class AdminPage extends React.Component{
     }
     else if(this.state.newUser){
       return (
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
           <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
           <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
@@ -114,7 +114,7 @@ class AdminPage extends React.Component{
     }
     else if(this.state.deleteUser){
       return (
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
           <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
           <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
@@ -129,7 +129,7 @@ class AdminPage extends React.Component{
     }
     else if(this.state.updateUser){
       return (
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
           <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
           <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
@@ -144,7 +144,7 @@ class AdminPage extends React.Component{
     }
     else if(this.state.grantProfRole){
       return (
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
           <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
           <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>
@@ -159,7 +159,7 @@ class AdminPage extends React.Component{
     }
     else{
       return(
-        <div>
+        <div style={{ padding: '25px'}}>
           <Button className={'btn-primary'} onClick={this.handleClick}> Users List </Button>
           <Button className={'bsStyle="success"'} onClick={this.registerUser}> New User </Button>
           <Button className={'bsStyle="info"'} onClick={this.updateUser}> Update User </Button>

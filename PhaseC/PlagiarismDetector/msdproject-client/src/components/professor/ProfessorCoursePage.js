@@ -5,11 +5,12 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import CourseList from './CourseList'
 
 export default class AssignmentsPage extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
       courseId: '',
+      courseTerm: '',
       assignements: [],
       assignmentNo: '',
       assignmentName: '',
@@ -25,11 +26,54 @@ export default class AssignmentsPage extends React.Component {
       reports: [],
       gotSubmissions: false,
       resultReports: [],
+      userID: this.props.userID,
+      user: [],
+      terms: [],
+      checkByTerms: false,
     }
 
     this.fetchCourses = this.fetchCourses.bind(this);
     this.fetchAssignments = this.fetchAssignments.bind(this);
+    this.fetchEmailFromID = this.fetchEmailFromID.bind(this);
+    this.fetchTermsByCourse = this.fetchTermsByCourse.bind(this);
+  }
 
+  fetchTermsByCourse(){
+    console.log("From fetchTermsByCourse")
+    console.log("Current Course Abbr:"+this.state.courseAbbr)
+    let terms
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/CourseByAbbr?courseAbbr='+this.state.courseAbbr)
+      .then(response => response.json())
+      .then(data => this.setState({terms: data, checkByTerms: true}))
+    console.log("Terms: ",this.state.terms)
+    console.log("CheckByTerms: ", this.state.checkByTerms)
+  }
+
+  getSubmissionsPerTerm(){
+    console.log("From getSubmissionsPerTerm")
+    console.log("CheckByTerms: ", this.state.checkByTerms)
+    console.log("Current Terms: ",this.state.terms)
+    console.log("CourseAbbr: ",this.state.courseAbbr)
+    console.log("Assignment Num:",this.state.assignmentNo)
+    let terms = this.state.terms;
+    console.log("Current Terms: ",terms)
+    let postBody = {
+      "courseAbbr": this.state.courseAbbr,
+      "assignmentNo": this.state.assignmentNo,
+      "term": terms
+    }
+    console.log("PostBody: ",JSON.stringify(postBody))
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allSubmissionsByCourseMultipleTerms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postBody)
+       }).then(response => response.json())
+       .then(data => this.setState({submissions: data,
+                                   gotSubmissions: true}))
+       .catch(function() {
+         alert("Failed to fetch submissions")});
   }
 
   fetchCourses(){
@@ -38,18 +82,24 @@ export default class AssignmentsPage extends React.Component {
       .then(data => this.setState({courses: data}));
   }
 
+  fetchEmailFromID(id){
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/findStudent?userId='+id)
+      .then(response => response.json())
+      .then(data => this.setState({user: data.user}));
+    console.log("Email:",this.state.user.email)
+    return this.state.user.email
+  }
+
   fetchAssignments(course){
-    console.log("Course ID",course.courseId)
-    console.log("Course Abbr:",course.courseAbbr)
     this.setState({
       courseId: course.courseId,
       courseAbbr: course.courseAbbr,
+      courseTerm: course.courseTerm,
     })
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/assignmentsByCourse?courseId='+course.courseId)
       .then(response => response.json())
       .then(data => this.setState({assignments: Object.values(data)[0],
                                     selectedCourse: course }));
-    console.log("Assignments ",this.state.assignments)
   }
 
   componentDidMount() {
@@ -59,8 +109,6 @@ export default class AssignmentsPage extends React.Component {
   }
 
   onUpdateAssignment(assignment){
-    console.log("Assignment No:",assignment.assignmentNo)
-    console.log("Assignment ID:",assignment.assignmentId)
     this.setState({
       isForm:true,
       assignmentNo: assignment.assignmentNo,
@@ -69,8 +117,6 @@ export default class AssignmentsPage extends React.Component {
   }
 
   handleFormSubmit(){
-    console.log("Updating Assignment with date",this.state.submissionDate)
-    console.log("Selected Course ID", this.state.selectedCourse.courseId)
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateAssignment', {
         method: 'PUT',
         headers: {
@@ -86,7 +132,6 @@ export default class AssignmentsPage extends React.Component {
       }).then(function(response) {
          return response.json();
        }).then(j =>
-          // console.log(Object.values(j)[1].name);
           this.setState({
             assignmentNo: '',
             assignmentName: '',
@@ -105,40 +150,38 @@ export default class AssignmentsPage extends React.Component {
     });
   }
 
-  getSubmissions(){
-    console.log("From get submissions")
+  fetchBySections(){
+    console.log("Fetching by Sections!!")
+    console.log("From getSubmissions course term array:",this.state.courseTerm)
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208'+
-    '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo)
+    '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo+'&term='+this.state.courseTerm+'&sections=1,2')
       .then(response => response.json())
       .then(data => this.setState({submissions: data,
                                   gotSubmissions: true}))
       .catch(function() {
         alert("Failed to get submissions")
       });
-      console.log("submissions1",this.state.submissions)
+  }
+
+  getSubmissions(){
+    console.log("From getSubmissions course term array:",this.state.courseTerm)
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208'+
+    '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo+'&term='+this.state.courseTerm+'&sections=1')
+      .then(response => response.json())
+      .then(data => this.setState({submissions: data,
+                                  gotSubmissions: true}))
+      .catch(function() {
+        alert("Failed to get submissions")
+      });
   }
 
 
   checkPlaigarism(){
-    console.log("Course Abbr:",this.state.courseAbbr)
-    console.log("Assignment No:",this.state.assignmentNo)
-    console.log("Course ID:",this.state.courseId)
-    console.log("Assignment ID:",this.state.assignmentId)
-    console.log("Threshold:",this.state.threshold)
-    console.log("Lang:",this.state.lang)
-
     //Fetch Submissions
     this.getSubmissions()
-    console.log("submissions",JSON.stringify(this.state.submissions))
-    //
-    // // generate Reports
-    // this.generateReport()
-    // console.log("Reports1",this.state.reports)
-    // console.log("Reports2",this.state.reports)
   }
 
   test(input) {
-        /*let input = JSON.parse('{"Data":"{300,202,1,1=100.0,https://s3.amazonaws.com/plagiarismteam208/AllReports_1_1/results_300_202_1_1.zip}"}');*/
         var data = input.Data.split(",");
         var result = [];
         for(var i = 0 ; i < data.length;){
@@ -154,21 +197,14 @@ export default class AssignmentsPage extends React.Component {
         result.push(temp);
 
     }
-    console.log("Result:",result)
-
     return result
 
 }
 
   generateReport(){
-    console.log("from generate reports!!")
-    console.log("Course Abbr:",this.state.courseAbbr)
-    console.log("Assignment No:",this.state.assignmentNo)
-    console.log("Course ID:",this.state.courseId)
-    console.log("Assignment ID:",this.state.assignmentId)
-    console.log("Threshold:",this.state.threshold)
-    console.log("Lang:",this.state.lang)
+    console.log("From generate Report")
     console.log("submissions",JSON.stringify(this.state.submissions))
+
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
       method: 'POST',
       mode: 'cors',
@@ -183,11 +219,78 @@ export default class AssignmentsPage extends React.Component {
        alert("Failed to Generate Reports")
      });
      console.log("Reports1:",this.state.reports)
-     console.log("Reports1 length:",this.state.reports.length)
-
   }
 
+  generateReport2(){
+    console.log("From generate Report2")
+    console.log("submissions",JSON.stringify(this.state.submissions))
 
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
+      method: 'POST',
+      mode: 'cors',
+       headers: {
+         'Content-Type': 'application/json',
+         'Access-Control-Allow-Origin':'*'
+       },
+       body: JSON.stringify(this.state.submissions)
+     }).then(response => response.json())
+     .then(data => this.setState({reports: data}))
+     .catch(function() {
+       alert("Failed to Generate Reports")
+     });
+     console.log("Reports1:",this.state.reports)
+  }
+
+  onEmailStudents(report){
+    console.log("Student1:",report.id1)
+    console.log("Student2:",report.id2)
+    this.fetchEmailFromID(report.id1)
+    this.fetchEmailFromID(report.id1)
+    let student1Email = this.fetchEmailFromID(report.id1)
+    let student2Email = this.fetchEmailFromID(report.id2)
+    let postBody = [{
+		    "email": student1Email,
+		    "content": "CAUGHT",
+		    "link":""
+	   },
+	   {
+		     "email": student2Email,
+		     "content": "CAUGHT",
+		     "link":""
+	   }]
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/Email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*'
+      },
+      body: JSON.stringify(postBody)
+     }).then(response => response.json())
+     .catch(function() {
+       alert("Failed to send Email")});
+  }
+
+  onEmailReports(report){
+    console.log("s3Link:",report.s3Link)
+    console.log("Prof ID:",this.state.userID)
+    console.log("FROM EMAIL REPORTS:",this.fetchEmailFromID(this.state.userID))
+    let profEmail = this.fetchEmailFromID(this.state.userID)
+    let postBody = [{
+		    "email": profEmail,
+		    "content": "REPORT",
+		    "link": report.s3Link
+	   }]
+     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/Email', {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+         'Access-Control-Allow-Origin':'*'
+       },
+        body: JSON.stringify(postBody)
+      }).then(response => response.json())
+      .catch(function() {
+        alert("Failed to send Email")});
+  }
 
   render(){
     let courses = this.state.courses
@@ -195,22 +298,28 @@ export default class AssignmentsPage extends React.Component {
     let assignmentsComp
     let form
     let generateReport
+    let generateReport2
     let generatingReports
     let viewReports
+    let generateReportByTerms
+
+
+    if(this.state.checkByTerms){
+      generateReportByTerms = <div><button onClick={this.getSubmissionsPerTerm.bind(this)}> Fetch Submissions per Terms </button></div>
+    }
 
     if(this.state.gotSubmissions){
       generateReport = <button onClick={this.generateReport.bind(this)}> Generate Reports </button>
-      console.log("Reports2:",this.state.reports)
-      console.log("Reports2 length:",this.state.reports.length)
-      generatingReports = <h1> Generating Reports. Please wait. </h1>
+      generateReport2 = <button onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</button>
+      generatingReports = <h1> Click on Generate Reports and please wait while reports are being generated. </h1>
     }
 
     if(this.state.reports.length!=0){
-      console.log("Reports3:",this.state.reports)
-      console.log("Reports3 length:",this.state.reports.length)
       let reportLinks = this.test(this.state.reports)
       generatingReports = <div> <h1> Reports Generated! </h1>
-      <ReportTable reports={reportLinks} />
+      <ReportTable reports={reportLinks}
+                    onEmailStudents={this.onEmailStudents.bind(this)}
+                    onEmailReports={this.onEmailReports.bind(this)}/>
        </div>
     }
 
@@ -224,7 +333,19 @@ export default class AssignmentsPage extends React.Component {
         <option value="java17">Java</option>
         <option value="python3">Python</option>
       </select>
+      <br />
+      <br />
+      <h4>Choose any one</h4>
+      <br />
+      <button onClick={this.fetchTermsByCourse.bind(this)}> Fetch by Terms</button>
+      <br />
+      <br />
+      <button onClick={this.fetchBySections.bind(this)}> Fetch by Sections</button>
+      <br />
+      <br />
       <button onClick={this.checkPlaigarism.bind(this)}> Fetch Submissions </button>
+      <br />
+      <br />
       </div>
     }
 
@@ -234,7 +355,6 @@ export default class AssignmentsPage extends React.Component {
                         onAssignmentUpdate={this.onUpdateAssignment.bind(this)} />
     }
 
-    console.log("Courses",this.state.courses)
     return(
       <div>
         <CourseTable
@@ -242,7 +362,11 @@ export default class AssignmentsPage extends React.Component {
           courses={this.state.courses}/>
         {assignmentsComp}
         {form}
+        {generateReportByTerms}
         {generateReport}
+        <br />
+        <br />
+        {generateReport2}
         {generatingReports}
       </div>
     );
@@ -270,6 +394,7 @@ class CourseTable extends React.Component {
               <th>Course Name</th>
               <th>Term</th>
               <th>Location</th>
+              <th>Section</th>
               <th>View Assignments</th>
             </tr>
           </thead>
@@ -300,6 +425,7 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseAbbr} </td>
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
+        <td> {this.props.course.section} </td>
         <td>
           <input type="button" onClick={this.onClickEvent.bind(this)}
           value="View Assignments"/>
@@ -370,9 +496,13 @@ class AssignmentRow extends React.Component {
 class ReportTable extends React.Component {
 
   render() {
+    var onEmailStudents = this.props.onEmailStudents;
+    var onEmailReports = this.props.onEmailReports;
     var report = this.props.reports.map(function(report) {
       return (<ReportRow
         report={report}
+        onEmailStudents={onEmailStudents.bind(this)}
+        onEmailReports={onEmailReports.bind(this)}
         key={report.id}/>)
     });
 
@@ -385,6 +515,8 @@ class ReportTable extends React.Component {
               <th>Student ID2</th>
               <th>s3Link</th>
               <th>Percentage match</th>
+              <th> Email Students </th>
+              <th> Email Reports </th>
             </tr>
           </thead>
 
@@ -401,14 +533,27 @@ class ReportTable extends React.Component {
 
 class ReportRow extends React.Component {
 
-  render() {
+  onEmailStudents() {
+    this.props.onEmailStudents(this.props.report)
+  }
 
+  onEmailReports(){
+    this.props.onEmailReports(this.props.report)
+  }
+
+  render() {
     return (
       <tr className="eachRow">
         <td> {this.props.report.id1} </td>
         <td> {this.props.report.id2} </td>
         <td> <a href={this.props.report.s3Link}> {this.props.report.s3Link} </a> </td>
         <td> {this.props.report.percentage} </td>
+        <td>
+          <input type="button" onClick={this.onEmailStudents.bind(this)} value="Send"/>
+        </td>
+        <td>
+          <input type="button" onClick={this.onEmailReports.bind(this)} value="Send"/>
+        </td>
       </tr>
     );
   }

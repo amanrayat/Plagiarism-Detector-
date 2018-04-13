@@ -1,16 +1,24 @@
 package com.team208.detector;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -42,13 +50,22 @@ public class GitRepoDownload {
 			//Create path
 			Path path = Paths.get(current+downloadedReports+filePath+course+filePath+hw);
 			//Download on this path
-			Files.createDirectories(path);
-			File localPath = File.createTempFile(studentID+"-", "",new File(path.toString()));
-			Files.delete(localPath.toPath());
-			Git.cloneRepository()
-			.setURI(gitRepoLink)
-			.setDirectory(localPath)
-			.call() ;
+			File localPath = null;
+			if(gitRepoLink.contains("github.com")) {
+				Files.createDirectories(path);
+				localPath = File.createTempFile(studentID+"-", "",new File(path.toString()));
+				Files.delete(localPath.toPath());
+				Git.cloneRepository()
+				.setURI(gitRepoLink)
+				.setDirectory(localPath)
+				.call() ;
+			}
+			else {
+//				System.out.println(gitRepoLink);
+				unZipIt(gitRepoLink, path.toString());
+				localPath = new File(gitRepoLink.split("/")[gitRepoLink.split("/").length - 1].replaceAll(".zip", ""));
+			}
+			
 			List<File> files = getAllPYFiles(localPath,lang);
 			Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw + "actual");
 			Files.createDirectories(pathAc);
@@ -102,6 +119,43 @@ public class GitRepoDownload {
 		}
 		return fileTree;
 	}
+	 public static void unZipIt(String zipFile1, String outputFolder){
+
+		 try {
+				ZipFile zipFile = new ZipFile(zipFile1);
+				Enumeration<?> enu = zipFile.entries();
+				while (enu.hasMoreElements()) {
+					ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+
+					String name = zipEntry.getName();
+					long size = zipEntry.getSize();
+					long compressedSize = zipEntry.getCompressedSize();
+					File file = new File(name);
+					if (name.endsWith("/")) {
+						file.mkdirs();
+						continue;
+					}
+
+					File parent = file.getParentFile();
+					if (parent != null) {
+						parent.mkdirs();
+					}
+
+					InputStream is = zipFile.getInputStream(zipEntry);
+					FileOutputStream fos = new FileOutputStream(file);
+					byte[] bytes = new byte[1024];
+					int length;
+					while ((length = is.read(bytes)) >= 0) {
+						fos.write(bytes, 0, length);
+					}
+					is.close();
+					fos.close();
+				}
+				zipFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	   }    
 	/**
 	 * 
 	 * @param fileURL
