@@ -27,6 +27,8 @@ public class UserJsonBean implements Serializable{
 		this.password = password;
 		this.email = email;
 	}
+	public UserJsonBean() {
+	}
 	public Long getUserId() {
 		return userId;
 	}
