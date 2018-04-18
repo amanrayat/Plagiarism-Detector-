@@ -1,7 +1,7 @@
 package com.team208.detector;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+
+import com.team208.utilities.Constants;
 
 //This class takes the link of a github repository , studentID,homework, course and downloads the github repositories 
 public class GitRepoDownload {
@@ -61,7 +62,7 @@ public class GitRepoDownload {
 				.call() ;
 			}
 			else {
-//				System.out.println(gitRepoLink);
+
 				unZipIt(gitRepoLink, path.toString());
 				localPath = new File(gitRepoLink.split("/")[gitRepoLink.split("/").length - 1].replaceAll(".zip", ""));
 			}
@@ -153,7 +154,7 @@ public class GitRepoDownload {
 				}
 				zipFile.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.info(Constants.CONTEXT+e.getMessage());
 			}
 	   }    
 	/**

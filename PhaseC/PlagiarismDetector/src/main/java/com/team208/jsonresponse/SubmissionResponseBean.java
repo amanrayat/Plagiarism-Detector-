@@ -3,8 +3,7 @@ package com.team208.jsonresponse;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import com.team208.domain.AssignmentEntity;
-import com.team208.domain.CourseEntity;
+
 
 public class SubmissionResponseBean implements Serializable{
 
@@ -38,8 +37,6 @@ public class SubmissionResponseBean implements Serializable{
 	public void setGitLink(String gitLink) {
 		this.gitLink = gitLink;
 	}
-
-	
 
 	public String getAssignmentName() {
 		return assignmentName;
