@@ -366,7 +366,6 @@ export default class AssignmentsPage extends React.Component {
         {generateReport}
         <br />
         <br />
-        {generateReport2}
         {generatingReports}
       </div>
     );
