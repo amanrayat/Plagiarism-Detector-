@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from 'react-bootstrap';
 
 export default class GrantProfRole extends React.Component {
 
@@ -81,8 +82,8 @@ class UserTable extends React.Component {
 
     return (
       <div>
-        <table className="table table-bordered">
-          <thead>
+        <table className="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>User ID</th>
               <th>Name</th>
@@ -121,8 +122,8 @@ class UserRow extends React.Component {
         <td> {this.props.user.userRole} </td>
         <td> {this.props.user.password} </td>
         <td> {this.props.user.email} </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onGrantProfRole.bind(this)} value="GrantProfRole" className="del-btn"/>
+        <td>
+          <Button onClick={this.onGrantProfRole.bind(this)}>GrantProfRole</Button>
         </td>
       </tr>
     );

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Button , Table} from 'react-bootstrap';
 
 export default class CoursePage extends React.Component {
 
@@ -18,6 +17,7 @@ export default class CoursePage extends React.Component {
       courseName: '',
       courseTerm: '',
       section: '',
+      isForm: false,
     };
 
     this.fetchCourses = this.fetchCourses.bind(this);
@@ -75,6 +75,7 @@ export default class CoursePage extends React.Component {
        courseLoc: '',
        courseName: '',
        courseTerm: '',
+       isForm: false,
      })
   }
 
@@ -89,39 +90,62 @@ export default class CoursePage extends React.Component {
       courseName: course.courseName,
       courseTerm: course.courseTerm,
       section: course.section,
+      isForm: true,
     });
     console.log("handleRowUpdate<CourseID<",this.state.courseId);
     console.log("handleRowUpdate<courseAbbr<",this.state.courseAbbr);
   }
 
   render(){
+    let form
+
+    if(this.state.isForm){
+      form =
+      <div class={'container col-md-6 col-md-offset-3'}>
+        <form>
+          <div class="form-group">
+            <label> Course Abbreviation:</label>
+            <input type="text" class="form-control" ref="courseAbbr"
+                    placeholder="Course Name"
+                    value={this.state.courseAbbr}
+                    onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label> Course Location:</label>
+            <input type="text" class="form-control" name="courseLoc" ref="courseLoc"
+                  placeholder="Location"
+                  value={this.state.courseLoc}
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label> Course Name:</label>
+            <input type="text" class="form-control" name="courseName"
+                  ref="courseName" placeholder="Title"
+                  value={this.state.courseName}
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label> Course Term: </label>
+            <input type="text" class="form-control" name="courseTerm" ref="courseTerm"
+                  placeholder="Course Term"
+                  value={this.state.courseTerm}
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class={'container text-center'}>
+            <Button onClick={this.handleEditSubmit.bind(this)}> Update </Button>
+          </div>
+        </form>
+      </div>
+
+    }
+
     const courses = this.state.courses;
     return (
       <div>
       <UserTable onRowDel={this.handleRowDel.bind(this)}
                  courses={this.state.courses}
                  onRowUpdate={this.handleRowUpdate.bind(this)} />
-        <input type="text" ref="courseAbbr"
-                placeholder="Course Name"
-                value={this.state.courseAbbr}
-                onChange={this.update.bind(this)}/>
-        <br />
-        <input type="text" name="courseLoc" ref="courseLoc"
-              placeholder="Location"
-              value={this.state.courseLoc}
-              onChange={this.update.bind(this)}/>
-        <br />
-        <input type="text" name="courseName"
-              ref="courseName" placeholder="Title"
-              value={this.state.courseName}
-              onChange={this.update.bind(this)}/>
-        <br />
-        <input type="text" name="courseTerm" ref="courseTerm"
-              placeholder="Course Term"
-              value={this.state.courseTerm}
-              onChange={this.update.bind(this)}/>
-        <br />
-        <button onClick={this.handleEditSubmit.bind(this)}> Update </button>
+        {form}
       </div>
     );
   }
@@ -142,8 +166,8 @@ class UserTable extends React.Component {
     return (
       <div>
 
-        <table className="table table-bordered">
-          <thead>
+        <Table className="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Course ID</th>
               <th>Course Title</th>
@@ -160,7 +184,7 @@ class UserTable extends React.Component {
             {course}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -185,13 +209,11 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
         <td> {this.props.course.section} </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onRegisterEvent.bind(this)}
-          value="Edit" className="del-btn"/>
+        <td>
+          <Button onClick={this.onRegisterEvent.bind(this)}>Edit</Button>
         </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onDeleteEvent.bind(this)}
-          value="Delete" className="del-btn"/>
+        <td>
+          <Button onClick={this.onDeleteEvent.bind(this)}>Delete</Button>
         </td>
       </tr>
     );

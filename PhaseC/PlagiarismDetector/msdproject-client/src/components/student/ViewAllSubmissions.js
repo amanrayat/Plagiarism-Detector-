@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
 export default class ViewAllSubmissions extends React.Component {
@@ -32,7 +31,7 @@ export default class ViewAllSubmissions extends React.Component {
       <div>
       <h3> My Submisssions </h3>
       <div className={'container col-md-6 col-md-offset-3'}>
-      <BootstrapTable data={submissions} striped bordered condensed hover>
+      <BootstrapTable data={submissions} striped condensed hover>
         <TableHeaderColumn isKey dataField='submissionId'>Submission ID</TableHeaderColumn>
         <TableHeaderColumn dataField='assignmentName'>Assignment Name</TableHeaderColumn>
         <TableHeaderColumn dataField='courseAbbr'>Course Name</TableHeaderColumn>

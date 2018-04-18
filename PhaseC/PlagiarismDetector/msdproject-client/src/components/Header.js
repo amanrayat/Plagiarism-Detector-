@@ -20,9 +20,9 @@ export default class Header extends React.Component {
     return (
       <div>
       <Router>
-        <div style={{ padding: '25px'}}>
+        <div>
             <br />
-            <h1 > Plagiarism Detection System </h1>
+            <h1 class="jumbotron text-center"> Plagiarism Detection System </h1>
             <HomePage />
             <Route path="/login" component={HomePage} />
             <Route path="/register" component={RegisterPage} />
