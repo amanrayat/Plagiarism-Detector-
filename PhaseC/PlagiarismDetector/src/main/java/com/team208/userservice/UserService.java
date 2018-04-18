@@ -17,5 +17,7 @@ public interface UserService {
 	public StatusBean register(UserJsonBean user);
 	
 	public LoginResponse findStudent( Long userId ) ;
+	
+	public LoginResponse findByEmail(String email);
 
 }

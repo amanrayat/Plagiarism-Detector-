@@ -131,6 +131,41 @@ public class UserServiceImpl implements UserService{
 		}
 			return response;
 	}
+
+	@Override
+	public LoginResponse findByEmail(String email) {
+		LoginResponse response = null;
+		StatusBean status = new StatusBean();
+		UserEntity n = null;
+		try {
+			n = userRepository.findByEmail(email);
+			if(n != null) {
+
+				response = new LoginResponse();
+				response.setUser(n);
+				status.setStatus(Constants.SUCCESS_STATUS);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				response.setStatus(status);
+
+			}else {
+				response = new LoginResponse();
+				response.setUser(n);
+				status.setStatus(Constants.UNREGISTERED_STATUS);
+				status.setStatusCode(Constants.UNREGISTERED_STATUS_CODE);
+				response.setStatus(status);
+			}
+		}catch (Exception e) {
+			logger.info(Constants.CONTEXT+e.getMessage());
+			response = new LoginResponse();
+			response.setUser(n);
+			status.setStatus(Constants.FAILURE_EXCEPTION_STATUS);
+			status.setStatusCode(Constants.FAILURE_EXCEPTION_STATUS_CODE);
+			response.setStatus(status);
+
+		}
+			return response;
+		
+	}
 	
 	
 	
