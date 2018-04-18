@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Button , Table} from 'react-bootstrap';
 
 export default class RegisterForCourse extends React.Component {
   constructor(props){
@@ -81,8 +80,8 @@ class UserTable extends React.Component {
     return (
       <div>
 
-        <table className="table table-bordered">
-          <thead>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Course ID</th>
               <th>Course Title</th>
@@ -98,7 +97,7 @@ class UserTable extends React.Component {
             {course}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -112,15 +111,15 @@ class CourseRow extends React.Component {
   render() {
 
     return (
-      <tr className="eachRow">
+      <tr class="eachRow">
         <td> {this.props.course.courseId} </td>
         <td> {this.props.course.courseName} </td>
         <td> {this.props.course.courseAbbr} </td>
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
         <td> {this.props.course.section} </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onRegisterEvent.bind(this)} value="Register" className="del-btn"/>
+        <td>
+          <Button onClick={this.onRegisterEvent.bind(this)}>Register</Button>
         </td>
       </tr>
     );

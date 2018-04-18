@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import ViewAllSubmissions from './ViewAllSubmissions'
+import { Button , Table} from 'react-bootstrap';
 
 export default class DeleteSubmission extends React.Component {
   constructor(props){
@@ -83,7 +82,7 @@ export default class DeleteSubmission extends React.Component {
       <input type="text" name="gitLink" ref="gitLink" placeholder="gitlink"
             value={this.state.name}
             onChange={this.update.bind(this)} />
-      <button onClick={this.handleClick.bind(this)}> Update </button>
+      <Button onClick={this.handleClick.bind(this)}> Update </Button>
             </div>
     }
 
@@ -115,8 +114,8 @@ class UserTable extends React.Component {
     return (
       <div>
 
-        <table className="table table-bordered">
-          <thead>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Submission ID</th>
               <th>Assignment Name</th>
@@ -132,7 +131,7 @@ class UserTable extends React.Component {
             {submission}
           </tbody>
 
-        </table>
+        </Table>
 
       </div>
     );
@@ -151,17 +150,17 @@ class UserRow extends React.Component {
   render() {
 
     return (
-      <tr className="eachRow">
+      <tr class="eachRow">
         <td> {this.props.submission.submissionId} </td>
         <td> {this.props.submission.assignmentName} </td>
         <td> {this.props.submission.courseAbbr} </td>
         <td> <a> {this.props.submission.gitLink} </a> </td>
         <td> {this.props.submission.submissionTime} </td>
         <td>
-          <input type="button" onClick={this.onDelEvent.bind(this)} value="Delete" />
+          <Button onClick={this.onDelEvent.bind(this)}>Delete</Button>
         </td>
         <td>
-          <input type="button" onClick={this.onUpdateEvent.bind(this)} value="Update" />
+          <Button onClick={this.onUpdateEvent.bind(this)}>Update</Button>
         </td>
       </tr>
     );

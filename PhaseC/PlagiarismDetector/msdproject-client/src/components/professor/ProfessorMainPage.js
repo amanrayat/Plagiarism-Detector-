@@ -78,16 +78,41 @@ export default class ProfessorMainPage extends React.Component{
   }
 
   render(){
+
+    let NavBar =
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div>
+          <a class="navbar-brand" style={{ color: 'white'}}>Plagiarism Detection System</a>
+        </div>
+        <div>
+          <a class="navbar-brand" style={{ color: 'white'}}>Faculty Page</a>
+        </div>
+        <div>
+          <Button onClick={this.generateReports}>  Generate Reports </Button>
+        </div>
+        <div>
+          <Button onClick={this.assignmentsPage}> Assignments Page </Button>
+        </div>
+        <div>
+          <Button onClick={this.addNewAssignment}> Add New Assignment </Button>
+        </div>
+        <div>
+          <Button onClick={this.coursePage}> Courses Page </Button>
+        </div>
+        <div>
+          <Button onClick={this.addNewCourse}> Add new Course </Button>
+        </div>
+        <div>
+          <Button href="/"> Logout </Button>
+        </div>
+      </div>
+    </nav>
+
     if(this.state.generateReports){
       return(
-        <div style={{ padding: '25px'}}>
-          <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
-          <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
-          <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
-          <Button className={'bsStyle="success"'} onClick={this.coursePage}> Courses Page </Button>
-          <Button className={'bsStyle="success"'} onClick={this.addNewCourse}> Add new Course </Button>
-          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
-          <br />
+        <div>
+          {NavBar}
           <br />
           <ProfessorCoursePage userID={this.state.userID}/>
         </div>
@@ -95,14 +120,8 @@ export default class ProfessorMainPage extends React.Component{
     }
     else if(this.state.assignmentsPage){
       return(
-        <div style={{ padding: '25px'}}>
-          <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
-          <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
-          <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
-          <Button className={'bsStyle="success"'} onClick={this.coursePage}> Courses Page </Button>
-          <Button className={'bsStyle="success"'} onClick={this.addNewCourse}> Add new Course </Button>
-          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
-          <br />
+        <div>
+          {NavBar}
           <br />
           <AssignmentsPage />
         </div>
@@ -110,28 +129,16 @@ export default class ProfessorMainPage extends React.Component{
     }
     else if(this.state.addNewAssignment){
       return(
-        <div style={{ padding: '25px'}}>
-          <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
-          <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
-          <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
-          <Button className={'bsStyle="success"'} onClick={this.coursePage}> Courses Page </Button>
-          <Button className={'bsStyle="success"'} onClick={this.addNewCourse}> Add new Course </Button>
-          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
-          <br />
+        <div>
+          {NavBar}
           <br />
           <AddNewAssignmentPage />
         </div>
       )
     } else if(this.state.addNewCourse){
       return(
-        <div style={{ padding: '25px'}}>
-          <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
-          <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
-          <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
-          <Button className={'bsStyle="success"'} onClick={this.coursePage}> Courses Page </Button>
-          <Button className={'bsStyle="success"'} onClick={this.addNewCourse}> Add new Course </Button>
-          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
-          <br />
+        <div>
+          {NavBar}
           <br />
           <AddNewCoursePage userID={this.state.userID}/>
         </div>
@@ -139,14 +146,8 @@ export default class ProfessorMainPage extends React.Component{
     }
     else if(this.state.coursePage){
       return(
-        <div style={{ padding: '25px'}}>
-          <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
-          <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
-          <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
-          <Button className={'bsStyle="success"'} onClick={this.coursePage}> Courses Page </Button>
-          <Button className={'bsStyle="success"'} onClick={this.addNewCourse}> Add new Course </Button>
-          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
-          <br />
+        <div>
+          {NavBar}
           <br />
           <CoursePage />
         </div>
@@ -154,14 +155,8 @@ export default class ProfessorMainPage extends React.Component{
     }
     else {
       return(
-        <div style={{ padding: '25px'}}>
-          <Button className={'btn-primary'} onClick={this.generateReports}>  Generate Reports </Button>
-          <Button className={'bsStyle="info"'} onClick={this.assignmentsPage}> Assignments Page </Button>
-          <Button className={'bsStyle="info"'} onClick={this.addNewAssignment}> Add New Assignment </Button>
-          <Button className={'bsStyle="success"'} onClick={this.coursePage}> Courses Page </Button>
-          <Button className={'bsStyle="success"'} onClick={this.addNewCourse}> Add new Course </Button>
-          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
-          <br />
+        <div>
+          {NavBar}
           <br />
           <ProfessorCoursePage userID={this.state.userID}/>
         </div>

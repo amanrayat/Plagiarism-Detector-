@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from 'react-bootstrap';
+import { Table } from 'reactstrap';
 
 export default class DeleteUser extends React.Component {
 
@@ -48,8 +50,8 @@ class UserTable extends React.Component {
     return (
       <div>
 
-        <table className="table table-bordered">
-          <thead>
+        <Table className="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>User ID</th>
               <th>Name</th>
@@ -64,7 +66,7 @@ class UserTable extends React.Component {
             {user}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -84,8 +86,8 @@ class UserRow extends React.Component {
         <td> {this.props.user.userRole} </td>
         <td> {this.props.user.password} </td>
         <td> {this.props.user.email} </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onDelEvent.bind(this)} value="Delete" className="del-btn"/>
+        <td>
+          <Button onClick={this.onDelEvent.bind(this)}>Delete</Button>
         </td>
       </tr>
     );

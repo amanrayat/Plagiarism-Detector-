@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Table} from 'react-bootstrap';
+
 
 export default class CourseList extends React.Component {
 
@@ -112,8 +112,8 @@ class UserTable extends React.Component {
     return (
       <div>
 
-        <table className="table table-bordered">
-          <thead>
+        <Table className="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Course ID</th>
               <th>Course Title</th>
@@ -128,7 +128,7 @@ class UserTable extends React.Component {
             {course}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }

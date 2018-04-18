@@ -22,9 +22,12 @@ export default class HomePage extends React.Component{
                   adminlogin:false,
                   role: '',
                   status: '',
-                  register: false};
+                  register: false,
+                  loginclick: false,};
     this.handleClick = this.handleClick.bind(this);
     this.register = this.register.bind(this);
+    this.loginhandle = this.loginhandle.bind(this);
+
   }
 
   update(){
@@ -37,7 +40,13 @@ export default class HomePage extends React.Component{
 
   register(){
     this.setState({
-      register:true
+      register: true
+    })
+  }
+
+  loginhandle(){
+    this.setState({
+      loginclick: true
     })
   }
 
@@ -60,7 +69,8 @@ export default class HomePage extends React.Component{
             username: Object.values(j)[1].name,
             adminlogin: Object.values(j)[1].userRole === 'admin' ? true : false,
             role: Object.values(j)[1].userRole,
-            isLoggedIn: true})
+            isLoggedIn: true,
+            loginclick: false})
           ).catch(function() {
             alert("Login Error! Please try again.")
           });
@@ -68,6 +78,65 @@ export default class HomePage extends React.Component{
   }
 
   render(){
+
+    let LoginForm
+    let welcomeInfo
+
+    if(this.state.loginclick){
+      LoginForm =
+      <div className={'container col-md-6 col-md-offset-3'}>
+        <h1 className={'text-center'}> User Login </h1>
+        <form>
+          <div class="form-group">
+            <label>User ID: </label>
+            <input
+                class="form-control"
+                type="number"
+                ref="userID"
+                placeholder="User ID"
+                onChange={this.update.bind(this)} />
+          </div>
+          <div class="form-group">
+            <label>Password: </label>
+            <input
+                class="form-control"
+                type="password"
+                ref="password"
+               placeholder="Password"
+               onChange={this.update.bind(this)} />
+          </div>
+          <div className={'text-center'} >
+            <Button className={'btn text-center'} onClick={this.handleClick}> Login </Button>
+          </div>
+      </form>
+      </div>
+    }
+    else{
+      welcomeInfo = <div>
+      <br />
+      <br />
+      <h1 className={'text-center'}> Welcome to Plagiarism Detection System!</h1>
+      <h2 className={'text-center'}> Click on Register if using for the first time or Login.</h2>
+        </div>
+    }
+
+
+
+
+
+    let NavBar =
+    <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" style={{ color: 'white'}} href="/">Plagiarism Detection System</a>
+    </div>
+    <div>
+      <button class="btn btn-default navbar-btn" onClick={this.register}> Register </button>
+      <button class="btn btn-danger navbar-btn" onClick={this.loginhandle}> Login </button>
+    </div>
+  </div>
+</nav>
+
     let isLoggedIn = this.state.isLoggedIn;
     let username = this.state.username;
     let isAdmin = this.state.adminlogin;
@@ -75,7 +144,12 @@ export default class HomePage extends React.Component{
     let register = this.state.register;
 
     if(register){
-      return <RegisterPage />
+      return (
+        <div>
+          {NavBar}
+          <RegisterPage />
+        </div>
+      );
     }
     else if (isLoggedIn && !isAdmin && role === 'professor-temp') {
       return <TempProfPage userID={this.state.userID}/>
@@ -91,24 +165,10 @@ export default class HomePage extends React.Component{
     }
     else {
       return (
-        <div style={{ padding: '25px'}} className={'container col-md-6 col-md-offset-3'}>
-          <h1> User Log In </h1>
-          <input className={'col-4'}
-                type="number"
-                ref="userID"
-                placeholder="User ID"
-                onChange={this.update.bind(this)} />
-          <br />
-          <br />
-          <input className={'col-4'}
-                type="password"
-                ref="password"
-                placeholder="Password"
-                onChange={this.update.bind(this)} />
-          <br />
-          <br />
-          <Button className={'btn btn-primary'} onClick={this.handleClick}> Login </Button>
-          <Button className={'btn'} onClick={this.register}> Register </Button>
+        <div>
+          {NavBar}
+          {LoginForm}
+          {welcomeInfo}
         </div>
       );
     }
