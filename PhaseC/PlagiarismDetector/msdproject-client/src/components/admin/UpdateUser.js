@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios'
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import { Button } from 'react-bootstrap';
+import { Table } from 'reactstrap';
 
 export default class UpdateUser extends React.Component{
 
   constructor(){
     super();
 
-    this.state = {users: [], userID:'', univID:'', name:'', userRole:'', password:'', email:'', successMessage: false};
+    this.state = {users: [], userID:'', univID:'', name:'', userRole:'', password:'', email:'', successMessage: false, isUpdate: false};
 
     this.fetchUsers = this.fetchUsers.bind(this);
   }
@@ -33,6 +33,7 @@ export default class UpdateUser extends React.Component{
        userRole: user.userRole,
        password: user.password,
        email: user.email,
+       isUpdate: true,
      })
        console.log("User ID from update",this.state.userID)
   };
@@ -59,6 +60,7 @@ export default class UpdateUser extends React.Component{
        userRole: '',
        password: '',
        email: '',
+       isUpdate: false,
      })
   };
 
@@ -66,42 +68,66 @@ export default class UpdateUser extends React.Component{
     this.setState({
       name: this.refs.name.value,
       password: this.refs.password.value,
-      email: this.refs.email.value
+      email: this.refs.email.value,
     })
   }
 
   handleUserRole(event) {
     this.setState({
-      userRole: event.target.value
+      userRole: event.target.value,
     })
   }
 
   render(){
+
+    let form
+
+    if(this.state.isUpdate){
+      form =  <div style={{ padding: '25px'}} className={'container col-md-6 col-md-offset-3'}>
+      <form>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input name="name" class="form-control" ref="name" type="text"
+          value={this.state.name}
+          onChange={this.update.bind(this)}></input>
+        </div>
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input type="email" class="form-control" ref="email"
+          value={this.state.email}
+          onChange={this.update.bind(this)} />
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" ref="password"
+          value={this.state.password}
+          onChange={this.update.bind(this)} />
+        </div>
+        <div class="radio">
+          <label><input type="radio" ref="studentRole"
+                  checked={this.state.userRole === 'student'} value="student"
+                  onChange={this.handleUserRole.bind(this)} />Student</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" ref="profRole" value="professor"
+                  checked={this.state.userRole === 'professor'}
+                  onChange={this.handleUserRole.bind(this)} />Professor</label>
+        </div>
+        <div class={'container text-center'}>
+          <Button class={'text-center'} onClick={this.handleClick.bind(this)}> Update </Button>
+        </div>
+      </form>
+      </div>
+    }
+
     return (
-      <div className={'container col-md-6 col-md-offset-3'}>
-        <input type="text" name="name" ref="name" placeholder="Name"
-              value={this.state.name}
-              onChange={this.update.bind(this)} />
-        <br />
-        <input type="email" name="email" ref="email" placeholder="Email"
-              value={this.state.email}
-              onChange={this.update.bind(this)} />
-        <br />
-        <input type="password" name="password" ref="password" placeholder="Password"
-              value={this.state.password}
-              onChange={this.update.bind(this)} />
-        <br />
-        <input type="radio" name="role" ref="studentRole" value="student"
-                checked={this.state.userRole === 'student'}
-                onChange={this.handleUserRole.bind(this)} /> <label>Student    </label>
-        <input type="radio" name="role" ref="profRole" value="professor"
-              checked={this.state.userRole === 'professor'}
-              onChange={this.handleUserRole.bind(this)} /> <label>Professor</label>
-        <h2> {this.state.successMessage} </h2>
-        <button onClick={this.handleClick.bind(this)}> Update </button>
+      <div>
+        <div>
         <UserTable
           onUpdateUser={this.handleUpdate.bind(this)}
           users={this.state.users}/>
+        </div>
+        {form}
       </div>
     );
   }
@@ -120,8 +146,8 @@ class UserTable extends React.Component {
 
     return (
       <div>
-        <table className="table table-bordered">
-          <thead>
+        <Table className="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>User ID</th>
               <th>Name</th>
@@ -136,7 +162,7 @@ class UserTable extends React.Component {
             {user}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -158,8 +184,8 @@ class UserRow extends React.Component {
         <td> {this.props.user.userRole} </td>
         <td> {this.props.user.password} </td>
         <td> {this.props.user.email} </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onUpdateUser.bind(this)} value="Edit" className="del-btn"/>
+        <td>
+          <Button onClick={this.onUpdateUser.bind(this)}>Edit</Button>
         </td>
       </tr>
     );

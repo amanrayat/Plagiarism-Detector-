@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn, Button} from 'react-bootstrap';
+import { Button , Table} from 'react-bootstrap';
 
 export default class AddNewAssignmentsPage extends React.Component {
   constructor(props){
@@ -83,40 +82,47 @@ handleClick(){
   render(){
     let form
     if(this.state.isForm){
-      form = <div>
-      <input type="text"
-          name="courseId"
-          ref="courseId"
-          placeholder="Course ID"
-          value={this.state.courseId}
-          onChange={this.update.bind(this)}/>
-      <br />
-      <br />
-      <input type="number" name="assignmentNo" ref="assignmentNo" placeholder="Assignment Number"
-            onChange={this.update.bind(this)}/>
-      <br />
-      <br />
-      <input type="text" name="assignmentName" ref="assignmentName" placeholder="Assignment Name"
-            onChange={this.update.bind(this)}/>
-      <br />
-      <br />
-      <label> Submission Date </label> <br />
-      <input type="text" name="yyyy" ref="yyyy" placeholder="yyyy"
-            onChange={this.update.bind(this)}/>
-      <input type="text" name="mm" ref="mm" placeholder="mm"
-            onChange={this.update.bind(this)}/>
-      <input type="text" name="dd" ref="dd" placeholder="dd"
-            onChange={this.update.bind(this)}/>
-      <br />
-      <br />
-      <button onClick={this.handleClick.bind(this)}> Submit </button>
-                </div>
-
+      form =
+      <div class={'container col-md-6 col-md-offset-3'}>
+        <form>
+          <div class="form-group">
+            <label for="courseID">Course ID:</label>
+            <input
+                class="form-control"
+                type="text"
+                name="courseId"
+                ref="courseId"
+                value={this.state.courseId}
+                onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label for="assignmentNo">Assignment Number:</label>
+            <input class="form-control" type="number" name="assignmentNo" ref="assignmentNo" placeholder="Assignment Number"
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label for="assignmentName">Assignment Name:</label>
+            <input class="form-control" type="text" name="assignmentName" ref="assignmentName" placeholder="Assignment Name"
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label for="submissionDate"> Submission Date </label>
+            <input class="form-control" type="text" name="yyyy" ref="yyyy" placeholder="yyyy"
+                  onChange={this.update.bind(this)}/>
+            <input class="form-control" type="text" name="mm" ref="mm" placeholder="mm"
+                  onChange={this.update.bind(this)}/>
+            <input class="form-control" type="text" name="dd" ref="dd" placeholder="dd"
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class={'container text-center'}>
+            <Button onClick={this.handleClick.bind(this)}> Submit </Button>
+          </div>
+        </form>
+        </div>
     }
 
     return(
       <div>
-        <h2> Select course to add assignment </h2>
         <UserTable
                    courses={this.state.courses}
                    onRowUpdate={this.handleRowUpdate.bind(this)} />
@@ -138,9 +144,8 @@ class UserTable extends React.Component {
     });
     return (
       <div>
-
-        <table className="table table-bordered">
-          <thead>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Course ID</th>
               <th>Course Title</th>
@@ -156,7 +161,7 @@ class UserTable extends React.Component {
             {course}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -179,9 +184,8 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
         <td> {this.props.course.section} </td>
-        <td className="del-cell">
-          <input type="button" onClick={this.onRegisterEvent.bind(this)}
-          value="Add" className="del-btn"/>
+        <td>
+          <Button onClick={this.onRegisterEvent.bind(this)}>Add</Button>
         </td>
       </tr>
     );

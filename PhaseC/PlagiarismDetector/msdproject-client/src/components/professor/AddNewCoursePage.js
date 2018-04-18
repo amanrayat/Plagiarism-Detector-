@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn, Button} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 export default class AddNewCoursePage extends React.Component {
   constructor(props){
@@ -84,30 +83,38 @@ export default class AddNewCoursePage extends React.Component {
   render(){
     console.log("userID",this.props.userID)
     return(
-      <div className={'container col-md-6 col-md-offset-3'}>
-        <h1> Add New Course </h1>
-        <input type="text" ref="courseAbbr" placeholder="Course Abbreviation ex:CS5500"
-                onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <input type="text" name="courseLoc" ref="courseLoc" placeholder="Location"
-              onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <input type="text" name="courseName" ref="courseName" placeholder="Course Name ex:Managing Software Development"
-              onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <input type="text" name="courseTerm" ref="courseTerm" placeholder="Semester"
-              onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <label htmlFor={this.id}>Add second section</label>
-        <input type="checkbox" name="isSecondSection" checked={this.state.isSecondSection}
-              onChange={this.update.bind(this)}/>
-        <br />
-        <br />
-        <button onClick={this.handleClick}> Submit </button>
+      <div class={'container col-md-6 col-md-offset-3'}>
+        <h1 class={'text-center'}> Add New Course </h1>
+        <form>
+          <div class="form-group">
+            <label> Course Abbreviation: </label>
+            <input type="text" class="form-control" ref="courseAbbr" placeholder="Course Abbreviation ex:CS5500"
+                    onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label> Course Location: </label>
+            <input type="text" class="form-control" name="courseLoc" ref="courseLoc" placeholder="Location"
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label> Couser Name: </label>
+            <input type="text" class="form-control" name="courseName" ref="courseName" placeholder="Course Name ex:Managing Software Development"
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label> Course Term: </label>
+            <input type="text" class="form-control" name="courseTerm" ref="courseTerm" placeholder="Semester"
+                  onChange={this.update.bind(this)}/>
+          </div>
+          <div class="form-group">
+            <label>
+            <input type="checkbox"  name="isSecondSection" checked={this.state.isSecondSection}
+                  onChange={this.update.bind(this)}/> Add second section </label>
+          </div>
+          <div class={'container text-center'}>
+          <Button onClick={this.handleClick}> Submit </Button>
+          </div>
+        </form>
       </div>
     );
   }

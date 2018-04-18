@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Button , Table} from 'react-bootstrap';
+
 import CourseList from './CourseList'
 
 export default class AssignmentsPage extends React.Component {
@@ -305,12 +305,12 @@ export default class AssignmentsPage extends React.Component {
 
 
     if(this.state.checkByTerms){
-      generateReportByTerms = <div><button onClick={this.getSubmissionsPerTerm.bind(this)}> Fetch Submissions per Terms </button></div>
+      generateReportByTerms = <div><Button onClick={this.getSubmissionsPerTerm.bind(this)}> Fetch Submissions per Terms </Button></div>
     }
 
     if(this.state.gotSubmissions){
-      generateReport = <button onClick={this.generateReport.bind(this)}> Generate Reports </button>
-      generateReport2 = <button onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</button>
+      generateReport = <Button onClick={this.generateReport.bind(this)}> Generate Reports </Button>
+      generateReport2 = <Button onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</Button>
       generatingReports = <h1> Click on Generate Reports and please wait while reports are being generated. </h1>
     }
 
@@ -325,25 +325,28 @@ export default class AssignmentsPage extends React.Component {
 
     if(this.state.isForm){
       form =
-      <div className={'container text-center'}>
+      <div class={'container text-center'}>
       <input type="text" ref="threshold"
             placeholder="Threshold"
             onChange={this.update.bind(this)} />
       <select ref="lang" value={this.state.lang} onChange={this.update.bind(this)}>
-        <option value="java17">Java</option>
-        <option value="python3">Python</option>
+        <option value="java11">Java1.1</option>
+        <option value="java12">Java1.2</option>
+        <option value="java15">Java1.5</option>
+        <option value="java17">Java1.7</option>
+        <option value="python3">Python3</option>
       </select>
       <br />
       <br />
       <h4>Choose any one</h4>
       <br />
-      <button onClick={this.fetchTermsByCourse.bind(this)}> Fetch by Terms</button>
+      <Button onClick={this.fetchTermsByCourse.bind(this)}> Fetch by Terms</Button>
       <br />
       <br />
-      <button onClick={this.fetchBySections.bind(this)}> Fetch by Sections</button>
+      <Button onClick={this.fetchBySections.bind(this)}> Fetch by Sections</Button>
       <br />
       <br />
-      <button onClick={this.checkPlaigarism.bind(this)}> Fetch Submissions </button>
+      <Button onClick={this.checkPlaigarism.bind(this)}> Fetch Submissions </Button>
       <br />
       <br />
       </div>
@@ -366,7 +369,6 @@ export default class AssignmentsPage extends React.Component {
         {generateReport}
         <br />
         <br />
-        {generateReport2}
         {generatingReports}
       </div>
     );
@@ -386,8 +388,8 @@ class CourseTable extends React.Component {
 
     return (
       <div>
-        <table className="table table-bordered">
-          <thead>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Course ID</th>
               <th>Course Title</th>
@@ -403,7 +405,7 @@ class CourseTable extends React.Component {
             {course}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -419,7 +421,7 @@ class CourseRow extends React.Component {
   render() {
 
     return (
-      <tr className="eachRow">
+      <tr class="eachRow">
         <td> {this.props.course.courseId} </td>
         <td> {this.props.course.courseName} </td>
         <td> {this.props.course.courseAbbr} </td>
@@ -427,8 +429,7 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseLoc} </td>
         <td> {this.props.course.section} </td>
         <td>
-          <input type="button" onClick={this.onClickEvent.bind(this)}
-          value="View Assignments"/>
+          <Button onClick={this.onClickEvent.bind(this)}>View Assignments</Button>
         </td>
       </tr>
     );
@@ -448,8 +449,8 @@ class AssignmentTable extends React.Component {
 
     return (
       <div>
-        <table className="table table-bordered">
-          <thead>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Assignment ID</th>
               <th>Assignment Number</th>
@@ -463,7 +464,7 @@ class AssignmentTable extends React.Component {
             {assignment}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -478,14 +479,13 @@ class AssignmentRow extends React.Component {
 
   render() {
     return (
-      <tr className="eachRow">
+      <tr class="eachRow">
         <td> {this.props.assignment.assignmentId} </td>
         <td> {this.props.assignment.assignmentNo} </td>
         <td> {this.props.assignment.assignmentName} </td>
         <td> {this.props.assignment.submissionDate} </td>
         <td>
-          <input type="button" onClick={this.onUpdateAssignmentEvent.bind(this)}
-          value="Check Plaigarism"/>
+          <Button onClick={this.onUpdateAssignmentEvent.bind(this)}>Check Plaigarism</Button>
         </td>
       </tr>
     );
@@ -508,8 +508,8 @@ class ReportTable extends React.Component {
 
     return (
       <div>
-        <table className="table table-bordered">
-          <thead /*style={{backgroundColor: '#cbd0d6'}}*/>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Student ID1</th>
               <th>Student ID2</th>
@@ -524,7 +524,7 @@ class ReportTable extends React.Component {
             {report}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -543,16 +543,16 @@ class ReportRow extends React.Component {
 
   render() {
     return (
-      <tr className="eachRow">
+      <tr class="eachRow">
         <td> {this.props.report.id1} </td>
         <td> {this.props.report.id2} </td>
         <td> <a href={this.props.report.s3Link}> {this.props.report.s3Link} </a> </td>
         <td> {this.props.report.percentage} </td>
         <td>
-          <input type="button" onClick={this.onEmailStudents.bind(this)} value="Send"/>
+          <Button onClick={this.onEmailStudents.bind(this)}>Send</Button>
         </td>
         <td>
-          <input type="button" onClick={this.onEmailReports.bind(this)} value="Send"/>
+          <Button onClick={this.onEmailReports.bind(this)}>Send</Button>
         </td>
       </tr>
     );

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Button , Table} from 'react-bootstrap';
 
 export default class ViewCourses extends React.Component {
   constructor(props){
@@ -69,7 +68,6 @@ export default class ViewCourses extends React.Component {
 
     return(
       <div>
-      <h3> My Courses </h3>
           {table}
       </div>
     );
@@ -90,8 +88,8 @@ class UserTable extends React.Component {
     return (
       <div>
 
-        <table className="table table-bordered">
-          <thead>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Course ID</th>
               <th>Course Title</th>
@@ -107,7 +105,7 @@ class UserTable extends React.Component {
             {course}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -130,7 +128,7 @@ class CourseRow extends React.Component {
         <td> {this.props.course.courseLoc} </td>
         <td> {this.props.course.section} </td>
         <td>
-          <input type="button" onClick={this.onDelEvent.bind(this)} value="Drop Course" />
+          <Button onClick={this.onDelEvent.bind(this)}>Drop Course</Button>
         </td>
       </tr>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import Uploader from './Uploader.js'
+import { Button , Table} from 'react-bootstrap';
 
 export default class NewSubmission extends React.Component {
   constructor(props) {
@@ -14,21 +15,12 @@ export default class NewSubmission extends React.Component {
       userID: this.props.userID,
       submitAssignmentId: '',
       isForm: false,
+      isAssignmentsForm: false,
       courseAbbr: '',
       assignmentName: '',
     };
-    // this.handleClick = this.handleClick.bind(this)
-  }
 
-//   http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission
-//  REQUEST:
-//
-// {
-// 	"assignmentId" : 5,
-// 	"studentId": 201,
-// 	"gitLink": "https://github.com/enrolled02/python-crawler1"
-//
-// }
+  }
 
 componentDidMount() {
   console.log("UserID from view all courses per student ", this.state.userID)
@@ -43,7 +35,7 @@ fetchAssignments(course){
   fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/assignmentsByCourse?courseId='+course.courseId)
     .then(response => response.json())
     .then(data => this.setState({assignments: Object.values(data)[0],
-                                  selectedCourse: course}));
+                                  selectedCourse: course, isAssignmentsForm: true}));
   console.log("Assignments ",this.state.assignments)
 }
 
@@ -107,7 +99,7 @@ render() {
     />
   }
 
-  if(this.state.assignments) {
+  if(this.state.isAssignmentsForm) {
     assignmentsComp = <AssignmentTable
                       onSubmitAssignment={this.onMakeSubmission.bind(this)}
                       assignments={this.state.assignments} />
@@ -116,19 +108,25 @@ render() {
   if(this.state.isForm){
     console.log("Assignment Name: ",this.state.assignmentName)
     console.log("CourseAbbr: ",this.state.courseAbbr)
-    form = <div>
-    <input type="text" ref="gitLink" placeholder="GitLink"
+    form = <div align="center">
+    <form>
+    <div class="form-group">
+    <label> Provide GitLink: </label>
+    <input class="form-control" type="text" ref="gitLink" placeholder="GitLink"
           onChange={this.update.bind(this)}/>
-    <button onClick={this.handleClick.bind(this)}> Submit </button>
-    <br />
+    <Button onClick={this.handleClick.bind(this)}> Submit </Button>
+    </div>
     <h3> OR </h3>
-    <div align="center">
+    <div class="form-group">
+    <div>
       <Uploader
             courseAbbr={this.state.courseAbbr}
             assignmentName={this.state.assignmentName}
             submitAssignmentId={this.state.submitAssignmentId}
             studentId={this.state.studentId} />
     </div>
+    </div>
+    </form>
     </div>
   }
 
@@ -156,8 +154,8 @@ class UserTable extends React.Component {
     return (
       <div>
 
-        <table className="table table-bordered">
-          <thead>
+        <Table class="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Course ID</th>
               <th>Course Title</th>
@@ -172,7 +170,7 @@ class UserTable extends React.Component {
             {course}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -187,15 +185,14 @@ class CourseRow extends React.Component {
   render() {
 
     return (
-      <tr className="eachRow">
+      <tr class="eachRow">
         <td> {this.props.course.courseId} </td>
         <td> {this.props.course.courseName} </td>
         <td> {this.props.course.courseAbbr} </td>
         <td> {this.props.course.courseTerm} </td>
         <td> {this.props.course.courseLoc} </td>
         <td>
-          <input type="button" onClick={this.onClickEvent.bind(this)}
-          value="View Assignments"/>
+          <Button onClick={this.onClickEvent.bind(this)}>View Assignments</Button>
         </td>
       </tr>
     );
@@ -216,8 +213,8 @@ class AssignmentTable extends React.Component {
 
     return (
       <div>
-        <table className="table table-bordered">
-          <thead>
+        <Table className="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>Assignment ID</th>
               <th>Assignment Number</th>
@@ -231,7 +228,7 @@ class AssignmentTable extends React.Component {
             {assignment}
           </tbody>
 
-        </table>
+        </Table>
       </div>
     );
   }
@@ -246,14 +243,13 @@ class AssignmentRow extends React.Component {
 
   render() {
     return (
-      <tr className="eachRow">
+      <tr class="eachRow">
         <td> {this.props.assignment.assignmentId} </td>
         <td> {this.props.assignment.assignmentNo} </td>
         <td> {this.props.assignment.assignmentName} </td>
         <td> {this.props.assignment.submissionDate} </td>
         <td>
-          <input type="button" onClick={this.onSubmitAssignmentEvent.bind(this)}
-          value="Submit"/>
+          <Button onClick={this.onSubmitAssignmentEvent.bind(this)}>Submit</Button>
         </td>
       </tr>
     );

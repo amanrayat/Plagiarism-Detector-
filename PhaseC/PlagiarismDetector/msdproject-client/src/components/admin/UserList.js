@@ -65,8 +65,8 @@ class UserTable extends React.Component {
 
     return (
       <div>
-        <Table>
-          <thead>
+        <Table className="table table-hover">
+          <thead class="thead-dark">
             <tr>
               <th>User ID</th>
               <th>Name</th>
