@@ -6,16 +6,20 @@ import java.util.Set;
 
 import com.team208.domain.AssignmentEntity;
 
-
+/**
+ * class defined to return status and list of assignments
+ * @author rachanatondare
+ *
+ */
 public class AssignmentListBean implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Set<AssignmentEntity> assignments;
-	
+
 	private StatusBean status;
 
 
@@ -34,8 +38,8 @@ public class AssignmentListBean implements Serializable{
 	public void setStatus(StatusBean status) {
 		this.status = status;
 	}
-	
-	
+
+
 
 
 }

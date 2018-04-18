@@ -2,6 +2,11 @@ package com.team208.jsonresponse;
 
 import java.io.Serializable;
 
+/**
+ * response class to get updated course  details in json response
+ * @author rachanatondare
+ *
+ */
 public class CourseUpdateResponseBean implements Serializable{
 
 	/**

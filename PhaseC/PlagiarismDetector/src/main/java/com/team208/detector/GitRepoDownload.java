@@ -24,7 +24,11 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 
 import com.team208.utilities.Constants;
 
-//This class takes the link of a github repository , studentID,homework, course and downloads the github repositories 
+/**
+ * This class takes the link of a github repository , studentID,homework, course and downloads the github repositories 
+ * @author viha bidre
+ *
+ */
 public class GitRepoDownload {
 	//Declare variables 
 	BufferedWriter bw = null;	
@@ -66,7 +70,7 @@ public class GitRepoDownload {
 				unZipIt(gitRepoLink, path.toString());
 				localPath = new File(gitRepoLink.split("/")[gitRepoLink.split("/").length - 1].replaceAll(".zip", ""));
 			}
-			
+
 			List<File> files = getAllPYFiles(localPath,lang);
 			Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw + "actual");
 			Files.createDirectories(pathAc);
@@ -78,10 +82,10 @@ public class GitRepoDownload {
 				byte[] encoded = Files.readAllBytes(Paths.get(file.getCanonicalPath()));
 				String content =  new String(encoded, Charset.defaultCharset());
 				//write content to file
-				 try (BufferedWriter bw = new BufferedWriter(new FileWriter(newFile))){
-					    bw.write(content);
-				 }
-				 
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(newFile))){
+					bw.write(content);
+				}
+
 			}
 			FileUtils.deleteDirectory(new File(path.toString()));
 
@@ -106,57 +110,57 @@ public class GitRepoDownload {
 					if(entry.getName().endsWith(".java"))
 						fileTree.add(entry);
 				}
-					if(lang.equals("python3")) {
-						if(entry.getName().endsWith(".py"))
-							fileTree.add(entry);
-					}
-					if(lang.equals("c/c++")){
-						if(entry.getName().endsWith(".cpp"))
-							fileTree.add(entry);
-					}
-					
+				if(lang.equals("python3")) {
+					if(entry.getName().endsWith(".py"))
+						fileTree.add(entry);
+				}
+				if(lang.equals("c/c++")){
+					if(entry.getName().endsWith(".cpp"))
+						fileTree.add(entry);
+				}
+
 			} 
 			else fileTree.addAll(getAllPYFiles(entry,lang));
 		}
 		return fileTree;
 	}
-	 public static void unZipIt(String zipFile1, String outputFolder){
+	public static void unZipIt(String zipFile1, String outputFolder){
 
-		 try {
-				ZipFile zipFile = new ZipFile(zipFile1);
-				Enumeration<?> enu = zipFile.entries();
-				while (enu.hasMoreElements()) {
-					ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+		try {
+			ZipFile zipFile = new ZipFile(zipFile1);
+			Enumeration<?> enu = zipFile.entries();
+			while (enu.hasMoreElements()) {
+				ZipEntry zipEntry = (ZipEntry) enu.nextElement();
 
-					String name = zipEntry.getName();
-					long size = zipEntry.getSize();
-					long compressedSize = zipEntry.getCompressedSize();
-					File file = new File(name);
-					if (name.endsWith("/")) {
-						file.mkdirs();
-						continue;
-					}
-
-					File parent = file.getParentFile();
-					if (parent != null) {
-						parent.mkdirs();
-					}
-
-					InputStream is = zipFile.getInputStream(zipEntry);
-					FileOutputStream fos = new FileOutputStream(file);
-					byte[] bytes = new byte[1024];
-					int length;
-					while ((length = is.read(bytes)) >= 0) {
-						fos.write(bytes, 0, length);
-					}
-					is.close();
-					fos.close();
+				String name = zipEntry.getName();
+				long size = zipEntry.getSize();
+				long compressedSize = zipEntry.getCompressedSize();
+				File file = new File(name);
+				if (name.endsWith("/")) {
+					file.mkdirs();
+					continue;
 				}
-				zipFile.close();
-			} catch (IOException e) {
-				LOGGER.info(Constants.CONTEXT+e.getMessage());
+
+				File parent = file.getParentFile();
+				if (parent != null) {
+					parent.mkdirs();
+				}
+
+				InputStream is = zipFile.getInputStream(zipEntry);
+				FileOutputStream fos = new FileOutputStream(file);
+				byte[] bytes = new byte[1024];
+				int length;
+				while ((length = is.read(bytes)) >= 0) {
+					fos.write(bytes, 0, length);
+				}
+				is.close();
+				fos.close();
 			}
-	   }    
+			zipFile.close();
+		} catch (IOException e) {
+			LOGGER.info(Constants.CONTEXT+e.getMessage());
+		}
+	}    
 	/**
 	 * 
 	 * @param fileURL

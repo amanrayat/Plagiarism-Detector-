@@ -22,47 +22,65 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * this class defines the rest end point upload file functionality
+ * @author viha bidre
+ *
+ */
 @CrossOrigin
 @Controller
 public class UploadController {
 
+	/**
+	 * method to get the uploaded info
+	 * @return
+	 */
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
-    public @ResponseBody String provideUploadInfo() {
-        return "You can upload a file by posting to this same URL.";
-    }
+	public @ResponseBody String provideUploadInfo() {
+		return "You can upload a file by posting to this same URL.";
+	}
 
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public @ResponseBody ResponseEntity<String>  handleFileUpload(@RequestParam("name") String name,
-            @RequestParam("file") MultipartFile file, @RequestParam String course, @RequestParam String hw) throws Exception{
-    		
-    		String current;
+	/**
+	 * method to upload file to DownloadedReports2 folder
+	 * @param name
+	 * @param file
+	 * @param course
+	 * @param hw
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/upload", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String>  handleFileUpload(@RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file, @RequestParam String course, @RequestParam String hw) throws Exception{
+
+		String current;
 		String filePath = "/";
 		String downloadedReports="/DownloadedReports2/";
-    		current = new java.io.File( "." ).getCanonicalPath();
-    	 	Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw);
+		current = new java.io.File( "." ).getCanonicalPath();
+		Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw);
 		Files.createDirectories(pathAc);
-    	
-        if (name.contains("/")) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Folder separators not allowed.");
-        }  else if (!name.endsWith(".zip")) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("File type not allowed.  Must be a Zip file type ending in '.zip'.");
-        }
 
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(pathAc+filePath+name)));
-                stream.write(bytes);
-                stream.close();
-                return ResponseEntity.ok("File " + name + " uploaded.");
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("You failed to upload " + name + " because the file was empty.");
-        }
-    }
+		if (name.contains("/")) {
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Folder separators not allowed.");
+		}  else if (!name.endsWith(".zip")) {
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("File type not allowed.  Must be a Zip file type ending in '.zip'.");
+		}
+
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream stream =
+						new BufferedOutputStream(new FileOutputStream(new File(pathAc+filePath+name)));
+				stream.write(bytes);
+				stream.close();
+				return ResponseEntity.ok("File " + name + " uploaded.");
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("You failed to upload " + name + " because the file was empty.");
+		}
+	}
 
 }
 

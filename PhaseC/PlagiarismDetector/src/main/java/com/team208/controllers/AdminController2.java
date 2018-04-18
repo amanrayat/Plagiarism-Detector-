@@ -35,7 +35,7 @@ public class AdminController2 {
 	private static final Logger LOGGER = Logger.getLogger(AdminController2.class.getName());
 	@Autowired
 	UserRepository userrepository;
-	
+
 	/**
 	 * This mapping is used to add a new user
 	 * @param student
@@ -45,7 +45,7 @@ public class AdminController2 {
 	public UserEntity createUser(@RequestBody UserEntity student) {
 		return userrepository.save(student);
 	}
-	
+
 	/**
 	 * This mapping is used to find all the users 
 	 * @return
@@ -54,7 +54,7 @@ public class AdminController2 {
 	public List<UserEntity> findAllUsers(){
 		return (List<UserEntity>) userrepository.findAll();
 	}
-	
+
 	/**
 	 * @author rachanatondare
 	 * This mapping is used to update the user. 
@@ -68,20 +68,20 @@ public class AdminController2 {
 	public StatusBean updateUserById(@RequestBody UserJsonBean user ) {
 		StatusBean status = new StatusBean();
 		try {
-		
+
 			UserEntity n = userrepository.findByNEUId(user.getUserId()) ;
 
 			if(userrepository.existsById(n.getUserDBid())) {
-			n.setUserId(user.getUserId());
-			n.setName(user.getName());
-			n.setUserRole(user.getUserRole());
-			n.setPassword(user.getPassword());
-			n.setEmail(user.getEmail());
+				n.setUserId(user.getUserId());
+				n.setName(user.getName());
+				n.setUserRole(user.getUserRole());
+				n.setPassword(user.getPassword());
+				n.setEmail(user.getEmail());
 
-			userrepository.save(n);
+				userrepository.save(n);
 
-			status.setStatus(Constants.SUCCESS_STATUS);
-			status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				status.setStatus(Constants.SUCCESS_STATUS);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
 			}else {
 				status.setStatus(Constants.UNREGISTERED_STATUS);
 				status.setStatusCode(Constants.UNREGISTERED_STATUS_CODE);
@@ -95,7 +95,7 @@ public class AdminController2 {
 
 		return status;
 	}
-	
+
 	/**
 	 * This mapping deletes the user with the given userId 
 	 * @param UserId
@@ -106,6 +106,6 @@ public class AdminController2 {
 		userrepository.deleteById(dbId);
 	}
 
-	
+
 }
 

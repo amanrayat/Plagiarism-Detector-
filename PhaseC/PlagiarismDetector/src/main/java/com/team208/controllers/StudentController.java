@@ -34,6 +34,11 @@ import com.team208.jsonresponse.SubmissionResponseBean;
 import com.team208.jsonresponse.UpdateSubmissionRequestBean;
 import com.team208.utilities.Constants;
 
+/**
+ * this class defines the rest end point student  functionality
+ * @author rachanatondare
+ *
+ */
 @CrossOrigin
 @Controller
 @RequestMapping(path="/team208") 
@@ -58,10 +63,10 @@ public class StudentController {
 	private AssignmentSubmissionRepository submissionRepository;
 
 	/**
-	 * 
+	 * method for students to  register for courses
 	 * @param userId
 	 * @param courseId
-	 * @return
+	 * @return status
 	 */
 	@GetMapping(path="/registerStudentCourses") // Map ONLY GET Requests
 	public @ResponseBody StatusBean addStudentCourses (@RequestParam Long userId, @RequestParam List<Integer> courseId) {
@@ -93,7 +98,7 @@ public class StudentController {
 	}
 
 	/**
-	 * 
+	 * get list of courses based on neu id
 	 * @param userId
 	 * @return
 	 */
@@ -120,7 +125,7 @@ public class StudentController {
 
 
 	/**
-	 * 
+	 * method to submit a submission for an assignment
 	 * @param submisson
 	 * @return
 	 */
@@ -165,7 +170,7 @@ public class StudentController {
 	}
 
 	/**
-	 * 
+	 * method to update an already submitted submission
 	 * @param submisson
 	 * @return
 	 */
@@ -175,19 +180,19 @@ public class StudentController {
 		StatusBean status = new StatusBean();
 		try {
 			if(submissionRepository.existsById(submisson.getSubmissionId())) {
-		
+
 				long time = System.currentTimeMillis();
 				Timestamp timestamp = new Timestamp(time);
-					
-					AssignmentSubmissionEntity sub = submissionRepository.findById(submisson.getSubmissionId());
-			
-					sub.setGitLink(submisson.getGitLink());
-					sub.setTimestamp(timestamp);
 
-					submissionRepository.save(sub);
-					status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
-					status.setStatus(Constants.SUCCESS_STATUS);
-				
+				AssignmentSubmissionEntity sub = submissionRepository.findById(submisson.getSubmissionId());
+
+				sub.setGitLink(submisson.getGitLink());
+				sub.setTimestamp(timestamp);
+
+				submissionRepository.save(sub);
+				status.setStatusCode(Constants.SUCCESS_STATUS_CODE);
+				status.setStatus(Constants.SUCCESS_STATUS);
+
 			}else {
 				status.setStatusCode(601);
 				status.setStatus("Submission doesnt exist");
@@ -204,7 +209,7 @@ public class StudentController {
 	}
 
 	/**
-	 * 
+	 * method to delete and existing submission
 	 * @param submissionId
 	 * @return
 	 */
@@ -233,9 +238,9 @@ public class StudentController {
 	}
 
 	/**
-	 * 
+	 * method to get submission for each student
 	 * @param userId
-	 * @return
+	 * @return list of submissions
 	 */
 	@GetMapping(path="/getStudentSubmissions")
 	public @ResponseBody  Set<SubmissionResponseBean> getStudentSubmissions(@RequestParam long userId){

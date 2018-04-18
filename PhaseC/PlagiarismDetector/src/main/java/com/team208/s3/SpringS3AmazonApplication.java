@@ -6,14 +6,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.team208.s3.services.S3Services;
 
+/**
+ * class with S3  setup
+ * @author aman rayat
+ *
+ */
 @SpringBootApplication
 public class SpringS3AmazonApplication implements CommandLineRunner{
 
 	@Autowired
 	S3Services s3Services;
 	
-//	@Value("${jsa.s3.uploadfile}")
-//	private String uploadFilePath;
 	
 	@Value("${jsa.s3.key}")
 	private String uploadKey;
@@ -26,7 +29,6 @@ public class SpringS3AmazonApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-//		s3Services.uploadDirectory(uploadFilePath,"s3uploadtest3",bucket,false);
-//		s3Services.downloadFile(downloadKey);
+
 	}
 }
