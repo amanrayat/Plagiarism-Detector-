@@ -17,10 +17,11 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
-
-
-
+/**
+ * domain class for  user entity
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name = "user" , uniqueConstraints=
 @UniqueConstraint(columnNames={"userneu_id", "email"}))
@@ -54,11 +55,11 @@ public class UserEntity implements Serializable{
 
 	private Set<UserCourseEntity> usercourse = new HashSet<>();
 
-	
+
 	private  Set<AssignmentSubmissionEntity> submissions = new HashSet<>();
-	
+
 	private Set<CourseEntity> createdCourse = new HashSet<>();
-	
+
 	public UserEntity(Long userId, String name, String userRole, String password, String email
 			) {
 		super();
@@ -81,7 +82,7 @@ public class UserEntity implements Serializable{
 	}
 
 
-	
+
 	@OneToMany( mappedBy = "createdCourseBy",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
 	@JsonManagedReference
 	public Set<CourseEntity> getCreatedCourse() {
@@ -165,7 +166,7 @@ public class UserEntity implements Serializable{
 		this.email = email;
 	}
 
-	
+
 
 	@OneToMany( mappedBy = "student",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
 	@JsonManagedReference

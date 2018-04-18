@@ -3,6 +3,11 @@ package com.team208.jsonresponse;
 import java.io.Serializable;
 
 
+/**
+ * response class to get student assignment submission details in json 
+ * @author rachanatondare
+ *
+ */
 public class StudentSubmissionJsonBean implements Serializable{
 
 

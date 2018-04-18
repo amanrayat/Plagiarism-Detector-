@@ -20,6 +20,11 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+/**
+ * domain class for  course entity
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name = "course", uniqueConstraints=
 @UniqueConstraint(columnNames={"courseName", "courseTerm", "courseLoc", "courseSection"  }))
@@ -38,13 +43,13 @@ public class CourseEntity implements Serializable{
 	private int section; 
 
 	private String courseAbbr;
-	
+
 	private String courseTerm;
 
 	private String courseLoc;
-	
+
 	private UserEntity createdCourseBy;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "userDBid")
 	@JsonBackReference
@@ -62,8 +67,8 @@ public class CourseEntity implements Serializable{
 
 	private Set<AssignmentEntity> assignment = new HashSet<>();
 
-	
-	
+
+
 	@OneToMany( mappedBy = "assignmentCourse",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
 	@JsonManagedReference
 	public Set<AssignmentEntity> getAssignment() {
@@ -126,7 +131,7 @@ public class CourseEntity implements Serializable{
 		this.section = section;
 	}
 
-	
+
 	@Column(name = "courseTerm", nullable = false)
 	public String getCourseTerm() {
 		return courseTerm;
@@ -145,7 +150,7 @@ public class CourseEntity implements Serializable{
 	public void setCourseLoc(String courseLoc) {
 		this.courseLoc = courseLoc;
 	}
-	
+
 
 
 }

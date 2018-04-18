@@ -6,6 +6,11 @@ import java.util.Set;
 
 import com.team208.domain.CourseEntity;
 
+/**
+ * class defined to return list of courses along with status
+ * @author rachanatondare
+ *
+ */
 public class CourseListBean implements Serializable{
 
 	/**

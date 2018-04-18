@@ -2,22 +2,25 @@ package com.team208.jsonresponse;
 
 import java.io.Serializable;
 
-
-
+/**
+ * response class to accept user details in json response
+ * @author rachanatondare
+ *
+ */
 public class UserJsonBean implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long userId;
 	private String name;
 	private String userRole;
-	
+
 	private String password;
 	private String email;
-	
+
 
 	public UserJsonBean(Long userId, String name, String userRole, String password, String email) {
 		super();
@@ -59,8 +62,8 @@ public class UserJsonBean implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	
+
+
+
 
 }

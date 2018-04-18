@@ -2,6 +2,7 @@ package com.team208.controllers;
 
 import java.io.File;
 
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -48,6 +49,11 @@ import com.team208.jsonresponse.StatusBean;
 import com.team208.s3.services.impl.S3ServicesImpl;
 import com.team208.utilities.Constants;
 
+/**
+ * this class defines the rest end point professor functionality
+ * @author rachanatondare
+ *
+ */
 @CrossOrigin
 @Controller
 @RequestMapping(path="/team208") 
@@ -66,7 +72,7 @@ public class ProfessorController {
 	private CourseRepository courseRepository;
 
 	/**
-	 * 
+	 *  method to generate a plagiarism report
 	 * @param courseId
 	 * @param assignId
 	 * @param threshold
@@ -129,7 +135,7 @@ public class ProfessorController {
 		obj.put("Data", res.toString());
 		return obj.toString();
 	}
-	
+
 	private void zipFolder(Path sourceFolderPath, Path zipPath) throws Exception {
 		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath.toFile()));
 		Files.walkFileTree(sourceFolderPath, new SimpleFileVisitor<Path>() {
@@ -218,11 +224,11 @@ public class ProfessorController {
 		}
 		return status;
 	}
-	
+
 	/**
-	 * 
+	 * method to update an existing course
 	 * @param course
-	 * @return
+	 * @return status
 	 */
 	@RequestMapping(path="/updateCourse", method = RequestMethod.PUT ) // Map ONLY GET Requests
 	public @ResponseBody StatusBean updateCourse (@RequestBody CourseUpdateResponseBean course) {
@@ -262,9 +268,9 @@ public class ProfessorController {
 	}
 
 	/**
-	 * 
+	 * method to update an existing assignment
 	 * @param assign
-	 * @return
+	 * @return status
 	 */
 	@RequestMapping(path="/updateAssignment", method = RequestMethod.PUT ) // Map ONLY GET Requests
 	public @ResponseBody StatusBean updateAssignment (@RequestBody AssignmentJsonBean assign) {
@@ -302,11 +308,11 @@ public class ProfessorController {
 		}
 		return status;
 	}
-	
+
 	/**
-	 * 
+	 * method to delete an existing course
 	 * @param courseId
-	 * @return
+	 * @return status
 	 */
 	@RequestMapping(path="/deletCourse", method = RequestMethod.GET  ) 
 	public @ResponseBody  StatusBean deleteCourse(@RequestParam int courseId){
@@ -334,9 +340,9 @@ public class ProfessorController {
 	}
 
 	/**
-	 * 
+	 * method to delete an existing assignment
 	 * @param assignmentId
-	 * @return
+	 * @return status
 	 */
 	@RequestMapping(path="/deletAssignment", method = RequestMethod.GET  ) 
 	public @ResponseBody  StatusBean deletAssignment(@RequestParam int assignmentId){

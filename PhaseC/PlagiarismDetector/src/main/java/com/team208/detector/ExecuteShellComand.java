@@ -4,17 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
-//import com.team208.detector.GitRepoDownload;
-//import com.team208.detector.ReportGenerator;
 
-//This class is used to execute Jplag and run comparison 
 public class ExecuteShellComand {
 	private static final  Logger logger = Logger.getLogger(ExecuteShellComand.class.getName());
 	private ExecuteShellComand() {
 		super();
 	}
 	/**
-	 * 
+	 * method to get comparisions
 	 * @param course
 	 * @param hw
 	 * @return String

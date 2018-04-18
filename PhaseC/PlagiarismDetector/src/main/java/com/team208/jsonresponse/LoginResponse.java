@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import com.team208.domain.UserEntity;
 
+/**
+ * response class to return login response in json 
+ * @author rachanatondare
+ *
+ */
 public class LoginResponse implements Serializable{
 
 	/**

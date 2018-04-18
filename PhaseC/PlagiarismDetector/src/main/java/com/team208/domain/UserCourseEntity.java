@@ -15,6 +15,11 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * domain class for  course registration of each user  entity
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name = "user_course", uniqueConstraints=
 @UniqueConstraint(columnNames={"course_id", "userDBid"}))
@@ -25,12 +30,12 @@ public class UserCourseEntity implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 	private int ucid;
-	
+
 	private CourseEntity course;
-	
+
 	private UserEntity user;
 
 	@JsonIgnore
@@ -66,9 +71,9 @@ public class UserCourseEntity implements Serializable{
 	public void setUcid(int ucid) {
 		this.ucid = ucid;
 	}
-	
-	
-	
-	
+
+
+
+
 
 }

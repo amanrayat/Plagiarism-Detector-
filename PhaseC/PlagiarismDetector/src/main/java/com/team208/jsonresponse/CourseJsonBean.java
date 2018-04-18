@@ -4,24 +4,29 @@ import java.io.Serializable;
 import java.util.List;
 
 
-
+/**
+ * response class to return all courses in json response
+ *
+ * @author rachanatondare
+ *
+ */
 public class CourseJsonBean implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String courseName;
 
 	private List<Integer> sections;
-	
+
 	private String courseAbbr;
 
 	private String courseTerm;
 
 	private String courseLoc;
-	
+
 	private Long createdCourseBy;
 
 	public String getCourseName() {
@@ -71,9 +76,9 @@ public class CourseJsonBean implements Serializable{
 	public void setSections(List<Integer> sections) {
 		this.sections = sections;
 	}
-	
 
-	
-	
+
+
+
 
 }
