@@ -1,5 +1,7 @@
 package com.team208.controllers;
 
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +20,9 @@ import com.team208.domain.UserRepository;
 @RequestMapping(path="/team208") 
 public class AdminController {
 
+	private static final Logger logger = 
+			Logger.getLogger(AdminController.class.getName());
+	
 	@Autowired 
 	private CourseRepository courseRepository;
 
