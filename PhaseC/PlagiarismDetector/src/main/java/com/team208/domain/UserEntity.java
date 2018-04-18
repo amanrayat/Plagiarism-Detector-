@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "user" , uniqueConstraints=
-@UniqueConstraint(columnNames={"userneu_id"}))
+@UniqueConstraint(columnNames={"userneu_id", "email"}))
 
 public class UserEntity implements Serializable{
 
@@ -156,7 +156,7 @@ public class UserEntity implements Serializable{
 		this.password = password;
 	}
 
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique = true)
 	public String getEmail() {
 		return email;
 	}

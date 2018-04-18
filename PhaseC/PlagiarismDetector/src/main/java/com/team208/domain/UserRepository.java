@@ -22,4 +22,6 @@ public interface UserRepository extends CrudRepository<UserEntity, Integer>  {
 	 @Query("DELETE FROM UserEntity s WHERE s.userId=:user_id")
 	 void deleteByNEUId(@Param("user_id") Long userId);
 
+	 @Query("SELECT s FROM UserEntity s WHERE s.email=:email ")
+	 UserEntity findByEmail(@Param("email") String email);
 }

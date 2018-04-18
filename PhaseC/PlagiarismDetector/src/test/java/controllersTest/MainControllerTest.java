@@ -21,44 +21,37 @@ import com.team208.jsonresponse.LoginJsonBean;
 import com.team208.jsonresponse.LoginResponse;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.jsonresponse.UserJsonBean;
+import com.team208.userservice.UserServiceImpl;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({"javax.management.*","org.mockito.*", "org.apache.http.*", "org.apache.http.conn.ssl.*", "javax.net.ssl.*" , "javax.crypto.*"})
 public class MainControllerTest{
 
-	@Autowired 
-	private UserRepository userRepository;
 	
-	@Autowired 
-	private CourseRepository courseRepository;
-
-	@Autowired 
-	private AssignmentSubmissionRepository submissionRepository;
-	
-	@Autowired
-	private AssignmentRepository assignmentRepository;
 	
 	private MainController mc = new MainController();
+	private UserServiceImpl userService = new UserServiceImpl();
 	@Test()
 	public void test1(){ 
 		
-		StatusBean status = new StatusBean();
+		
 		Long userId = (long) 001226315;
-		String name = "rachana";
-		String userRole = "student";
-		String password = "zzeeddqq";
-		String email = "r.t@gmail.com";
-		UserJsonBean u = new UserJsonBean(userId, name, userRole,password, email );
-		status = mc.addNewUser(u);
-		System.out.println(" name "+ u.getName());
-		assertEquals(name, u.getName());
+		
+		UserEntity u = new UserEntity();
+		u.setEmail("r.t@gmail.com");
+		u.setName( "rachana");
+		u.setPassword("pass");
+		u.setUserRole("Student");
+		u.setUserId(userId);
+		assertEquals("rachana", u.getName());
+	
 	}
 
 	@Test()
 	public void test2(){ 
 		LoginResponse stud = new LoginResponse();
 		Long userId  = (long) 123;
-		stud= mc.findStudent(userId);
+		stud = userService.findStudent(userId);
 
 	}
 
@@ -71,7 +64,7 @@ public class MainControllerTest{
 		LoginJsonBean jsonBean = new LoginJsonBean();
 		jsonBean.setPassword(password);
 		jsonBean.setUserId(userId);
-		stud= mc.login(jsonBean);
+		stud= userService.login(jsonBean);
 
 	}
 
