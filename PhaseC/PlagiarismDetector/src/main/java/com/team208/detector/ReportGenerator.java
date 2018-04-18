@@ -7,13 +7,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
-import org.json.JSONObject;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
+
 import org.jsoup.select.Elements;
+
+import com.team208.utilities.Constants;
 
 //This class is used to generate a report, based on the threshold values, the plagiarism
 //for students above a threshold values is set to yellow color in the report
@@ -27,7 +30,7 @@ public class ReportGenerator {
 	static String destination= "-target/results";
 	static String table="table"; 
      
-	
+	private static final Logger LOGGER = Logger.getLogger(ReportGenerator.class.getName());
 
 	private ReportGenerator() {
 		super();
@@ -126,6 +129,8 @@ public class ReportGenerator {
 		//Write the report to file
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("-target/results"+ "_" + student1 + "_" + student2 + "_" + course + "_" + homework + "/Reports.html"))){
 		    writer.write(content);
+	 }catch(Exception e) {
+		 LOGGER.info(Constants.CONTEXT+e.getMessage());
 	 }
 
 		return new String[] {Double.toString(avergeSimilaritystudentMap.entrySet().iterator().next().getValue()),"s3:link"};

@@ -3,8 +3,7 @@ package com.team208.jsonresponse;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import com.team208.domain.AssignmentEntity;
-import com.team208.domain.CourseEntity;
+
 
 public class SubmissionResponseBean implements Serializable{
 

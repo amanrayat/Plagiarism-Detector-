@@ -3,7 +3,7 @@ package com.team208.jsonresponse;
 import java.io.Serializable;
 
 
-import com.team208.domain.CourseEntity;
+
 
 public class AssignmentJsonBean implements Serializable{
 
