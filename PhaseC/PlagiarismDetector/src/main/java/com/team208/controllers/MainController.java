@@ -117,6 +117,18 @@ public class MainController {
 		return studService.findStudent(userId)  ;
 
 	}
+	
+
+	/**
+	 * find the student based by email
+	 * @param email 
+	 * @return student details on the email id
+	 */
+	@GetMapping(path="/studentByEmail")
+	public @ResponseBody LoginResponse findStudentByEmail(@RequestParam String email ) {
+		return studService.findByEmail(email)  ;
+
+	}
 
 	/**
 	 * Find all submissions with course abbreviation and assignment number

@@ -38,8 +38,6 @@ public class SubmissionResponseBean implements Serializable{
 		this.gitLink = gitLink;
 	}
 
-	
-
 	public String getAssignmentName() {
 		return assignmentName;
 	}
