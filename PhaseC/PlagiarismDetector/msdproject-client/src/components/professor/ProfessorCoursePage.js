@@ -297,8 +297,8 @@ export default class AssignmentsPage extends React.Component {
     }
 
     if(this.state.gotSubmissions){
-      generateReport = <Button onClick={this.generateReport.bind(this)}> Generate Reports </Button>
-      generateReport2 = <Button onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</Button>
+      generateReport = <Button class={'container text-center'} onClick={this.generateReport.bind(this)}> Generate Reports </Button>
+      generateReport2 = <Button class={'container text-center'} onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</Button>
       generatingReports = <h1> Click on Generate Reports and please wait while reports are being generated. </h1>
     }
 
