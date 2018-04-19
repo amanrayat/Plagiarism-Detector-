@@ -29,11 +29,7 @@ componentDidMount() {
   console.log("UserID from view all courses per student ", this.state.userID)
   fetch(url+'team208/getStudentCourses?userId='+this.state.userID)
     .then(response => response.json())
-    .then(data => this.setState({courses: data}))
-    .catch(function() {
-      localStorage.clear();
-      window.location.reload();
-    });;
+    .then(data => this.setState({courses: data}));
   console.log("Courses",this.state.courses)
 }
 
@@ -87,9 +83,7 @@ handleClick(){
           gitLink: '',
           isForm: false
         })
-      ).catch(function() {
-        alert("Error adding a new course. Please try again.")
-      });
+      );
 }
 
 render() {
@@ -227,7 +221,7 @@ class AssignmentTable extends React.Component {
               <th>Assignment Number</th>
               <th>Assignment Name</th>
               <th>Submission Date</th>
-              <th> Make Submission </th>
+              <th>Make Submission</th>
             </tr>
           </thead>
 
