@@ -66,14 +66,14 @@ public class ReportGenerator {
 	 * @throws IOException
 	 */
 	//method to filter reports based on threshold value
-	public static String[] setThreshold(Double threshold, String course, String homework, int student1, int student2) throws IOException {
+	public static String[] setThreshold(Double threshold, String course, String homework, int student1, int student2, String courseName) throws IOException {
 		getAllStudents(course, homework,student1,student2);
 		String content = new String(
 				Files.readAllBytes(Paths.get(destination +"_"+ student1 + "_" + student2+"_"+ course + "_" + homework + "/index.html")));
 		//crawl the document using Jsoup
 		Document doc = Jsoup.parse(content);
 		doc.select("img").remove();
-		doc.select(table).get(0).select("tbody").append("<br> <br> <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>Course ID</td> <td>" + course +"</td></tr>"
+		doc.select(table).get(0).select("tbody").append("<br> <br> <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>Course ID</td> <td>" + courseName +"</td></tr>"
 				+ " <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>HomeWork Id</td> <td>" + homework +"</td></tr>");
 		content = doc.html();
 		content=content+"<table>"+"<tr>"+"<td bgcolor= #FFFF00\">" + "<font color=\"#fff\">" + "<b>" + course + homework
