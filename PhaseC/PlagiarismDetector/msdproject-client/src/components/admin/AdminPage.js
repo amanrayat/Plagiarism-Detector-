@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {BootstrapTable, TableHeaderColumn, Button, Nav, NavItem} from 'react-bootstrap';
 import UserList from './UserList.js'
 import NewUser from './NewUser.js'

@@ -1,7 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
 import { Table } from 'reactstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class UpdateUser extends React.Component{
 
@@ -14,13 +16,13 @@ export default class UpdateUser extends React.Component{
   }
 
   componentDidMount() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
+    fetch(url+'/team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));
   }
 
   fetchUsers() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
+    fetch(url+'/team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));
   }
@@ -40,7 +42,7 @@ export default class UpdateUser extends React.Component{
 
   handleClick() {
     console.log("User ID",this.state.userID)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateUser', {
+    fetch(url+'/team208/updateUser', {
       method: 'PUT',
        headers: {
          'Accept': 'application/json',

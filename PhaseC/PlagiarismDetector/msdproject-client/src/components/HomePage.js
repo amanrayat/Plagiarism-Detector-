@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import AdminPage from './admin/AdminPage.js'
 import RegisterPage from './RegisterPage.js'
@@ -11,19 +10,19 @@ import ProfessorCoursePage from './professor/ProfessorCoursePage.js'
 import ProfessorMainPage from './professor/ProfessorMainPage.js'
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import url from './properties';
+import * as data from './constants';
+
+const url = data.URL;
+
 
 const responseGoogle = (response) => {
   window.localStorage.setItem("googletoken", response.tokenId);
   window.localStorage.setItem("googleuser_id", response.profileObj.givenName);
   window.localStorage.setItem("google_email",response.profileObj.email)
-  console.log("responseGoogle",response);
-  console.log("Google Email: ",response.profileObj.email)
   window.location.reload();
 }
 
 const logout = (response) => {
- console.log(response);
  localStorage.clear();
  window.location.reload();
 }
@@ -80,8 +79,8 @@ export default class HomePage extends React.Component{
     window.localStorage.setItem("token", "xxxxx");
     window.localStorage.setItem("user_id", "xxxx");
     console.log("Local storage",window.localStorage.getItem("token"));
-    console.log("URL:",url.url)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login', {
+    console.log("URL:",url)
+    fetch(url+'team208/login', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -106,7 +105,7 @@ export default class HomePage extends React.Component{
   }
 
   getUserByEmail(gmail){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/studentByEmail?email='+gmail)
+    fetch(url+'team208/studentByEmail?email='+gmail)
       .then(response => response.json())
       .then(data =>
         this.setState({
@@ -118,7 +117,6 @@ export default class HomePage extends React.Component{
           loginclick: false}))
           .catch(function() {
             localStorage.clear();
-            alert("Login Error! Please try again.")
             window.location.reload();
           });
   }

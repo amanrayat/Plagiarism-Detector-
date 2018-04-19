@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button , Table} from 'react-bootstrap';
-
 import CourseList from './CourseList'
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class AssignmentsPage extends React.Component {
   constructor(props){
@@ -39,31 +41,20 @@ export default class AssignmentsPage extends React.Component {
   }
 
   fetchTermsByCourse(){
-    console.log("From fetchTermsByCourse")
-    console.log("Current Course Abbr:"+this.state.courseAbbr)
     let terms
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/CourseByAbbr?courseAbbr='+this.state.courseAbbr)
+    fetch(url+'team208/CourseByAbbr?courseAbbr='+this.state.courseAbbr)
       .then(response => response.json())
       .then(data => this.setState({terms: data, checkByTerms: true}))
-    console.log("Terms: ",this.state.terms)
-    console.log("CheckByTerms: ", this.state.checkByTerms)
   }
 
   getSubmissionsPerTerm(){
-    console.log("From getSubmissionsPerTerm")
-    console.log("CheckByTerms: ", this.state.checkByTerms)
-    console.log("Current Terms: ",this.state.terms)
-    console.log("CourseAbbr: ",this.state.courseAbbr)
-    console.log("Assignment Num:",this.state.assignmentNo)
     let terms = this.state.terms;
-    console.log("Current Terms: ",terms)
     let postBody = {
       "courseAbbr": this.state.courseAbbr,
       "assignmentNo": this.state.assignmentNo,
       "term": terms
     }
-    console.log("PostBody: ",JSON.stringify(postBody))
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allSubmissionsByCourseMultipleTerms', {
+    fetch(url+'team208/allSubmissionsByCourseMultipleTerms', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,13 +68,13 @@ export default class AssignmentsPage extends React.Component {
   }
 
   fetchCourses(){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+    fetch(url+'team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
   }
 
   fetchEmailFromID(id){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/findStudent?userId='+id)
+    fetch(url+'team208/findStudent?userId='+id)
       .then(response => response.json())
       .then(data => this.setState({user: data.user}));
     console.log("Email:",this.state.user.email)
@@ -96,14 +87,14 @@ export default class AssignmentsPage extends React.Component {
       courseAbbr: course.courseAbbr,
       courseTerm: course.courseTerm,
     })
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/assignmentsByCourse?courseId='+course.courseId)
+    fetch(url+'team208/assignmentsByCourse?courseId='+course.courseId)
       .then(response => response.json())
       .then(data => this.setState({assignments: Object.values(data)[0],
                                     selectedCourse: course }));
   }
 
   componentDidMount() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+    fetch(url+'team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
   }
@@ -117,7 +108,7 @@ export default class AssignmentsPage extends React.Component {
   }
 
   handleFormSubmit(){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateAssignment', {
+    fetch(url+'team208/updateAssignment', {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -151,9 +142,7 @@ export default class AssignmentsPage extends React.Component {
   }
 
   fetchBySections(){
-    console.log("Fetching by Sections!!")
-    console.log("From getSubmissions course term array:",this.state.courseTerm)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208'+
+    fetch(url+'team208'+
     '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo+'&term='+this.state.courseTerm+'&sections=1,2')
       .then(response => response.json())
       .then(data => this.setState({submissions: data,
@@ -164,8 +153,7 @@ export default class AssignmentsPage extends React.Component {
   }
 
   getSubmissions(){
-    console.log("From getSubmissions course term array:",this.state.courseTerm)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208'+
+    fetch(url+'team208'+
     '/allSubmissionsByCourse?courseAbbr='+this.state.courseAbbr+'&assignmentNo='+this.state.assignmentNo+'&term='+this.state.courseTerm+'&sections=1')
       .then(response => response.json())
       .then(data => this.setState({submissions: data,
@@ -205,7 +193,7 @@ export default class AssignmentsPage extends React.Component {
     console.log("From generate Report")
     console.log("submissions",JSON.stringify(this.state.submissions))
 
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
+    fetch(url+'team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
       method: 'POST',
       mode: 'cors',
        headers: {
@@ -225,7 +213,7 @@ export default class AssignmentsPage extends React.Component {
     console.log("From generate Report2")
     console.log("submissions",JSON.stringify(this.state.submissions))
 
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
+    fetch(url+'team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
       method: 'POST',
       mode: 'cors',
        headers: {
@@ -242,8 +230,6 @@ export default class AssignmentsPage extends React.Component {
   }
 
   onEmailStudents(report){
-    console.log("Student1:",report.id1)
-    console.log("Student2:",report.id2)
     this.fetchEmailFromID(report.id1)
     this.fetchEmailFromID(report.id1)
     let student1Email = this.fetchEmailFromID(report.id1)
@@ -258,7 +244,7 @@ export default class AssignmentsPage extends React.Component {
 		     "content": "CAUGHT",
 		     "link":""
 	   }]
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/Email', {
+    fetch(url+'team208/Email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -280,7 +266,7 @@ export default class AssignmentsPage extends React.Component {
 		    "content": "REPORT",
 		    "link": report.s3Link
 	   }]
-     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/Email', {
+     fetch(url+'team208/Email', {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',

@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
+import * as data from './constants';
+
+const url = data.URL;
 
 class RegisterPage extends React.Component{
 
@@ -15,7 +18,7 @@ class RegisterPage extends React.Component{
   handleClick() {
     console.log("Success from RegisterPage!")
 
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerUser', {
+    fetch(url+'team208/registerUser', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

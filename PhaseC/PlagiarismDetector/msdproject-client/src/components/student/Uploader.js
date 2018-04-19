@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import * as data from '../constants';
 // import the components
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
+
+const url = data.URL;
 
 //'application/java-archive'
 export default class Uploader extends React.Component {
@@ -27,7 +29,7 @@ export default class Uploader extends React.Component {
     console.log("Student ID: ",this.state.studentId)
     console.log("FileName: ",this.state.fileName)
     console.log("gitlink: "+"DownloadReports2/"+this.state.courseAbbr+"/"+this.state.assignmentName+"/"+this.state.fileName)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission', {
+    fetch(url+'team208/submitSubmission', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -63,7 +65,7 @@ export default class Uploader extends React.Component {
     this.setState({
       fileName: file[0].name
     })
-    request.post('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/upload?course='+this.state.courseAbbr+"&hw="+this.state.assignmentName)
+    request.post(url+'upload?course='+this.state.courseAbbr+"&hw="+this.state.assignmentName)
     .send(jsonFile)
     .end(function(err, resp) {
       if (err) {
