@@ -37,6 +37,6 @@ public final class Constants {
 
 	public static final String UNREGISTERED_COURSE_STATUS = " Unregistered course";
 	public static final Integer UNREGISTERED_COURSE_STATUS_CODE = 206;
-
+    public static final String EXECCOMMAND="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l ";
 
 }

@@ -41,7 +41,7 @@ public class GitRepoDownload {
 	 * @param course
 	 * @param hw
 	 * @param studentID
-	 * @param gitRepoLink 
+	 * @param gitRepoLink  
 	 * @throws IOException
 	 */
 	//Method to download a repository from github 
