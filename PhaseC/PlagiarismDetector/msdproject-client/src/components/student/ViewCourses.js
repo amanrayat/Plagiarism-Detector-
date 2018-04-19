@@ -15,7 +15,6 @@ export default class ViewCourses extends React.Component {
       user: [],
     }
     this.fetchCourses = this.fetchCourses.bind(this);
-
   }
 
   componentDidMount() {

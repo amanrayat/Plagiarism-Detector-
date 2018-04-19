@@ -31,6 +31,7 @@ export default class StudentSubmissionPage extends React.Component{
   }
 
   logout(){
+    console.log("From inside logout!")
     localStorage.clear();
     window.location.reload();
   }

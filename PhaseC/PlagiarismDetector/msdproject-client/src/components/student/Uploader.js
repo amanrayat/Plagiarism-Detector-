@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as data from '../constants';
+import { Button } from 'react-bootstrap';
+
 // import the components
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
@@ -29,6 +31,7 @@ export default class Uploader extends React.Component {
     console.log("Student ID: ",this.state.studentId)
     console.log("FileName: ",this.state.fileName)
     console.log("gitlink: "+"DownloadReports2/"+this.state.courseAbbr+"/"+this.state.assignmentName+"/"+this.state.fileName)
+    console.log("from uploader:",url+'team208/submitSubmission')
     fetch(url+'team208/submitSubmission', {
         method: 'POST',
         headers: {
@@ -42,17 +45,7 @@ export default class Uploader extends React.Component {
         })
       }).then(function(response) {
          return response.json();
-       }).then(j =>
-          // console.log(Object.values(j)[1].name);
-          this.setState({
-            submitAssignmentId: '',
-            studentId: '',
-            gitLink: '',
-            isForm: false
-          })
-        ).catch(function() {
-          alert("Error adding a new course. Please try again.")
-        });
+       })
   }
 
   dropHandler(file) {
@@ -82,7 +75,7 @@ export default class Uploader extends React.Component {
         <Dropzone disableClick={false} multiple={false} accept={'application/zip'} onDrop={this.dropHandler}>
           <div> Drop a Zip file, or click to add. < /div >
         </Dropzone>
-        <button onClick={this.handleClick.bind(this)}> Submit </button>
+        <Button onClick={this.handleClick.bind(this)}> Submit </Button>
       </div>
     );
   }
