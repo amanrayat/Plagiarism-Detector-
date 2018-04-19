@@ -62,8 +62,7 @@ public class GitRepoDownload {
 				.call() ;
 			}
 			else {
-
-				unZipIt(gitRepoLink, path.toString());
+				unZipIt(gitRepoLink);
 				localPath = new File(gitRepoLink.split("/")[gitRepoLink.split("/").length - 1].replaceAll(".zip", ""));
 			}
 			
@@ -120,39 +119,40 @@ public class GitRepoDownload {
 		}
 		return fileTree;
 	}
-	 public static void unZipIt(String zipFile1, String outputFolder){
+	 public static void unZipIt(String zipFile1){
 
 		 try {
-				ZipFile zipFile = new ZipFile(zipFile1);
-				Enumeration<?> enu = zipFile.entries();
-				while (enu.hasMoreElements()) {
-					ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+				try(ZipFile zipFile = new ZipFile(zipFile1)){
+					Enumeration<?> enu = zipFile.entries();
+					while (enu.hasMoreElements()) {
+						ZipEntry zipEntry = (ZipEntry) enu.nextElement();
 
-					String name = zipEntry.getName();
-					long size = zipEntry.getSize();
-					long compressedSize = zipEntry.getCompressedSize();
-					File file = new File(name);
-					if (name.endsWith("/")) {
-						file.mkdirs();
-						continue;
-					}
+						String name = zipEntry.getName();
+						long size = zipEntry.getSize();
+						long compressedSize = zipEntry.getCompressedSize();
+						File file = new File(name);
+						if (name.endsWith("/")) {
+							file.mkdirs();
+							continue;
+						}
 
-					File parent = file.getParentFile();
-					if (parent != null) {
-						parent.mkdirs();
-					}
+						File parent = file.getParentFile();
+						if (parent != null) {
+							parent.mkdirs();
+						}
 
-					InputStream is = zipFile.getInputStream(zipEntry);
-					FileOutputStream fos = new FileOutputStream(file);
-					byte[] bytes = new byte[1024];
-					int length;
-					while ((length = is.read(bytes)) >= 0) {
-						fos.write(bytes, 0, length);
+						InputStream is = zipFile.getInputStream(zipEntry);
+						try(FileOutputStream fos = new FileOutputStream(file)){
+							byte[] bytes = new byte[1024];
+							int length;
+							while ((length = is.read(bytes)) >= 0) {
+								fos.write(bytes, 0, length);
+							}
+							is.close();
+							fos.flush();
+						}
 					}
-					is.close();
-					fos.close();
 				}
-				zipFile.close();
 			} catch (IOException e) {
 				LOGGER.info(Constants.CONTEXT+e.getMessage());
 			}

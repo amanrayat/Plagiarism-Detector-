@@ -17,7 +17,6 @@ export default class Register extends React.Component {
       <div>
         <h1 className={'text-center'}>Plagarism Detection System</h1>
         <div className={'container text-center  w-50 p-t-5'} >
-
           <form className={'m-5'}>
             <div className={'form-group'}>
               <input

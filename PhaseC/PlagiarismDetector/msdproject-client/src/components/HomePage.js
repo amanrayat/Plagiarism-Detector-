@@ -10,6 +10,23 @@ import StudentSubmissionPage from './student/StudentSubmissionPage.js'
 import ProfessorCoursePage from './professor/ProfessorCoursePage.js'
 import ProfessorMainPage from './professor/ProfessorMainPage.js'
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import url from './properties';
+
+const responseGoogle = (response) => {
+  window.localStorage.setItem("googletoken", response.tokenId);
+  window.localStorage.setItem("googleuser_id", response.profileObj.givenName);
+  window.localStorage.setItem("google_email",response.profileObj.email)
+  console.log("responseGoogle",response);
+  console.log("Google Email: ",response.profileObj.email)
+  window.location.reload();
+}
+
+const logout = (response) => {
+ console.log(response);
+ localStorage.clear();
+ window.location.reload();
+}
 
 export default class HomePage extends React.Component{
 
@@ -23,11 +40,17 @@ export default class HomePage extends React.Component{
                   role: '',
                   status: '',
                   register: false,
-                  loginclick: false,};
+                  loginclick: false,
+                  gmail: ""};
     this.handleClick = this.handleClick.bind(this);
     this.register = this.register.bind(this);
     this.loginhandle = this.loginhandle.bind(this);
+    this.handlelogout = this.handlelogout.bind(this);
+  }
 
+  handlelogout(){
+    localStorage.clear();
+    window.location.reload();
   }
 
   update(){
@@ -45,6 +68,8 @@ export default class HomePage extends React.Component{
   }
 
   loginhandle(){
+    window.localStorage.setItem("token", "xxxxx");
+    window.localStorage.setItem("user_id", "xxxx");
     this.setState({
       loginclick: true
     })
@@ -52,6 +77,10 @@ export default class HomePage extends React.Component{
 
   handleClick() {
 
+    window.localStorage.setItem("token", "xxxxx");
+    window.localStorage.setItem("user_id", "xxxx");
+    console.log("Local storage",window.localStorage.getItem("token"));
+    console.log("URL:",url.url)
     fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login', {
         method: 'POST',
         headers: {
@@ -74,18 +103,42 @@ export default class HomePage extends React.Component{
           ).catch(function() {
             alert("Login Error! Please try again.")
           });
-        // console.log(this.state.name)
+  }
+
+  getUserByEmail(gmail){
+    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/studentByEmail?email='+gmail)
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          userID: data.user.userId,
+          username: data.user.name,
+          adminlogin: data.user.userRole === 'admin' ? true : false,
+          role: data.user.userRole,
+          isLoggedIn: true,
+          loginclick: false}))
+          .catch(function() {
+            localStorage.clear();
+            alert("Login Error! Please try again.")
+            window.location.reload();
+          });
   }
 
   render(){
 
     let LoginForm
     let welcomeInfo
+    var tok1 = window.localStorage.getItem("googletoken");
+    var tok = window.localStorage.getItem("token");
+    var gmail = window.localStorage.getItem("google_email");
+    var gusername
+    if(gmail){
+      gusername = this.getUserByEmail(gmail)
+    }
 
     if(this.state.loginclick){
       LoginForm =
-      <div className={'container col-md-6 col-md-offset-3'}>
-        <h1 className={'text-center'}> User Login </h1>
+      <div class={'container col-md-6 col-md-offset-3'}>
+        <h1 class={'text-center'}> User Login </h1>
         <form>
           <div class="form-group">
             <label>User ID: </label>
@@ -105,8 +158,18 @@ export default class HomePage extends React.Component{
                placeholder="Password"
                onChange={this.update.bind(this)} />
           </div>
-          <div className={'text-center'} >
-            <Button className={'btn text-center'} onClick={this.handleClick}> Login </Button>
+          <div class={'text-center'} >
+            <Button class={'btn text-center'} onClick={this.handleClick}> Login </Button>
+          </div>
+          <div class={'text-center'} >
+          <br />
+          <div class='google-signin'>
+            <GoogleLogin
+            clientId="750553707251-d298k3pijiijj4gok3efuuq27049unmp.apps.googleusercontent.com"
+            buttonText=""
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}/>
+            </div>
           </div>
       </form>
       </div>
@@ -115,27 +178,23 @@ export default class HomePage extends React.Component{
       welcomeInfo = <div>
       <br />
       <br />
-      <h1 className={'text-center'}> Welcome to Plagiarism Detection System!</h1>
-      <h2 className={'text-center'}> Click on Register if using for the first time or Login.</h2>
+      <h1 class={'text-center'}> Welcome to Plagiarism Detection System!</h1>
+      <h2 class={'text-center'}> Click on Register if using for the first time or Login.</h2>
         </div>
     }
 
-
-
-
-
     let NavBar =
-    <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" style={{ color: 'white'}} href="/">Plagiarism Detection System</a>
-    </div>
-    <div>
-      <button class="btn btn-default navbar-btn" onClick={this.register}> Register </button>
-      <button class="btn btn-danger navbar-btn" onClick={this.loginhandle}> Login </button>
-    </div>
-  </div>
-</nav>
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <a class="navbar-brand" style={{ color: 'white'}} href="/">Plagiarism Detection System</a>
+                  </div>
+                <div>
+                <button class="btn btn-default navbar-btn" onClick={this.register}> Register </button>
+                <button class="btn btn-danger navbar-btn" onClick={this.loginhandle}> Login </button>
+                </div>
+              </div>
+            </nav>
 
     let isLoggedIn = this.state.isLoggedIn;
     let username = this.state.username;
@@ -151,16 +210,16 @@ export default class HomePage extends React.Component{
         </div>
       );
     }
-    else if (isLoggedIn && !isAdmin && role === 'professor-temp') {
+    else if (isLoggedIn && !isAdmin && role === 'professor-temp' && tok) {
       return <TempProfPage userID={this.state.userID}/>
     }
-    else if (isLoggedIn && !isAdmin && role === 'student') {
+    else if (isLoggedIn && !isAdmin && role === 'student' && tok) {
       return <StudentSubmissionPage userID={this.state.userID}/>
     }
-    else if (isLoggedIn && !isAdmin && role === 'professor') {
+    else if (isLoggedIn && !isAdmin && role === 'professor' && tok) {
       return <ProfessorMainPage userID={this.state.userID}/>
     }
-    else if (isLoggedIn && isAdmin) {
+    else if (isLoggedIn && isAdmin && tok){
       return <AdminPage />
     }
     else {

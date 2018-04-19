@@ -25,6 +25,12 @@ export default class ProfessorMainPage extends React.Component{
     this.addNewAssignment = this.addNewAssignment.bind(this);
     this.coursePage = this.coursePage.bind(this);
     this.addNewCourse = this.addNewCourse.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout(){
+    localStorage.clear();
+    window.location.reload();
   }
 
   generateReports(){
@@ -104,7 +110,7 @@ export default class ProfessorMainPage extends React.Component{
           <Button onClick={this.addNewCourse}> Add new Course </Button>
         </div>
         <div>
-          <Button href="/"> Logout </Button>
+          <Button onClick={this.logout} > Logout </Button>
         </div>
       </div>
     </nav>

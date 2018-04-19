@@ -41,6 +41,7 @@ public class UploadController {
     		current = new java.io.File( "." ).getCanonicalPath();
     	 	Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw);
 		Files.createDirectories(pathAc);
+		File filepath = new File(pathAc+filePath+name);
     	
         if (name.contains("/")) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Folder separators not allowed.");
@@ -51,10 +52,12 @@ public class UploadController {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(pathAc+filePath+name)));
-                stream.write(bytes);
-                stream.close();
+                try (BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(filepath))){
+                		stream.write(bytes);
+                    stream.flush();
+                }
+                
                 return ResponseEntity.ok("File " + name + " uploaded.");
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());

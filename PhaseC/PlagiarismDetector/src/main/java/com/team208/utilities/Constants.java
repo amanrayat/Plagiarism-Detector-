@@ -2,9 +2,6 @@ package com.team208.utilities;
 
 public final class Constants {
 	
-	
-
-	
 	private Constants() {
 		super();
 	}
