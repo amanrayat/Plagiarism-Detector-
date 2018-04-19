@@ -82,7 +82,7 @@ public class ProfessorController {
 	 * @throws Exception
 	 */
 	@RequestMapping(path="/generateReport", method = RequestMethod.POST )
-	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestParam String lang,@RequestBody String allSubmission) throws Exception {
+	public @ResponseBody String generateReport(@RequestParam int courseId,@RequestParam int assignId, @RequestParam double threshold,@RequestParam String lang,@RequestParam String courseName,@RequestBody String allSubmission) throws Exception {
 		Map<Integer, String> allSubmissionMap = new HashMap<>();
 		List<Integer> allStudents = new ArrayList<>();
 		JSONObject o = new JSONObject(allSubmission);
@@ -106,7 +106,7 @@ public class ProfessorController {
 					//second student submission
 
 					GitRepoDownload.downloadRepo(Integer.toString(courseId), Integer.toString(assignId), Integer.toString(student2), allSubmissionMap.get(student2), lang);
-					String[] result = ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold,student1,student2,lang);
+					String[] result = ExecuteShellComand.getComparison(Integer.toString(courseId),Integer.toString(assignId),threshold,student1,student2,lang,courseName);
 					done.put(student1 + ","+ student2 +","+ courseId + "," + assignId, result[0]+ ","+ "https://s3.amazonaws.com/plagiarismteam208/AllReports_" + courseId + "_"+ assignId + "/results_" + student1 + "_"+ student2 +"_" + courseId + "_"+ assignId +".zip");
 					Path path = Paths.get("-target/AllReports_"+ courseId + "_" + assignId);
 					if (!Files.exists(path)) {

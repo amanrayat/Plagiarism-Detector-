@@ -20,7 +20,7 @@ public class ExecuteShellComand {
 	 * @return String
 	 * @throws IOException 
 	 */
-	public static String[] getComparison(String course, String hw, double threshold,int student1,int student2, String lang) throws IOException {
+	public static String[] getComparison(String course, String hw, double threshold,int student1,int student2, String lang,String courseName) throws IOException {
 		//Download the jar and run the plagiarism
 		GitRepoDownload.downloadJar("https://github.com/jplag/jplag/releases/download/v2.11.9-SNAPSHOT/jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar");
 		String command=Constants.EXECCOMMAND+ lang + " -r -target/"+ "results_"+ student1 + "_"+ student2 + "_"+course+"_"+ hw + " ";
@@ -45,7 +45,7 @@ public class ExecuteShellComand {
 		if(threshold==0.0d) {
 			threshold=75.0d;
 		}
-		return ReportGenerator.setThreshold(threshold,course,hw,student1,student2);
+		return ReportGenerator.setThreshold(threshold,course,hw,student1,student2, courseName);
 
 	}
 	
