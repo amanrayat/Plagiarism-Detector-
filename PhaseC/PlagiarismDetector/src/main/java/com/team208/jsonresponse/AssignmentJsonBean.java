@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 
 
-
+/**
+ * class defined to create an assignment
+ * @author rachanatondare
+ *
+ */
 public class AssignmentJsonBean implements Serializable{
 
 	/**
@@ -13,11 +17,11 @@ public class AssignmentJsonBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private int assignmentId;
-	
+
 	private int courseId;
 
 	private  int assignmentNo;
-	
+
 	private String assignmentName;
 
 	private String submissionDate;
@@ -30,7 +34,7 @@ public class AssignmentJsonBean implements Serializable{
 		this.assignmentId = assignmentId;
 	}
 
-	
+
 	public int getCourseId() {
 		return courseId;
 	}

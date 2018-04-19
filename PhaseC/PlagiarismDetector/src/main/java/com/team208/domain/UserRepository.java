@@ -12,16 +12,35 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserRepository extends CrudRepository<UserEntity, Integer>  {
 
-	 @Query("SELECT s FROM UserEntity s WHERE s.userId=:user_id ")
-	 UserEntity findByNEUId(@Param("user_id") Long userId);
+	/**
+	 * method to get the user by northeastern id
+	 * @param userId
+	 * @return user
+	 */
+	@Query("SELECT s FROM UserEntity s WHERE s.userId=:user_id ")
+	UserEntity findByNEUId(@Param("user_id") Long userId);
 
-	 
-	 @Query("SELECT s FROM UserEntity s WHERE s.userId=:userDBid ")
-	 UserEntity findByStudentId(@Param("userDBid") int userId);
 
-	 @Query("DELETE FROM UserEntity s WHERE s.userId=:user_id")
-	 void deleteByNEUId(@Param("user_id") Long userId);
+	/**
+	 * method to get the user by db id
+	 * @param userId
+	 * @return user
+	 */
+	@Query("SELECT s FROM UserEntity s WHERE s.userId=:userDBid ")
+	UserEntity findByStudentId(@Param("userDBid") int userId);
 
-	 @Query("SELECT s FROM UserEntity s WHERE s.email=:email ")
-	 UserEntity findByEmail(@Param("email") String email);
+	/**
+	 * method to delete the user by  id
+	 * @param userId
+	 */
+	@Query("DELETE FROM UserEntity s WHERE s.userId=:user_id")
+	void deleteByNEUId(@Param("user_id") Long userId);
+
+	/**
+	 * method to get the user by email id
+	 * @param email
+	 * @return user
+	 */
+	@Query("SELECT s FROM UserEntity s WHERE s.email=:email ")
+	UserEntity findByEmail(@Param("email") String email);
 }

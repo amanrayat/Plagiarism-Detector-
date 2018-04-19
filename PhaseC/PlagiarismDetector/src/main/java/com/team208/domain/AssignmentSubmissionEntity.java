@@ -14,28 +14,33 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+/**
+ * domain class for  submission entity
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name="submission")
 public class AssignmentSubmissionEntity implements Serializable{
-	
+
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private int submissionId;
-	
+
 	private String gitLink;
-	
+
 	private AssignmentEntity assignmentId;
-	
+
 	private UserEntity student;
-	
+
 	private Timestamp timestamp;
 
-	
-	
+
+
 	@Column(name="timestamp")
 	public Timestamp getTimestamp() {
 		return timestamp;
@@ -65,7 +70,7 @@ public class AssignmentSubmissionEntity implements Serializable{
 		this.gitLink = gitLink;
 	}
 
-	
+
 	@ManyToOne
 	@JoinColumn(name = "assignmentId")
 	@JsonBackReference
@@ -84,11 +89,11 @@ public class AssignmentSubmissionEntity implements Serializable{
 		return student;
 	}
 
-	
+
 	public void setStudent(UserEntity student) {
 		this.student = student;
 	} 
-	
-	
+
+
 
 }

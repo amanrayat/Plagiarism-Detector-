@@ -2,6 +2,11 @@ package com.team208.jsonresponse;
 
 import java.io.Serializable;
 
+/**
+ * response class to return updated submission request in json response
+ * @author rachanatondare
+ *
+ */
 public class UpdateSubmissionRequestBean implements Serializable{
 
 

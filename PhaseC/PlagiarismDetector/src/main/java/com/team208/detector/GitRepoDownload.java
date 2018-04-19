@@ -24,7 +24,11 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 
 import com.team208.utilities.Constants;
 
-//This class takes the link of a github repository , studentID,homework, course and downloads the github repositories 
+/**
+ * This class takes the link of a github repository , studentID,homework, course and downloads the github repositories 
+ * @author viha bidre
+ *
+ */
 public class GitRepoDownload {
 	//Declare variables 
 	BufferedWriter bw = null;	
@@ -37,7 +41,7 @@ public class GitRepoDownload {
 	 * @param course
 	 * @param hw
 	 * @param studentID
-	 * @param gitRepoLink 
+	 * @param gitRepoLink  
 	 * @throws IOException
 	 */
 	//Method to download a repository from github 
@@ -65,7 +69,7 @@ public class GitRepoDownload {
 				unZipIt(gitRepoLink);
 				localPath = new File(gitRepoLink.split("/")[gitRepoLink.split("/").length - 1].replaceAll(".zip", ""));
 			}
-			
+
 			List<File> files = getAllPYFiles(localPath,lang);
 			Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw + "actual");
 			Files.createDirectories(pathAc);
@@ -77,10 +81,10 @@ public class GitRepoDownload {
 				byte[] encoded = Files.readAllBytes(Paths.get(file.getCanonicalPath()));
 				String content =  new String(encoded, Charset.defaultCharset());
 				//write content to file
-				 try (BufferedWriter bw = new BufferedWriter(new FileWriter(newFile))){
-					    bw.write(content);
-				 }
-				 
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(newFile))){
+					bw.write(content);
+				}
+
 			}
 			FileUtils.deleteDirectory(new File(path.toString()));
 
@@ -105,21 +109,22 @@ public class GitRepoDownload {
 					if(entry.getName().endsWith(".java"))
 						fileTree.add(entry);
 				}
-					if(lang.equals("python3")) {
-						if(entry.getName().endsWith(".py"))
-							fileTree.add(entry);
-					}
-					if(lang.equals("c/c++")){
-						if(entry.getName().endsWith(".cpp"))
-							fileTree.add(entry);
-					}
-					
+				if(lang.equals("python3")) {
+					if(entry.getName().endsWith(".py"))
+						fileTree.add(entry);
+				}
+				if(lang.equals("c/c++")){
+					if(entry.getName().endsWith(".cpp"))
+						fileTree.add(entry);
+				}
+
 			} 
 			else fileTree.addAll(getAllPYFiles(entry,lang));
 		}
 		return fileTree;
 	}
-	 public static void unZipIt(String zipFile1){
+
+	public static void unZipIt(String zipFile1){
 
 		 try {
 				try(ZipFile zipFile = new ZipFile(zipFile1)){
@@ -156,7 +161,7 @@ public class GitRepoDownload {
 			} catch (IOException e) {
 				LOGGER.info(Constants.CONTEXT+e.getMessage());
 			}
-	   }    
+	}    
 	/**
 	 * 
 	 * @param fileURL

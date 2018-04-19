@@ -22,24 +22,42 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * this class defines the rest end point upload file functionality
+ * @author viha bidre
+ *
+ */
 @CrossOrigin
 @Controller
 public class UploadController {
 
+	/**
+	 * method to get the uploaded info
+	 * @return
+	 */
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
-    public @ResponseBody String provideUploadInfo() {
-        return "You can upload a file by posting to this same URL.";
-    }
+	public @ResponseBody String provideUploadInfo() {
+		return "You can upload a file by posting to this same URL.";
+	}
 
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public @ResponseBody ResponseEntity<String>  handleFileUpload(@RequestParam("name") String name,
-            @RequestParam("file") MultipartFile file, @RequestParam String course, @RequestParam String hw) throws Exception{
-    		
-    		String current;
+	/**
+	 * method to upload file to DownloadedReports2 folder
+	 * @param name
+	 * @param file
+	 * @param course
+	 * @param hw
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/upload", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String>  handleFileUpload(@RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file, @RequestParam String course, @RequestParam String hw) throws Exception{
+
+		String current;
 		String filePath = "/";
 		String downloadedReports="/DownloadedReports2/";
-    		current = new java.io.File( "." ).getCanonicalPath();
-    	 	Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw);
+		current = new java.io.File( "." ).getCanonicalPath();
+		Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw);
 		Files.createDirectories(pathAc);
 		File filepath = new File(pathAc+filePath+name);
     	

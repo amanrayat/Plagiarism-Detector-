@@ -4,17 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
-//import com.team208.detector.GitRepoDownload;
-//import com.team208.detector.ReportGenerator;
 
-//This class is used to execute Jplag and run comparison 
+import com.team208.utilities.Constants;
+
 public class ExecuteShellComand {
+	
 	private static final  Logger logger = Logger.getLogger(ExecuteShellComand.class.getName());
 	private ExecuteShellComand() {
 		super();
 	}
 	/**
-	 * 
+	 * method to get comparisions
 	 * @param course
 	 * @param hw
 	 * @return String
@@ -23,13 +23,13 @@ public class ExecuteShellComand {
 	public static String[] getComparison(String course, String hw, double threshold,int student1,int student2, String lang) throws IOException {
 		//Download the jar and run the plagiarism
 		GitRepoDownload.downloadJar("https://github.com/jplag/jplag/releases/download/v2.11.9-SNAPSHOT/jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar");
-		String command="java -jar jplag-2.11.9-SNAPSHOT-jar-with-dependencies.jar -l "+ lang + " -r -target/"+ "results_"+ student1 + "_"+ student2 + "_"+course+"_"+ hw + " ";
+		String command=Constants.EXECCOMMAND+ lang + " -r -target/"+ "results_"+ student1 + "_"+ student2 + "_"+course+"_"+ hw + " ";
 		//Store the results
 		command = command +"DownloadedReports/"+ course+"/"+hw+"actual";
 		StringBuilder output = new StringBuilder();
 		Process p;
 		try {
-			p = Runtime.getRuntime().exec(command);
+			p = Runtime.getRuntime().exec(command); 
 			p.waitFor();
 			BufferedReader reader =
 					new BufferedReader(new InputStreamReader(p.getInputStream()));

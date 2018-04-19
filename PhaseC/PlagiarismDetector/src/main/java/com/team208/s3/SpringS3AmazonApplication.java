@@ -6,12 +6,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.team208.s3.services.S3Services;
 
+/**
+ * class with S3  setup
+ * @author aman rayat
+ *
+ */
 @SpringBootApplication
 public class SpringS3AmazonApplication implements CommandLineRunner{
 
 	@Autowired
 	S3Services s3Services;
-		
+
 	@Value("${jsa.s3.key}")
 	private String uploadKey;
 	

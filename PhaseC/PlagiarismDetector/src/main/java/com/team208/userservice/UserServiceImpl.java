@@ -11,6 +11,11 @@ import com.team208.jsonresponse.StatusBean;
 import com.team208.jsonresponse.UserJsonBean;
 import com.team208.utilities.Constants;
 
+/**
+ * user service layer implementation
+ * @author rachanatondare
+ *
+ */
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -19,10 +24,15 @@ public class UserServiceImpl implements UserService{
 	 */
 	private static final Logger logger = 
 			Logger.getLogger(UserServiceImpl.class.getName());
-	
+
 	@Autowired 
 	private UserRepository userRepository;
-	
+
+	/**
+	 * method to verify user and grant access to user
+	 * @param userDetails
+	 * @return user
+	 */
 	@Override
 	public LoginResponse login(LoginJsonBean userDetails) {
 		LoginResponse response = null;
@@ -68,6 +78,11 @@ public class UserServiceImpl implements UserService{
 
 	}
 
+	/**
+	 * method to register a new user
+	 * @param user
+	 * @return status
+	 */
 	@Override
 	public StatusBean register(UserJsonBean user) {
 		StatusBean status = new StatusBean();
@@ -95,6 +110,11 @@ public class UserServiceImpl implements UserService{
 		return status;
 	}
 
+	/**
+	 * method to find a user based on northeastern id
+	 * @param userId
+	 * @return user
+	 */
 	@Override
 	public LoginResponse findStudent(Long userId) {
 		LoginResponse response = null;
@@ -126,9 +146,14 @@ public class UserServiceImpl implements UserService{
 			response.setStatus(status);
 
 		}
-			return response;
+		return response;
 	}
 
+	/**
+	 * method to find user from email id
+	 * @param email
+	 * @return user
+	 */
 	@Override
 	public LoginResponse findByEmail(String email) {
 		LoginResponse response = null;
@@ -160,11 +185,11 @@ public class UserServiceImpl implements UserService{
 			response.setStatus(status);
 
 		}
-			return response;
-		
+		return response;
+
 	}
-	
-	
-	
+
+
+
 
 }

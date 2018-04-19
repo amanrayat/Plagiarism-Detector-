@@ -24,6 +24,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+/**
+ * domain class for assignment entity
+ * @author rachanatondare
+ *
+ */
 @Entity
 @Table(name = "assignment", uniqueConstraints=
 @UniqueConstraint(columnNames={"course_id", "assignmentNo"}))
@@ -34,19 +39,19 @@ public class AssignmentEntity implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private int assignmentId;
-	
+
 	private int assignmentNo;
-	
+
 	private String assignmentName;
-	
+
 	private CourseEntity assignmentCourse;
-	
+
 	private Date submissionDate;
-	
+
 	private  Set<AssignmentSubmissionEntity> submissions = new HashSet<>();
- 
+
 	@JsonIgnore
 	@OneToMany( mappedBy = "assignmentId",  cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval=true)
 	@JsonManagedReference
@@ -68,7 +73,7 @@ public class AssignmentEntity implements Serializable{
 	public void setAssignmentId(int assignmentId) {
 		this.assignmentId = assignmentId;
 	}
-	
+
 	@Column(name = "assignmentNo", nullable = false)
 	public int getAssignmentNo() {
 		return assignmentNo;

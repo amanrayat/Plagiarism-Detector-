@@ -20,6 +20,11 @@ import com.team208.jsonresponse.EmailJsonResponse;
 import com.team208.jsonresponse.StatusBean;
 import com.team208.utilities.Constants;
 
+/**
+ * this class defines the rest end point for email functionality
+ * @author rachanatondare
+ *
+ */
 @CrossOrigin
 @RestController
 @RequestMapping(path="/team208")
@@ -34,7 +39,11 @@ public class EmailController {
 	private JavaMailSender sender;
 
 
-
+	/**
+	 * method to send emails to passed lsit of emails
+	 * @param emails
+	 * @return
+	 */
 	@RequestMapping(path="/Email", method = RequestMethod.POST)
 	@ResponseBody StatusBean home(@RequestBody List<EmailJsonResponse> emails) {
 		StatusBean status = new StatusBean();
@@ -58,6 +67,12 @@ public class EmailController {
 		return status;
 	}
 
+	/**
+	 * method to create body of email based on content
+	 * @param email
+	 * @param content
+	 * @param link
+	 */
 	private void sendEmail(String email, String content, String link) {
 		MimeMessage message = null;
 		try
@@ -67,7 +82,7 @@ public class EmailController {
 			// Enable the multipart flag!
 
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-		
+
 			if(content.equals("DROP")) {
 				msg = "<b>YOUR COURSE WAS DROPPED SUCCESSFULLY </b>";
 			}else if(content.equals("ADD")) {
@@ -76,13 +91,13 @@ public class EmailController {
 				msg = "<b><font color=red>YOUR CAUGHT FOR PLAGIARISM.PLEASE MEET THE PROFESSOR DURING HIS VISITING HOURS </font></b>";
 			}else   if(content.equals("REPORT")) {
 				msg = "<b>YOUR REPORT HAS BEEN GENRERATED. PLEASE FIND THE LINK TO DOWNLOAD THE REPORT </b><br>"+ link;
-				
+
 			}else {
 				msg = "<b>SYSTEM ERROR TRY AGAIN. CONTACT ADMIN RACHANA </b>";
-				
+
 			}
 
-			
+
 			helper.setTo(email);
 
 			helper.setText(msg, true);
@@ -90,7 +105,7 @@ public class EmailController {
 			helper.setSubject("PLAGIARISM APP STATUS");
 			MimeBodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart.setText(msg,"UTF-8","html");
-			
+
 		}
 
 		catch (Exception e) {

@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 
-
+/**
+ * response defined to return details of submissions made by student
+ * @author rachanatondare
+ *
+ */
 public class SubmissionResponseBean implements Serializable{
 
 
@@ -25,9 +29,9 @@ public class SubmissionResponseBean implements Serializable{
 	private String gitLink;
 
 	private String courseAbbr;
-	
+
 	private String assignmentName;
-	
+
 	private Timestamp submissionTime;
 
 	public String getGitLink() {
@@ -62,7 +66,7 @@ public class SubmissionResponseBean implements Serializable{
 		this.courseAbbr = courseAbbr;
 	}
 
-	
-	
+
+
 
 }

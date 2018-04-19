@@ -2,7 +2,11 @@ package com.team208.jsonresponse;
 
 import java.io.Serializable;
 
-
+/**
+ * response class to get email details in json response
+ * @author rachanatondare
+ *
+ */
 public class EmailJsonResponse implements Serializable{
 
 	/**
