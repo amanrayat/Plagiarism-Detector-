@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class CoursePage extends React.Component {
 
@@ -34,28 +37,24 @@ export default class CoursePage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+    fetch(url+'team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
   }
 
   fetchCourses(){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+    fetch(url+'team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
   }
 
   handleRowDel(course) {
-    console.log("TODO DELETE COURSE ",course.courseId);
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/deletCourse?courseId='+course.courseId)
+    fetch(url+'team208/deletCourse?courseId='+course.courseId)
     .then(this.fetchCourses);
   }
 
   handleEditSubmit() {
-    console.log("handleEditSubmit>courseID>",this.state.courseId);
-    console.log("handleEditSubmit>courseAbbr>",this.state.courseAbbr);
-    console.log("Sections111: ",this.state.section)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateCourse', {
+    fetch(url+'team208/updateCourse', {
       method: 'PUT',
        headers: {
          'Accept': 'application/json',
@@ -80,9 +79,6 @@ export default class CoursePage extends React.Component {
   }
 
   handleRowUpdate(course) {
-    console.log("handleRowUpdate>CourseID>",course.courseId);
-    console.log("handleRowUpdate>courseAbbr> ",this.state.courseAbbr);
-    console.log("Sections:",course.section)
     this.setState({
       courseId: course.courseId,
       courseAbbr: course.courseAbbr,
@@ -92,8 +88,6 @@ export default class CoursePage extends React.Component {
       section: course.section,
       isForm: true,
     });
-    console.log("handleRowUpdate<CourseID<",this.state.courseId);
-    console.log("handleRowUpdate<courseAbbr<",this.state.courseAbbr);
   }
 
   render(){

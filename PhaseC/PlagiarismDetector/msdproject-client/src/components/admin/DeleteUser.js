@@ -1,7 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
 import { Table } from 'reactstrap';
+import * as data from '../constants';
+
+const url = data.URL;
+
 
 export default class DeleteUser extends React.Component {
 
@@ -14,19 +17,19 @@ export default class DeleteUser extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
+    fetch(url+'team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));
   }
 
   fetchUsers() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
+    fetch(url+'team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));
   }
 
   handleRowDel(user) {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/admin/user/'+user.userId, {
+    fetch(url+'team208/admin/user/'+user.userId, {
 	       method: 'DELETE'
        }).then(this.fetchUsers);
   };
