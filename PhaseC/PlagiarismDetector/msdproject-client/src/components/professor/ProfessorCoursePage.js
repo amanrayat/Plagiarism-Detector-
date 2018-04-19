@@ -193,7 +193,9 @@ export default class AssignmentsPage extends React.Component {
     console.log("From generate Report")
     console.log("submissions",JSON.stringify(this.state.submissions))
 
-    fetch(url+'team208/generateReport?courseId='+this.state.courseId+'&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+'&lang='+this.state.lang, {
+    fetch(url+'team208/generateReport?courseId='+this.state.courseId+
+    '&assignId='+this.state.assignmentId+'&threshold='+this.state.threshold+
+    '&lang='+this.state.lang+'&courseName='+this.state.courseAbbr, {
       method: 'POST',
       mode: 'cors',
        headers: {
