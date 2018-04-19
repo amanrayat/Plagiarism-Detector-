@@ -24,6 +24,12 @@ export default class StudentSubmissionPage extends React.Component{
     this.viewCourses = this.viewCourses.bind(this);
     this.newSubmission = this.newSubmission.bind(this);
     this.deleteSubmission = this.deleteSubmission.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout(){
+    localStorage.clear();
+    window.location.reload();
   }
 
   componentDidMount(){
@@ -96,7 +102,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button onClick={this.deleteSubmission}> Submissions </Button>
         </div>
         <div>
-          <Button href="/"> Logout </Button>
+          <Button onClick={this.logout}> Logout </Button>
         </div>
       </div>
     </nav>

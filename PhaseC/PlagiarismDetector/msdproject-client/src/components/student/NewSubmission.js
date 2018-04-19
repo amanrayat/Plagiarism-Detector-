@@ -26,7 +26,11 @@ componentDidMount() {
   console.log("UserID from view all courses per student ", this.state.userID)
   fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentCourses?userId='+this.state.userID)
     .then(response => response.json())
-    .then(data => this.setState({courses: data}));
+    .then(data => this.setState({courses: data}))
+    .catch(function() {
+      localStorage.clear();
+      window.location.reload();
+    });;
   console.log("Courses",this.state.courses)
 }
 

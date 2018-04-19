@@ -59,28 +59,31 @@ public class UploadController {
 		current = new java.io.File( "." ).getCanonicalPath();
 		Path pathAc = Paths.get(current+downloadedReports+filePath+course+filePath+hw);
 		Files.createDirectories(pathAc);
+		File filepath = new File(pathAc+filePath+name);
+    	
+        if (name.contains("/")) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Folder separators not allowed.");
+        }  else if (!name.endsWith(".zip")) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("File type not allowed.  Must be a Zip file type ending in '.zip'.");
+        }
 
-		if (name.contains("/")) {
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Folder separators not allowed.");
-		}  else if (!name.endsWith(".zip")) {
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("File type not allowed.  Must be a Zip file type ending in '.zip'.");
-		}
-
-		if (!file.isEmpty()) {
-			try {
-				byte[] bytes = file.getBytes();
-				BufferedOutputStream stream =
-						new BufferedOutputStream(new FileOutputStream(new File(pathAc+filePath+name)));
-				stream.write(bytes);
-				stream.close();
-				return ResponseEntity.ok("File " + name + " uploaded.");
-			} catch (Exception e) {
-				return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
-			}
-		} else {
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("You failed to upload " + name + " because the file was empty.");
-		}
-	}
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                try (BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(filepath))){
+                		stream.write(bytes);
+                    stream.flush();
+                }
+                
+                return ResponseEntity.ok("File " + name + " uploaded.");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("You failed to upload " + name + " because the file was empty.");
+        }
+    }
 
 }
 
