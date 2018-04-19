@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import AdminPage from './admin/AdminPage.js'
 import RegisterPage from './RegisterPage.js'
@@ -11,19 +10,32 @@ import ProfessorCoursePage from './professor/ProfessorCoursePage.js'
 import ProfessorMainPage from './professor/ProfessorMainPage.js'
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import url from './properties';
+import * as data from './constants';
+
+const url = data.URL;
+
+const FormErrors = ({formErrors}) =>
+  <div className='formErrors'>
+    {Object.keys(formErrors).map((fieldName, i) => {
+      if(formErrors[fieldName].length > 0){
+        return (
+          <h3 key={i}>{fieldName} {formErrors[fieldName]}</h3>
+        )
+      } else {
+        return '';
+      }
+    })}
+  </div>
+
 
 const responseGoogle = (response) => {
   window.localStorage.setItem("googletoken", response.tokenId);
   window.localStorage.setItem("googleuser_id", response.profileObj.givenName);
   window.localStorage.setItem("google_email",response.profileObj.email)
-  console.log("responseGoogle",response);
-  console.log("Google Email: ",response.profileObj.email)
   window.location.reload();
 }
 
 const logout = (response) => {
- console.log(response);
  localStorage.clear();
  window.location.reload();
 }
@@ -32,7 +44,8 @@ export default class HomePage extends React.Component{
 
   constructor(){
     super();
-    this.state = {username:'' ,
+    this.state = {
+                  username:'' ,
                   userID: '',
                   password: '',
                   loggedIn:false,
@@ -41,7 +54,11 @@ export default class HomePage extends React.Component{
                   status: '',
                   register: false,
                   loginclick: false,
-                  gmail: ""};
+                  gmail: "",
+                  formErrors: {userID: '', password: ''},
+                  userIDValid: false,
+                  passwordValid: false
+                };
     this.handleClick = this.handleClick.bind(this);
     this.register = this.register.bind(this);
     this.loginhandle = this.loginhandle.bind(this);
@@ -53,13 +70,45 @@ export default class HomePage extends React.Component{
     window.location.reload();
   }
 
-  update(){
+  update(e){
+    const name = e.target.name;
+    const value = e.target.value;
     this.setState({
       userID: this.refs.userID.value,
       password: this.refs.password.value,
       adminlogin: this.state.role === 'admin' ? true : false
-    })
+    },
+    () => { this.validateField(name, value) })
+
   }
+
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let passwordValid = this.state.passwordValid;
+    let univIDValid = this.state.univIDValid;
+
+    switch(fieldName) {
+      case 'password':
+        passwordValid = value.length >= 6;
+        fieldValidationErrors.password = passwordValid ? '': ' is Invalid.';
+        break;
+      case 'univID':
+        univIDValid = value.length >= 4;
+        fieldValidationErrors.univID = univIDValid ? '': ' is Invalid.';
+      default:
+        break;
+  }
+  this.setState({ formErrors: fieldValidationErrors,
+                  passwordValid: passwordValid,
+                  univIDValid: univIDValid,
+                }, this.validateForm);
+  }
+
+  validateForm() {
+    this.setState({formValid: this.state.passwordValid  && this.state.univIDValid});
+  }
+
+
 
   register(){
     this.setState({
@@ -80,8 +129,8 @@ export default class HomePage extends React.Component{
     window.localStorage.setItem("token", "xxxxx");
     window.localStorage.setItem("user_id", "xxxx");
     console.log("Local storage",window.localStorage.getItem("token"));
-    console.log("URL:",url.url)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/login', {
+    console.log("URL:",url)
+    fetch(url+'team208/login', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -101,12 +150,12 @@ export default class HomePage extends React.Component{
             isLoggedIn: true,
             loginclick: false})
           ).catch(function() {
-            alert("Login Error! Please try again.")
+            alert("Login Error! Wrong User ID and password entered. Please try again.")
           });
   }
 
   getUserByEmail(gmail){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/studentByEmail?email='+gmail)
+    fetch(url+'team208/studentByEmail?email='+gmail)
       .then(response => response.json())
       .then(data =>
         this.setState({
@@ -118,7 +167,6 @@ export default class HomePage extends React.Component{
           loginclick: false}))
           .catch(function() {
             localStorage.clear();
-            alert("Login Error! Please try again.")
             window.location.reload();
           });
   }
@@ -146,6 +194,7 @@ export default class HomePage extends React.Component{
                 class="form-control"
                 type="number"
                 ref="userID"
+                name="univID"
                 placeholder="User ID"
                 onChange={this.update.bind(this)} />
           </div>
@@ -155,11 +204,15 @@ export default class HomePage extends React.Component{
                 class="form-control"
                 type="password"
                 ref="password"
+                name="password"
                placeholder="Password"
                onChange={this.update.bind(this)} />
           </div>
           <div class={'text-center'} >
-            <Button class={'btn text-center'} onClick={this.handleClick}> Login </Button>
+            <Button class={'btn text-center'} disabled={!this.state.formValid} onClick={this.handleClick}> Login </Button>
+          </div>
+          <div style={{color: 'red'}}>
+            <FormErrors formErrors={this.state.formErrors} />
           </div>
           <div class={'text-center'} >
           <br />

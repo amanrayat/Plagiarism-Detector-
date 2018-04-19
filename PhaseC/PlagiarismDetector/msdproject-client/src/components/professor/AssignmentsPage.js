@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import CourseList from './CourseList'
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
 
+const url = data.URL;
 
 export default class AssignmentsPage extends React.Component {
   constructor(){
@@ -26,30 +28,26 @@ export default class AssignmentsPage extends React.Component {
   }
 
   fetchCourses(){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+    fetch(url+'team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
   }
 
   fetchAssignments(course){
-    console.log("Course ID",course.courseId)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/assignmentsByCourse?courseId='+course.courseId)
+    fetch(url+'team208/assignmentsByCourse?courseId='+course.courseId)
       .then(response => response.json())
       .then(data => this.setState({assignments: Object.values(data)[0],
                                     selectedCourse: course }));
-    console.log("Assignments ",this.state.assignments)
   }
 
   componentDidMount() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+    fetch(url+'team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
   }
 
   deleteAssignment(assignment){
-    console.log("Deleting Assignment ",assignment.assignmentId)
-    console.log("Selected Course ID", this.state.selectedCourse.courseId)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/deletAssignment?assignmentId='+assignment.assignmentId)
+    fetch(url+'team208/deletAssignment?assignmentId='+assignment.assignmentId)
     .then(this.fetchAssignments(this.state.selectedCourse))
   }
 
@@ -62,13 +60,7 @@ export default class AssignmentsPage extends React.Component {
   }
 
   handleFormSubmit(){
-    console.log("On assignment update")
-    console.log("AssignmentID :",this.state.assignmentId)
-    console.log("courseId :",this.state.selectedCourse.courseId)
-    console.log("AssignmentNo :",this.state.assignmentNo)
-    console.log("AssignmentName :",this.state.assignmentName)
-    console.log("submissionDate :",this.state.submissionDate+"-00:00:00")
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateAssignment', {
+    fetch(url+'team208/updateAssignment', {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -105,7 +97,6 @@ export default class AssignmentsPage extends React.Component {
       assignmentName: this.refs.assignmentName.value,
       submissionDate: this.refs.yyyy.value+"-"+this.refs.mm.value+"-"+this.refs.dd.value,
     })
-    console.log("Submission Date:",this.state.submissionDate)
   }
 
   render(){
@@ -161,7 +152,6 @@ export default class AssignmentsPage extends React.Component {
                         onAssignmentDel={this.deleteAssignment.bind(this)}
                         />
     }
-    console.log("Courses",this.state.courses)
     return(
       <div>
         <CourseTable

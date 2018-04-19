@@ -1,6 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class AddNewAssignmentsPage extends React.Component {
   constructor(props){
@@ -23,27 +25,24 @@ update(date){
     assignmentName: this.refs.assignmentName.value,
     submissionDate: this.refs.yyyy.value+"-"+this.refs.mm.value+"-"+this.refs.dd.value,
   })
-  console.log("Submission Date:",this.state.submissionDate)
 }
 
 componentDidMount() {
-  fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+  fetch(url+'team208/allCourses')
     .then(response => response.json())
     .then(data => this.setState({courses: data}));
 }
 
 handleRowUpdate(course) {
-  console.log("handleRowUpdate>CourseID>",course.courseId);
   this.setState({
     courseId: course.courseId,
     isForm: true,
   });
-  console.log("handleRowUpdate<CourseID<",this.state.courseId);
 }
 
 handleClick(){
 
-  fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/addAssignment', {
+  fetch(url+'team208/addAssignment', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -58,7 +57,6 @@ handleClick(){
     }).then(function(response) {
        return response.json();
      }).then(j =>
-        // console.log(Object.values(j)[1].name);
         this.setState({
           courseAbbr: '',
           courseLoc:'',

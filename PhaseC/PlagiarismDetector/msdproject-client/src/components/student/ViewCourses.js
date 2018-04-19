@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class ViewCourses extends React.Component {
   constructor(props){
@@ -12,15 +15,14 @@ export default class ViewCourses extends React.Component {
       user: [],
     }
     this.fetchCourses = this.fetchCourses.bind(this);
-
   }
 
   componentDidMount() {
     console.log("UserID from view all courses per student ", this.state.userID)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentCourses?userId='+this.state.userID)
+    fetch(url+'team208/getStudentCourses?userId='+this.state.userID)
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/findStudent?userId='+this.state.userID)
+    fetch(url+'team208/findStudent?userId='+this.state.userID)
         .then(response => response.json())
         .then(data => this.setState({user: data.user}));
       console.log("Email:",this.state.user.email)
@@ -29,13 +31,13 @@ export default class ViewCourses extends React.Component {
   fetchCourses(){
     console.log("UserID from view all courses per student ", this.state.userID)
     console.log("Email:",this.state.user.email)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentCourses?userId='+this.state.userID)
+    fetch(url+'team208/getStudentCourses?userId='+this.state.userID)
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
   }
 
   handleRowDel(course) {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/dropCourse?userId='+this.state.userID+'&courseId='+course.courseId)
+    fetch(url+'team208/dropCourse?userId='+this.state.userID+'&courseId='+course.courseId)
       .then(response => response.json())
       .then(this.fetchCourses);
       let postBody = [{
@@ -43,7 +45,7 @@ export default class ViewCourses extends React.Component {
   		    "content": "DROP",
   		    "link":""
   	   }]
-      fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/Email', {
+      fetch(url+'team208/Email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

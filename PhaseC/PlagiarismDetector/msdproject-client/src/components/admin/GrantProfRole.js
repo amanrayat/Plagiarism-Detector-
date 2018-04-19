@@ -1,6 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class GrantProfRole extends React.Component {
 
@@ -13,19 +15,19 @@ export default class GrantProfRole extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
+    fetch(url+'team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));
   }
 
   fetchUsers() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/all')
+    fetch(url+'team208/all')
       .then(response => response.json())
       .then(data => this.setState({users: data}));
   }
 
   handleProfUpdate(user) {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateUser', {
+    fetch(url+'team208/updateUser', {
       method: 'PUT',
        headers: {
          'Accept': 'application/json',
@@ -42,7 +44,7 @@ export default class GrantProfRole extends React.Component {
   };
 
   handleAdminUpdate(user){
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/admin/user/'+user.userId, {
+    fetch(url+'team208/admin/user/'+user.userId, {
       method: 'PUT',
        headers: {
          'Accept': 'application/json',

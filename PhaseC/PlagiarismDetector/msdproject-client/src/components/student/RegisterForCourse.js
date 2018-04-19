@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class RegisterForCourse extends React.Component {
   constructor(props){
@@ -16,11 +19,11 @@ export default class RegisterForCourse extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/allCourses')
+    fetch(url+'team208/allCourses')
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
 
-      fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/findStudent?userId='+this.state.userID)
+      fetch(url+'team208/findStudent?userId='+this.state.userID)
           .then(response => response.json())
           .then(data => this.setState({user: data.user}));
         console.log("Email:",this.state.user.email)
@@ -28,14 +31,14 @@ export default class RegisterForCourse extends React.Component {
 
   fetchUsers() {
     console.log("User ID from fetch users",this.state.userID)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentCourses?userId='+this.state.userID)
+    fetch(url+'team208/getStudentCourses?userId='+this.state.userID)
       .then(response => response.json())
       .then(data => this.setState({studentCourses: data}));
     console.log("Student Courses",this.state.studentCourses)
   }
 
   handleRowDel(course) {
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/registerStudentCourses?userId='
+    fetch(url+'team208/registerStudentCourses?userId='
       +this.state.userID+"&courseId="+course.courseId)
     .catch(function() {
       alert("Registration completed.")
@@ -46,7 +49,7 @@ export default class RegisterForCourse extends React.Component {
         "content": "ADD",
         "link":""
      }]
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/Email', {
+    fetch(url+'team208/Email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
