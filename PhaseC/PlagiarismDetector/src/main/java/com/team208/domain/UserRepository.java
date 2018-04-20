@@ -43,4 +43,7 @@ public interface UserRepository extends CrudRepository<UserEntity, Integer>  {
 	 */
 	@Query("SELECT s FROM UserEntity s WHERE s.email=:email ")
 	UserEntity findByEmail(@Param("email") String email);
+
+
+	
 }

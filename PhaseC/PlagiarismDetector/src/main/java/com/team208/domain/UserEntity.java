@@ -34,6 +34,19 @@ public class UserEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private static UserEntity instance = null;
+
+	public static UserEntity getInstance() {
+		if (instance == null)
+			return new UserEntity();
+		else
+			return instance;
+	}
+
+
+	public static void setInstance(UserEntity user) {
+		instance = user;
+	}
 
 
 	private int userDBid; 
