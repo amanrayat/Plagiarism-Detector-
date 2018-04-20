@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button , Table} from 'react-bootstrap';
 import CourseList from './CourseList'
+import Popup from "reactjs-popup";
 import * as data from '../constants';
 
 const url = data.URL;
@@ -297,9 +298,15 @@ export default class AssignmentsPage extends React.Component {
     }
 
     if(this.state.gotSubmissions){
-      generateReport = <Button class={'container text-center'} onClick={this.generateReport.bind(this)}> Generate Reports </Button>
-      generateReport2 = <Button class={'container text-center'} onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</Button>
-      generatingReports = <h1> Click on Generate Reports and please wait while reports are being generated. </h1>
+      generateReport = <div class={'container text-center'}>
+          <Button  onClick={this.generateReport.bind(this)}> Generate Reports </Button>
+          </div>
+      generateReport2 = <div class={'container text-center'}>
+      <Button class={'container text-center'} onClick={this.generateReport2.bind(this)}> Generate Reports for Zip Uploads</Button>
+      </div>
+      generatingReports = <div class={'container text-center'}>
+      <h1> Click on Generate Reports and please wait while reports are being generated. </h1>
+      </div>
     }
 
     if(this.state.reports.length!=0){
@@ -537,10 +544,15 @@ class ReportRow extends React.Component {
         <td> <a href={this.props.report.s3Link}> {this.props.report.s3Link} </a> </td>
         <td> {this.props.report.percentage} </td>
         <td>
-          <Button onClick={this.onEmailStudents.bind(this)}>Send</Button>
+        <Popup trigger={<Button onClick={this.onEmailStudents.bind(this)}>Send</Button>} position="right center">
+        <div>Email Sent !!</div>
+        </Popup>
         </td>
         <td>
-          <Button onClick={this.onEmailReports.bind(this)}>Send</Button>
+        <Popup trigger={<Button onClick={this.onEmailReports.bind(this)}>Send</Button>} position="right center">
+          <div>Email Sent !!</div>
+        </Popup>
+
         </td>
       </tr>
     );
