@@ -294,7 +294,7 @@ export default class AssignmentsPage extends React.Component {
 
 
     if(this.state.checkByTerms){
-      generateReportByTerms = <div><Button onClick={this.getSubmissionsPerTerm.bind(this)}> Fetch Submissions per Terms </Button></div>
+      generateReportByTerms = <div class={'container text-center'}><Button onClick={this.getSubmissionsPerTerm.bind(this)}> Fetch Submissions per Terms </Button></div>
     }
 
     if(this.state.gotSubmissions){
