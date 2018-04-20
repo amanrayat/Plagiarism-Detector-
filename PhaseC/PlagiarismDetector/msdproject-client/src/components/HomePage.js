@@ -254,6 +254,11 @@ export default class HomePage extends React.Component{
     let role = this.state.role;
     let register = this.state.register;
 
+    let contactAdmin =
+    <div class={'text-center'}>
+      <p> Mail the admin for any issues: team208@gmail.com </p>
+    </div>
+
     if(register){
       return (
         <div>
@@ -280,6 +285,7 @@ export default class HomePage extends React.Component{
           {NavBar}
           {LoginForm}
           {welcomeInfo}
+          {contactAdmin}
         </div>
       );
     }
