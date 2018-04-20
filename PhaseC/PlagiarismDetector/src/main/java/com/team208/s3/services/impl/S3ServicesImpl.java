@@ -43,38 +43,41 @@ public class S3ServicesImpl implements S3Services {
 			S3Object s3object = s3client.getObject(bucketName, keyName);
 			S3ObjectInputStream inputStream = s3object.getObjectContent();
 			buffer = new byte[inputStream.available()];
-			inputStream.read(buffer);
-			FileUtils.copyInputStreamToFile(inputStream, new File("src/main/resources/test2.html"));
+			while(inputStream.read(buffer) > 0)
+				FileUtils.copyInputStreamToFile(inputStream, new File("src/main/resources/test2.html"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.debug("context from downloadFile", e);
 		}
 	}
 
 	/**
 	 * This function is used to upload the complete folder 
 	 * to the s3
-	 * @param dir_path is the path of the directory to be uploaded 
-	 * @param key_prefix is the key of the directory 
+	 * @param dirPath is the path of the directory to be uploaded 
+	 * @param keyPrefix is the key of the directory 
 	 * @param buket_name is the name of the bucket 
 	 * @param recursive is the parameter which tells to upload the sub folders 
 	 */
 	@Override
-	public void uploadDirectory(String dir_path,String key_prefix,String bucket_name,Boolean recursive) {
-		TransferManager xfer_mgr = new TransferManager();
-		MultipleFileUpload xfer = xfer_mgr.uploadDirectory(bucket_name, key_prefix, new File(dir_path), recursive);
+	public void uploadDirectory(String dirPath,String keyPrefix,String bucketName,Boolean recursive) {
+		TransferManager xferMgr = new TransferManager();
+		MultipleFileUpload xfer = xferMgr.uploadDirectory(bucketName, keyPrefix, new File(dirPath), recursive);
 		try {
 			xfer.waitForCompletion();
 		} catch(AmazonServiceException e) {
-			System.err.println("Amazon sevice error:"+ e.getMessage());
+			logger.debug("Amazon sevice error:"+ e.getMessage());
 			System.exit(1);
 		} catch (AmazonClientException e) {
-			System.err.println("Amazon client error:"+ e.getMessage());
-			System.exit(1);		e.printStackTrace();
+			logger.debug("Amazon client error:"+ e.getMessage());
+			System.exit(1);
+			logger.debug("context", e);
 		} catch (InterruptedException e) {
-			System.err.println("Transfer interrupted:"+ e.getMessage());
-			System.exit(1);		e.printStackTrace();
+			logger.debug("Transfer interrupted:"+ e.getMessage());
+			System.exit(1);
+			logger.debug("context", e);
+		    Thread.currentThread().interrupt();
 		}
 
-		xfer_mgr.shutdownNow();
+		xferMgr.shutdownNow();
 	}
 }

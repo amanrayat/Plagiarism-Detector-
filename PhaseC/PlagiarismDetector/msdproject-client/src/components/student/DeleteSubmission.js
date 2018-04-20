@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ViewAllSubmissions from './ViewAllSubmissions'
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class DeleteSubmission extends React.Component {
   constructor(props){
@@ -18,7 +21,7 @@ export default class DeleteSubmission extends React.Component {
 
   componentDidMount() {
     console.log("UserID from view all courses per student ", this.state.userID)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentSubmissions?userId='+this.props.userID)
+    fetch(url+'team208/getStudentSubmissions?userId='+this.props.userID)
       .then(response => response.json())
       .then(data => this.setState({submissions: data}));
     console.log("Submissions",this.state.submissions)
@@ -27,7 +30,7 @@ export default class DeleteSubmission extends React.Component {
   fetchSubmissions(userID){
     console.log("User ID from fetch submissions: ",userID)
 
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentSubmissions?userId='+userID)
+    fetch(url+'team208/getStudentSubmissions?userId='+userID)
       .then(response => response.json())
       .then(data => this.setState({submissions: data}));
   }
@@ -37,7 +40,7 @@ export default class DeleteSubmission extends React.Component {
     console.log("Submission ID from submissions:",submission.submissionId)
     console.log("User ID: ",this.state.userID)
     let userID = this.state.userID
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/deletSubmission?submissionId='+submission.submissionId)
+    fetch(url+'team208/deletSubmission?submissionId='+submission.submissionId)
         .then(this.fetchSubmissions(userID));
   };
 
@@ -60,7 +63,7 @@ export default class DeleteSubmission extends React.Component {
   handleClick(){
     console.log("Updating Submission:",this.state.submissionID)
     let userID = this.state.userID
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/updateSubmission', {
+    fetch(url+'team208/updateSubmission', {
       method: 'PUT',
        headers: {
          'Accept': 'application/json',

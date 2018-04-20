@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as data from '../constants';
+import { Button } from 'react-bootstrap';
 
 // import the components
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
+
+const url = data.URL;
 
 //'application/java-archive'
 export default class Uploader extends React.Component {
@@ -27,7 +31,8 @@ export default class Uploader extends React.Component {
     console.log("Student ID: ",this.state.studentId)
     console.log("FileName: ",this.state.fileName)
     console.log("gitlink: "+"DownloadReports2/"+this.state.courseAbbr+"/"+this.state.assignmentName+"/"+this.state.fileName)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission', {
+    console.log("from uploader:",url+'team208/submitSubmission')
+    fetch(url+'team208/submitSubmission', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -40,17 +45,7 @@ export default class Uploader extends React.Component {
         })
       }).then(function(response) {
          return response.json();
-       }).then(j =>
-          // console.log(Object.values(j)[1].name);
-          this.setState({
-            submitAssignmentId: '',
-            studentId: '',
-            gitLink: '',
-            isForm: false
-          })
-        ).catch(function() {
-          alert("Error adding a new course. Please try again.")
-        });
+       })
   }
 
   dropHandler(file) {
@@ -63,7 +58,7 @@ export default class Uploader extends React.Component {
     this.setState({
       fileName: file[0].name
     })
-    request.post('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/upload?course='+this.state.courseAbbr+"&hw="+this.state.assignmentName)
+    request.post(url+'upload?course='+this.state.courseAbbr+"&hw="+this.state.assignmentName)
     .send(jsonFile)
     .end(function(err, resp) {
       if (err) {
@@ -80,7 +75,7 @@ export default class Uploader extends React.Component {
         <Dropzone disableClick={false} multiple={false} accept={'application/zip'} onDrop={this.dropHandler}>
           <div> Drop a Zip file, or click to add. < /div >
         </Dropzone>
-        <button onClick={this.handleClick.bind(this)}> Submit </button>
+        <Button onClick={this.handleClick.bind(this)}> Submit </Button>
       </div>
     );
   }

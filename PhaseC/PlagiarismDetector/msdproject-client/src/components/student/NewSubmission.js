@@ -1,6 +1,9 @@
 import React from 'react';
 import Uploader from './Uploader.js'
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class NewSubmission extends React.Component {
   constructor(props) {
@@ -24,7 +27,7 @@ export default class NewSubmission extends React.Component {
 
 componentDidMount() {
   console.log("UserID from view all courses per student ", this.state.userID)
-  fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentCourses?userId='+this.state.userID)
+  fetch(url+'team208/getStudentCourses?userId='+this.state.userID)
     .then(response => response.json())
     .then(data => this.setState({courses: data}));
   console.log("Courses",this.state.courses)
@@ -32,7 +35,7 @@ componentDidMount() {
 
 fetchAssignments(course){
   console.log("Course ID",course.courseId)
-  fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/assignmentsByCourse?courseId='+course.courseId)
+  fetch(url+'team208/assignmentsByCourse?courseId='+course.courseId)
     .then(response => response.json())
     .then(data => this.setState({assignments: Object.values(data)[0],
                                   selectedCourse: course, isAssignmentsForm: true}));
@@ -59,7 +62,7 @@ handleClick(){
   console.log(this.state.submitAssignmentId)
   console.log(this.state.studentId)
   console.log(this.state.gitLink)
-  fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/submitSubmission', {
+  fetch(url+'team208/submitSubmission', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -80,9 +83,7 @@ handleClick(){
           gitLink: '',
           isForm: false
         })
-      ).catch(function() {
-        alert("Error adding a new course. Please try again.")
-      });
+      );
 }
 
 render() {
@@ -220,7 +221,7 @@ class AssignmentTable extends React.Component {
               <th>Assignment Number</th>
               <th>Assignment Name</th>
               <th>Submission Date</th>
-              <th> Make Submission </th>
+              <th>Make Submission</th>
             </tr>
           </thead>
 

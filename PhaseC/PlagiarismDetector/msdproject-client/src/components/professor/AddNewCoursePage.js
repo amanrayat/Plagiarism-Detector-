@@ -1,6 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class AddNewCoursePage extends React.Component {
   constructor(props){
@@ -19,11 +21,7 @@ export default class AddNewCoursePage extends React.Component {
   }
 
   handleClick() {
-    console.log("Handle click from Add new course")
-    console.log("Section :",this.state.section)
-    console.log("CourseName:",this.state.courseName)
-    console.log("")
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/addCourse', {
+    fetch(url+'team208/addCourse', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -64,10 +62,7 @@ export default class AddNewCoursePage extends React.Component {
     else{
       sectionValue = [1]
     }
-    console.log("Second section: ", value)
-    console.log("Section: ",sectionValue)
     const name = target.name;
-    console.log("Target Name:",name)
     this.setState({
       courseAbbr: this.refs.courseAbbr.value,
       courseLoc: this.refs.courseLoc.value,
@@ -81,7 +76,6 @@ export default class AddNewCoursePage extends React.Component {
 
 
   render(){
-    console.log("userID",this.props.userID)
     return(
       <div class={'container col-md-6 col-md-offset-3'}>
         <h1 class={'text-center'}> Add New Course </h1>

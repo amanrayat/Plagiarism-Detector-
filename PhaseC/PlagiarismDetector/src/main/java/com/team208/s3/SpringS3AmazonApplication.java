@@ -16,8 +16,7 @@ public class SpringS3AmazonApplication implements CommandLineRunner{
 
 	@Autowired
 	S3Services s3Services;
-	
-	
+
 	@Value("${jsa.s3.key}")
 	private String uploadKey;
 	
@@ -28,7 +27,6 @@ public class SpringS3AmazonApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		
-
+		// Does nothing
 	}
 }

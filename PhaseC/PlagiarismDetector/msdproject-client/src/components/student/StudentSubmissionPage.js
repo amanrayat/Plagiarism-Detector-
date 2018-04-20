@@ -5,6 +5,9 @@ import ViewCourses from './ViewCourses'
 import RegisterForCourse from './RegisterForCourse'
 import DeleteSubmission from './DeleteSubmission'
 import { Button , Table} from 'react-bootstrap';
+import * as data from '../constants';
+
+const url = data.URL;
 
 export default class StudentSubmissionPage extends React.Component{
 
@@ -24,11 +27,18 @@ export default class StudentSubmissionPage extends React.Component{
     this.viewCourses = this.viewCourses.bind(this);
     this.newSubmission = this.newSubmission.bind(this);
     this.deleteSubmission = this.deleteSubmission.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout(){
+    console.log("From inside logout!")
+    localStorage.clear();
+    window.location.reload();
   }
 
   componentDidMount(){
     console.log("User ID from fetch users",this.props.userID)
-    fetch('http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:8080/team208/getStudentCourses?userId='+this.props.userID)
+    fetch(url+'team208/getStudentCourses?userId='+this.props.userID)
       .then(response => response.json())
       .then(data => this.setState({courses: data}));
     console.log("Student Courses",this.state.courses)
@@ -96,7 +106,7 @@ export default class StudentSubmissionPage extends React.Component{
           <Button onClick={this.deleteSubmission}> Submissions </Button>
         </div>
         <div>
-          <Button href="/"> Logout </Button>
+          <Button onClick={this.logout}> Logout </Button>
         </div>
       </div>
     </nav>

@@ -5,6 +5,15 @@ body {
   background-size: 100%;
 }
 
-.table {
-  border-color: black;
+.google-signin {
+
+}
+.google-signin button{
+  width: 250px !important;
+  height: 60px !important;
+  background: url('./images/google-signin.png') no-repeat !important;
+  background-position: center;
+  background-size: cover !important;
+  cursor: pointer;
+  border: none;
 }

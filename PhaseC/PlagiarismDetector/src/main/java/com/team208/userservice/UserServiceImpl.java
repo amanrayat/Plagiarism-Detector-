@@ -1,11 +1,8 @@
 package com.team208.userservice;
 
 import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import com.team208.domain.UserEntity;
 import com.team208.domain.UserRepository;
 import com.team208.jsonresponse.LoginJsonBean;

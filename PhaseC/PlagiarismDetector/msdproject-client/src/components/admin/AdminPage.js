@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {BootstrapTable, TableHeaderColumn, Button, Nav, NavItem} from 'react-bootstrap';
 import UserList from './UserList.js'
 import NewUser from './NewUser.js'
@@ -26,6 +25,12 @@ class AdminPage extends React.Component{
     this.updateUser = this.updateUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.grantProfRole = this.grantProfRole.bind(this);
+    this.handlelogout = this.handlelogout.bind(this);
+  }
+
+  handlelogout(){
+    localStorage.clear();
+    window.location.reload();
   }
 
   handleClick(){
@@ -105,7 +110,7 @@ class AdminPage extends React.Component{
           <Button onClick={this.grantProfRole}> Grant Professor Role </Button>
         </div>
         <div>
-          <Button className={'bsStyle="danger"'} href="/"> Logout </Button>
+          <Button className={'bsStyle="danger"'} onClick={this.handlelogout} href="/"> Logout </Button>
         </div>
       </div>
     </nav>
