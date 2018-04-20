@@ -36,6 +36,7 @@ public class CourseEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private static CourseEntity instance = null  ;
 	private int courseId;
 
 	private String courseName;
@@ -50,6 +51,17 @@ public class CourseEntity implements Serializable{
 
 	private UserEntity createdCourseBy;
 
+	public static void setInstance(CourseEntity dao) {
+		instance = dao;
+	}
+	
+	public static CourseEntity getInstance() {
+		if (instance == null)
+			return new CourseEntity();
+		else
+			return instance;
+	}
+	
 	@ManyToOne
 	@JoinColumn(name = "userDBid")
 	@JsonBackReference

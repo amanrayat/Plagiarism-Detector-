@@ -48,6 +48,7 @@ public class ReportGenerator {
 				.readAllBytes(Paths.get(destination +"_"+ student1 + "_" + student2+"_" + course + "_" + homework + "/index.html").toAbsolutePath()));
 		Document doc = Jsoup.parse(content);
 		doc.select("img").remove();
+		
 		Elements rows = doc.select(table).get(0).select("tr");
 		Element row = rows.get(2);
 		Elements td = row.select("td");
@@ -70,18 +71,19 @@ public class ReportGenerator {
 		getAllStudents(course, homework,student1,student2);
 		String content = new String(
 				Files.readAllBytes(Paths.get(destination +"_"+ student1 + "_" + student2+"_"+ course + "_" + homework + "/index.html")));
+
 		//crawl the document using Jsoup
 		Document doc = Jsoup.parse(content);
 		doc.select("img").remove();
+		doc.select(table).get(1).remove();
 		doc.select(table).get(0).select("tbody").append("<br> <br> <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>Course ID</td> <td>" + courseName +"</td></tr>"
-				+ " <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>HomeWork Id</td> <td>" + homework +"</td></tr>");
+				+ " <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>HomeWork Id</td> <td>" + homework +"</td></tr>"+" <tr bgcolor=\"#aaaaff\" valign=\"top\"><td>Tokens</td> <td>" +"Display the matched areas"+ "</td></tr>");
 		content = doc.html();
 		content=content+"<table>"+"<tr>"+"<td bgcolor= #FFFF00\">" + "<font color=\"#fff\">" + "<b>" + course + homework
 				+ "</font>" + "</td>"+"</tr>"+"</table>";
-		String table0 = doc.select(table).get(0).select("tr").get(0).select("td").get(1).html() ;
-		
-		Element table1 = doc.select(table).get(2);
-		Element table2 = doc.select(table).get(3);
+		 
+		Element table1 = doc.select(table).get(1);
+		Element table2 = doc.select(table).get(2);
 		Element tempTable = table1;
 		Element tempTable2 = table2;
 		Elements rows = table1.select("tr");
@@ -126,7 +128,8 @@ public class ReportGenerator {
 
 		content = content.replace(tempTable.html(), table1.html());
 		content = content.replace(tempTable2.html(), table2.html());
-		//Write the report to file
+		content = content.replaceAll("<h4>Distribution:</h4>", "");
+
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("-target/results"+ "_" + student1 + "_" + student2 + "_" + course + "_" + homework + "/Reports.html"))){
 		    writer.write(content);
 	 }catch(Exception e) {
