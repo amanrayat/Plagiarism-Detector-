@@ -9,7 +9,8 @@ Team repo for Team 208 (Section 2, Team 8)
 
 This Repository is created for the Project "Plagiarism Detection System" as part of the course CS5500: Managing Software Development.
 
-## Link to the Live system: http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:3000
+## Link to the Live system:
+#### http://ec2-18-191-0-180.us-east-2.compute.amazonaws.com:3000
 
 #### YouTube Links ####
 1. System Demo: https://www.youtube.com/watch?v=wNDLYkEBa4k&feature=youtu.be
